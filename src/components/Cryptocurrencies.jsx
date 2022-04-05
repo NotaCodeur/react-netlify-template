@@ -31,7 +31,7 @@ const Cryptocurrencies = ({ simplified }) => {
       {!simplified && (
 
         <div className='search-crypto'>
-          <Input placeholder='Search Cryptocurrency' onChange={(e) => setSearchTerm(e.target.value)} />
+          <Input style={{borderRadius: 20, borderColor: '#ffffff', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} placeholder='Search Cryptocurrency' onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
       )}
       <Row gutters={[32, 32]} className='crypto-card-container'>
@@ -43,6 +43,7 @@ const Cryptocurrencies = ({ simplified }) => {
                 title={`${currency.rank}. ${currency.name}`}
                 extra={<img className='crypto-image' src={currency.iconUrl} />}
                 hoverable
+                style={{borderRadius: 20, margin: 5, level: 4, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
               >
                 
                  {/* <LineChart coinHistory={coinHistory} currentPrice={millify(currency.price)} coinName={currency.name} /> */}

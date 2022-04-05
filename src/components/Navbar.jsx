@@ -34,8 +34,8 @@ const Navbar = () => {
         <div className='nav-container'>
             <div className='logo-container'>
                 <Avatar src={icon} size='large' />
-                <Typography.Title level={2} className='logo' >
-                    <Link to='/'> Nemo land </Link>
+                <Typography.Title  level={2} className='logo' >
+                    <Link style={{color: '#f1f2f6'}} to='/'> Get(Spot).io </Link>
                 </Typography.Title>
                 <Button className='menu-control-container' onClick={() => setActiveMenu(true)}>
                     <MenuOutlined />
@@ -44,23 +44,24 @@ const Navbar = () => {
 
             {activeMenu && (
 
-                <Menu theme='dark'>
-                    <Menu.Item icon={<HomeOutlined />}>
-                        <Link to='/'>Home</Link>
+                <Menu style={{background: '#27187e'}} theme='dark'>
+                    <Menu.Item key={'home'} icon={<HomeOutlined />}>
+                        <Link style={{color: '#aeb8fe'}} to='/'>Home</Link>
                     </Menu.Item>
-                    <Menu.Item icon={<FundOutlined />}>
-                        <Link to='/cryptocurrencies'>Cryptocurrencies</Link>
+                    <Menu.Item key={'cryptocurrencies'} icon={<FundOutlined />}>
+                        <Link style={{color: '#aeb8fe'}} to='/cryptocurrencies'>Cryptocurrencies</Link>
                     </Menu.Item>
-                    <Menu.Item icon={<MoneyCollectOutlined />}>
-                        <Link to='/exchanges'>Exchanges</Link>
+                    <Menu.Item key={'helium'} icon={<MoneyCollectOutlined />}>
+                        <Link style={{color: '#aeb8fe'}} to='/helium'>Helium</Link>
                     </Menu.Item>
-                    <Menu.Item icon={<BulbOutlined />}>
-                        <Link to='/news'>News</Link>
+                    <Menu.Item key={'news'} icon={<BulbOutlined />}>
+                        <Link style={{color: '#aeb8fe'}} to='/news'>News</Link>
                     </Menu.Item>
 
-                </Menu>
+                </Menu> 
 
             )}
+            
         </div>
     )
 }
