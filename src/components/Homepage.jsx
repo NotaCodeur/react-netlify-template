@@ -70,7 +70,7 @@ const Homepage = () => {
   }, [myHotspots]);
 
    useEffect(() => {
-    if (mainButtonIsClicked == true) {
+    if (mainButtonIsClicked === true) {
       console.log('main button is true')
       let array = accountObj;
       array = {...array, AccountAddress: walletInputField};
@@ -81,7 +81,7 @@ const Homepage = () => {
   }, [mainButtonIsClicked]);
 
   useEffect(() => {
-    if (myHotspotData != '') {
+    if (myHotspotData !== '') {
       console.log(myHotspotData)
       let array = accountObj;
       array = {...array, hotspots: myHotspotData};
@@ -91,7 +91,7 @@ const Homepage = () => {
   }, [myHotspotData]);
 
   useEffect(() => {
-    if (accountRewardsAllTime != '') {
+    if (accountRewardsAllTime !== '') {
       console.log(accountRewardsAllTime)
       let array = accountObj;
       array = {...array, rewardsAllTime: accountRewardsAllTime};
@@ -101,7 +101,7 @@ const Homepage = () => {
   }, [accountRewardsAllTime]);
 
   useEffect(() => {
-    
+
   },[])
 
 
