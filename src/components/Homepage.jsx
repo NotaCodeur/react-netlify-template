@@ -21,6 +21,8 @@ const Homepage = () => {
     rewardsWeek: [],
     rewardsMonth: [],
     rewardsYear: [],
+    accountStats: [],
+    heliumStats: [],
     transactions: {
       allTransaction: [{}],
       ownerTransaction: [{}],
@@ -99,6 +101,47 @@ const Homepage = () => {
       console.log('accountRewards All Time has changed')
     }
   }, [accountRewardsAllTime]);
+  
+  useEffect(() => {
+    if (accountRewardsMonth !== '') {
+      console.log(accountRewardsMonth)
+      let array = accountObj;
+      array = {...array, rewardsMonth: accountRewardsMonth};
+      setAccountObj(array);
+      console.log('accountRewards Month has changed')
+    }
+  }, [accountRewardsMonth]);
+  
+  useEffect(() => {
+    if (accountRewardsWeek !== '') {
+      console.log(accountRewardsWeek)
+      let array = accountObj;
+      array = {...array, rewardsWeek: accountRewardsWeek};
+      setAccountObj(array);
+      console.log('accountRewards Week has changed')
+    }
+  }, [accountRewardsWeek]);
+  
+  useEffect(() => {
+    if (accountRewardsYear !== '') {
+      console.log(accountRewardsYear)
+      let array = accountObj;
+      array = {...array, rewardsYear: accountRewardsYear};
+      setAccountObj(array);
+      console.log('accountRewards Year has changed')
+    }
+  }, [accountRewardsYear]);
+  
+  useEffect(() => {
+    if (accountStats !== '') {
+      console.log(accountStats)
+      let array = accountObj;
+      array = {...array, accountStats: accountStats};
+      setAccountObj(array);
+      console.log('accountStats has changed')
+    }
+  }, [accountStats]);
+
 
   useEffect(() => {
 
