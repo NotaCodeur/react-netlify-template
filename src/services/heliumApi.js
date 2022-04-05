@@ -4,12 +4,12 @@ const heliumHeaders = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
     // 'Access-Control-Allow-Origin': '*',
     // 'Access-Control-Allow-Headers': '*',
-    'access-control-request-headers': 'content-type',
-    'access-control-allow-headers': ['Origin','Content-Type','Accept'],
-    'access-control-request-method': 'GET',
-    'access-control-allow-origin': '*',
-    'sec-fetch-mode': 'cors',
-    'authority': 'ugxlyxnlrg9udfdyzwnrvghlu2vydmvycg.blockjoy.com'
+    // 'access-control-request-headers': 'content-type',
+    // 'access-control-allow-headers': ['Origin','Content-Type','Accept'],
+    // 'access-control-request-method': 'GET',
+    // 'access-control-allow-origin': '*',
+    // 'sec-fetch-mode': 'cors',
+    // 'authority': 'ugxlyxnlrg9udfdyzwnrvghlu2vydmvycg.blockjoy.com'
     // 'origin': '*'
 
 
