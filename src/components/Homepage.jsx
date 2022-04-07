@@ -140,7 +140,7 @@ const Homepage = () => {
     if ( count > 0 && count < int ) {
       console.log( accountObj?.hotspots?.length );
       console.log(int);
-      setHotspotAddress(accountObj?.hotspots?.[count-1]?.address)
+      setHotspotAddress((accountObj?.hotspots?.[count-1]?.address))
       console.log('setting hotspot Address')
       console.log('index:',index)
     }

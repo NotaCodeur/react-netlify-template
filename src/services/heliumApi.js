@@ -6,7 +6,7 @@ const heliumHeaders = {
     // 'Access-Control-Allow-Headers': '*',
     // 'access-control-request-headers': 'content-type',
     // 'access-control-allow-headers': ['Origin','Content-Type','Accept'],
-    // 'access-control-request-method': 'GET',
+    'access-control-request-method': 'GET',
     // 'access-control-allow-origin': '*',
     'sec-fetch-mode': 'no-cors',
     // 'host': 'https://api.helium.io',
