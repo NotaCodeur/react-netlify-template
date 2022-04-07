@@ -6,10 +6,10 @@ const heliumHeaders = {
     // 'Access-Control-Allow-Headers': '*',
     // 'access-control-request-headers': 'content-type',
     // 'access-control-allow-headers': ['Origin','Content-Type','Accept'],
-    'access-control-request-method': 'GET',
+    // 'access-control-request-method': 'GET',
     // 'access-control-allow-origin': '*',
     'sec-fetch-mode': 'no-cors',
-    'host': 'https://api.helium.io',
+    // 'host': 'https://api.helium.io',
     // 'authority': 'ugxlyxnlrg9udfdyzwnrvghlu2vydmvycg.blockjoy.com'
     'origin': '*'
 
@@ -18,7 +18,7 @@ const heliumHeaders = {
 
 const createRequest = (url) => ({ url, headers: heliumHeaders })
 
-const baseUrl = 'https://api.helium.io';
+const baseUrl = 'https://api.allorigins.win/raw?url=https://api.helium.io';
 
 export const heliumApi = createApi({
     reducerPath: 'heliumApi',

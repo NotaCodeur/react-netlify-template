@@ -11,6 +11,7 @@ import BarChart from './BarChart';
 import BarChart2 from './BarChart2';
 
 
+
 const { Title } = Typography;
 
 const Homepage = () => {
@@ -47,7 +48,7 @@ const Homepage = () => {
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
   const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress);
-  const [myHotspotData, setMyHotspotData] = useState([]);
+  const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
   const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress);
   const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress);
@@ -60,92 +61,119 @@ const Homepage = () => {
   }, [walletInputField])
 
   useEffect(() => {
-    console.log('account obj has changed')
-    console.log(accountObj)
+    console.log('accObj: ',accountObj)
   }, [accountObj])
 
   useEffect(() => {
     let filterMyHotspots = myHotspots?.data;
+    if (filterMyHotspots != null && filterMyHotspots.address != 'hotspots') {
+      console.log('filterMyHotspots: ', filterMyHotspots)
     setMyHotspotData(filterMyHotspots);
-    console.log(myHotspots)
-    console.log('filterering hotspots from myHotspots => setMyHotspotData')
+    }
   }, [myHotspots]);
 
    useEffect(() => {
     if (mainButtonIsClicked === true) {
       console.log('main button is true')
-      let array = accountObj;
-      array = {...array, AccountAddress: walletInputField};
-      setAccountObj(array);
-
+      setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
       setMainButtonIsClicked(false);
     }
   }, [mainButtonIsClicked]);
 
   useEffect(() => {
-    if (myHotspotData !== '') {
-      console.log(myHotspotData)
-      let array = accountObj;
-      array = {...array, hotspots: myHotspotData};
-      setAccountObj(array);
-      console.log('myHotspotData has changed')
+    if (myHotspotData != '') {
+      setAccountObj( accountObj => ( {...accountObj, hotspots: myHotspotData} ) );
+      setCount(1);
+      console.log('myHotspotData:', myHotspotData)
     }
   }, [myHotspotData]);
 
   useEffect(() => {
-    if (accountRewardsAllTime !== '') {
+    if (accountRewardsAllTime != null) {
       console.log(accountRewardsAllTime)
-      let array = accountObj;
-      array = {...array, rewardsAllTime: accountRewardsAllTime};
-      setAccountObj(array);
-      console.log('accountRewards All Time has changed')
+      setAccountObj( accountObj => ( {...accountObj, rewardsAllTime: accountRewardsAllTime} ) );
+      console.log('accountRewardsAllTime: ', accountRewardsAllTime)
     }
   }, [accountRewardsAllTime]);
   
   useEffect(() => {
-    if (accountRewardsMonth !== '') {
+    if (accountRewardsMonth != null) {
       console.log(accountRewardsMonth)
-      let array = accountObj;
-      array = {...array, rewardsMonth: accountRewardsMonth};
-      setAccountObj(array);
+      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: accountRewardsMonth} ) );
       console.log('accountRewards Month has changed')
     }
   }, [accountRewardsMonth]);
   
   useEffect(() => {
-    if (accountRewardsWeek !== '') {
+    if (accountRewardsWeek != null) {
       console.log(accountRewardsWeek)
-      let array = accountObj;
-      array = {...array, rewardsWeek: accountRewardsWeek};
-      setAccountObj(array);
+      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
       console.log('accountRewards Week has changed')
     }
   }, [accountRewardsWeek]);
   
   useEffect(() => {
-    if (accountRewardsYear !== '') {
+    if (accountRewardsYear != null) {
       console.log(accountRewardsYear)
-      let array = accountObj;
-      array = {...array, rewardsYear: accountRewardsYear};
-      setAccountObj(array);
+      setAccountObj( accountObj => ( {...accountObj, rewardsYear: accountRewardsYear } ) );
       console.log('accountRewards Year has changed')
     }
   }, [accountRewardsYear]);
   
   useEffect(() => {
-    if (accountStats !== '') {
-      console.log(accountStats)
-      let array = accountObj;
-      array = {...array, accountStats: accountStats};
-      setAccountObj(array);
+    
+    if (accountStats != null && accountStats.data.address != 'stats') {
+      console.log('accountstats:',accountStats)
+      setAccountObj( accountObj => ( {...accountObj, accountStats: accountStats } ) );
       console.log('accountStats has changed')
     }
   }, [accountStats]);
 
 
-  useEffect(() => {
 
-  },[])
+
+
+// here comes the for loop to get the hotspot rewards
+  useEffect(() => {
+    let index = count -1;
+    let int = accountObj?.hotspots?.length +1;
+    if ( count > 0 && count < int ) {
+      console.log( accountObj?.hotspots?.length );
+      console.log(int);
+      setHotspotAddress(accountObj?.hotspots?.[count-1]?.address)
+      console.log('setting hotspot Address')
+      console.log('index:',index)
+    }
+    if (count >= int) {
+      setCount(0);
+      console.log(' if count -1 == hotspots.length => setCount(0)');
+    }
+  }, [accountObj.hotspots, count])
+
+  useEffect(() => {
+    let index = count -1;
+    let int = accountObj?.hotspots?.length +1;
+    let obj = accountObj?.hotspots?.[count - 1];
+    let array = accountObj;
+    let array2 = []; 
+    array2 = [...array?.hotspots];
+    
+    if (index >= 0 && count < int) {
+
+      console.log('hotRew: ', hotspotsRewards)
+      obj = {...obj, rewardsAllTime: hotspotsRewards};
+      console.log('obj: ', obj)
+      
+      if ( array2?.[index].hotspotRewardsAllTime != hotspotAddress  ) {
+        array2[index] = obj
+      };
+      console.log(array2[index])
+      
+      setAccountObj( accountObj => ({...accountObj, hotspots: array2 }))
+      setCount(count => count + 1);
+      
+    }
+  }, [hotspotsRewards])
 
 
   // useEffect(() => {
@@ -384,7 +412,7 @@ const Homepage = () => {
 
   return (
     <>
-      <Title level={2} > Your helium stats{} </Title>
+      <Title level={2} > Your helium stats </Title>
       <Input.Group compact>
         <Input style={{ width: 'calc(50% - 00px)', borderRadius: '20px', borderColor: '#ffffff', margin: '8px', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} defaultValue='Enter your Helium wallet' onChange={(e) => setWalletInputField(e.target.value)} ></Input>
         <Button type='primary' style={{ borderRadius: '20px', borderColor: '#ff8600', margin: '8px', color: '#f1f2f6', background: '#ff8600', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} onClick={(e) => SubmitWallet(walletInputField)} >Submit</Button>
