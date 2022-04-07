@@ -32,13 +32,20 @@
         Legend
     );
 
-
+// this is the chart for account rewards
 
     const { Title } = Typography;
 
-    const BarChart = ({ hostShare }) => {
+    const BarChart = ({ accountObj, timeperiod }) => {
 
-        const ownerShare = 100 - hostShare;
+        const rewardsData = [];
+        const timeData = [];
+
+        if ( timeperiod == '30d'  ) {
+            for (let i = 0; i <accountObj.rewardsMonth?.data?.length ; i ++) {
+                rewardsData.push( accountObj.rewardsMonth?.data[i].total)
+            }
+        }
 
         const data = {
             labels: ['', '', '', '', '', '', '', '','','','','','','',],
