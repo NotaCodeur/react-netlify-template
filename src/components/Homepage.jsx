@@ -42,16 +42,17 @@ const Homepage = () => {
   const [ countI, setCountI ] = useState(0);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
+  const [aaccountAddress, setAaccountAddress] = useState('');
   const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
   const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress);
   const globalStats = data?.data?.stats;
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
-  const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress);
+  const { data: myHotspots } = useGetHeliumHotspotsQuery(aaccountAddress);
   const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress);
-  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress);
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(aaccountAddress);
+  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(aaccountAddress);
   const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress);
   const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress);
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
@@ -76,6 +77,7 @@ const Homepage = () => {
     if (mainButtonIsClicked === true) {
       console.log('main button is true')
       setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
+      setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
     }
   }, [mainButtonIsClicked]);
@@ -412,11 +414,18 @@ const Homepage = () => {
 
   return (
     <>
-      <Title level={2} > Your helium stats </Title>
       <Input.Group compact>
         <Input style={{ width: 'calc(50% - 00px)', borderRadius: '20px', borderColor: '#ffffff', margin: '8px', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} defaultValue='Enter your Helium wallet' onChange={(e) => setWalletInputField(e.target.value)} ></Input>
         <Button type='primary' style={{ borderRadius: '20px', borderColor: '#ff8600', margin: '8px', color: '#f1f2f6', background: '#ff8600', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} onClick={(e) => SubmitWallet(walletInputField)} >Submit</Button>
       </Input.Group>
+      <Title level={2} > Your helium stats </Title>
+      <Row>
+        <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
+        <Col span={12}><Statistic title='Total HNT Balance' value={millify(globalStats.totalExchanges)} /></Col>
+        <Col span={12}><Statistic title='Total Hotspots' value={accountObj?.hotspots?.length} /></Col>
+        <Col span={12}><Statistic title='Total Paid Out' value={214.5} /></Col>
+        <Col span={12}><Statistic title='Percentage Paid Out' value={96} /></Col>
+      </Row>
       {/* <p>
       submit ->
       </p>
@@ -449,7 +458,7 @@ const Homepage = () => {
       if (localstorage. account = empty) => setLocalStorage(stateAccountObj)
       </p> */}
       <Row gutters={[32, 32]} >
-        <Col xs={24} sm={8} lg={6} >
+        {/* <Col xs={24} sm={8} lg={6} >
           <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}  >
             <div >
               <p>Total HNT Earned</p>
@@ -457,8 +466,8 @@ const Homepage = () => {
               <p>${accountObj.rewardsAllTime?.data?.total * 25}</p>
             </div>
           </Card>
-        </Col>
-        <Col xs={24} sm={16} lg={18}>
+        </Col> */}
+        <Col xs={24} sm={24} lg={24}>
         <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', height: 250, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
           <div >
             <Row>
@@ -479,15 +488,15 @@ const Homepage = () => {
         </Col>
       </Row>
       <Row gutters={[32,32]}>
-        <Col xs={24} sm={8} lg={6}>
+        {/* <Col xs={24} sm={8} lg={6}>
         <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
           <p>Hotspots</p>
           <p>{accountObj?.hotspots?.length}</p>
         </div>
         </Card>
-        </Col>
-        <Col xs={24} sm={16} lg={18}>
+        </Col> */}
+        <Col xs={24} sm={24} lg={24}>
         <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
           <Row>
@@ -499,12 +508,14 @@ const Homepage = () => {
         </Card>
         </Col>
       </Row>
-
+        <br />
       <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '20%' }}>
         <p>Transactions</p>
         <p>sent</p>
         <p>received</p>
       </div>
+      <br />
+      <br />
       <Title level={2} className='heading'>Global Crypto Stats</Title>
       <Row>
         <Col span={12}><Statistic title='Total Cryptocurrencies' value={globalStats.total} /></Col>

@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const heliumHeaders = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+    
+    // 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
     // 'Access-Control-Allow-Origin': '*',
     // 'Access-Control-Allow-Headers': '*',
-    'access-control-request-headers': 'content-type',
+    // 'access-control-request-headers': 'content-type',
     // 'access-control-allow-headers': ['Origin','Content-Type','Accept'],
-    'access-control-request-method': 'GET',
+    // 'access-control-request-method': 'GET',
     // 'access-control-allow-origin': '*',
     // 'sec-fetch-mode': 'no-cors',
     'host': 'https://api.helium.io',
@@ -20,7 +21,8 @@ const heliumHeaders = {
 
 const createRequest = (url) => ({ url, headers: heliumHeaders })
 // https://api.allorigins.win/raw?url=
-const baseUrl = 'https://api.helium.io';
+// https://thingproxy.freeboard.io/fetch/https://api.helium.io
+const baseUrl = '../netlify/functions/hotspots?search=';
 
 export const heliumApi = createApi({
     reducerPath: 'heliumApi',
