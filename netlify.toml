@@ -21,19 +21,19 @@
 # URL Redirects
 #///////////////////////////////
 # Below is a very standard rule for Single Page Apps using routing
-#[[redirects]]
-#   from = "/*"
-#   to = "/index.html"
-#   status = 200
+[[redirects]]
+   from = "/*"
+   to = "/index.html"
+   status = 200
 
 
 #///////////////////////////////
 # Headers
 #///////////////////////////////
 #Below a configuration to let other websites make requests to yours
-#[[headers]]
-#   for = "/*"
-#   [headers.values]
-#       Access-Control-Allow-Origin = "*"
-#       Access-Control-Allow-Methods = "*"
-#       Access-Control-Allow-Headers = "*"
+[[headers]]
+   for = "/*"
+   [headers.values]
+       Access-Control-Allow-Origin = "*"
+       Access-Control-Allow-Methods = "*"
+       Access-Control-Allow-Headers = "*"
