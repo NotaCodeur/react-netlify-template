@@ -6,7 +6,7 @@ exports.handler = async function(event, context) {
     // const {path, httpMethod, headers, queryStringParameters, body} = event
 
     const search = event.queryStringParameters.search;
-    const targetURL = `https://api.helium.io${search}`
+    const targetURL = `https://api.helium.io${search}`;
 
     try {
         const response = await axios.get(targetURL);
