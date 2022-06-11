@@ -26,6 +26,11 @@
    to = "/index.html"
    status = 200
 
+[[redirects]]
+   from = "/v1/*"
+   to = "https://api.helium.io"
+   status = 200
+
 
 #///////////////////////////////
 # Headers

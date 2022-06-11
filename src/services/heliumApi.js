@@ -10,9 +10,9 @@ const heliumHeaders = {
     // 'access-control-request-method': 'GET',
     // 'access-control-allow-origin': '*',
     // 'sec-fetch-mode': 'no-cors',
-    'host': 'https://api.helium.io',
+    // 'host': 'https://api.helium.io',
     // 'authority': 'ugxlyxnlrg9udfdyzwnrvghlu2vydmvycg.blockjoy.com'
-    'origin': 'http://localhost:3000',
+    // 'origin': 'http://localhost:3000',
     // "Content-Type": "application/json",
     
 
@@ -22,7 +22,8 @@ const heliumHeaders = {
 const createRequest = (url) => ({ url, headers: heliumHeaders })
 // https://api.allorigins.win/raw?url=
 // https://thingproxy.freeboard.io/fetch/https://api.helium.io
-const baseUrl = '../netlify/functions/hotspots?search=' ? 404 : 'https://api.allorigins.win/raw?url=https://api.helium.io' ;
+// ? 404 : 'https://api.allorigins.win/raw?url=https://api.helium.io'
+const baseUrl = '../netlify/functions/'  ;
 
 export const heliumApi = createApi({
     reducerPath: 'heliumApi',
