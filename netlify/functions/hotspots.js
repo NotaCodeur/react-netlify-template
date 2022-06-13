@@ -19,8 +19,6 @@ exports.handler = async function(event, context) {
                 "Access-Control-Allow-Methods": "GET",
               },
             body: JSON.stringify(response.data),
-            console.log(netlify function does something),
-            console.log(response.data);
         }
     } catch(error) {
         return {
