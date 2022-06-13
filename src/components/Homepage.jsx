@@ -109,7 +109,7 @@ const Homepage = () => {
   useEffect(() => {
     if (accountRewardsWeek != null) {
       console.log(accountRewardsWeek)
-      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: [...accountRewardsWeek] } ) );
+      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
       console.log('accountRewards Week has changed')
     }
   }, [accountRewardsWeek]);
