@@ -1,7 +1,7 @@
 {
   "name": "crypto_react_app",
   "homepage": "",
-  "proxy": "https://getspot.netlify.app",
+  "proxy": "",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
