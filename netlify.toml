@@ -26,11 +26,6 @@
     to = "/index.html"
     status = 200
 
-[[redirects]]
-   from = "/netlify/functions/*"
-   to = "https://api.helium.io/:splat"
-   status = 200
-
 
 #///////////////////////////////
 # Headers
