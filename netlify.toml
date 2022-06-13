@@ -14,21 +14,21 @@
     # command = "npm run build"
 
     #functions = folder where your netlify functions are located
-    functions = "functions"
+    functions = "netlify/functions"
 
 
 #///////////////////////////////
 # URL Redirects
 #///////////////////////////////
 # Below is a very standard rule for Single Page Apps using routing
-[[redirects]]
-   from = "/*"
-   to = "/index.html"
-   status = 200
+ [[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200
 
 [[redirects]]
-   from = "/v1/*"
-   to = "https://api.helium.io"
+   from = "/netlify/functions/*"
+   to = "https://api.helium.io/:splat"
    status = 200
 
 
