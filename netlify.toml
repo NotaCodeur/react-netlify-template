@@ -16,8 +16,6 @@
     #functions = folder where your netlify functions are located
     functions = "netlify/functions"
 
-[build.processing.js]
-  bundle = false
 
 #///////////////////////////////
 # URL Redirects
