@@ -41,10 +41,10 @@ export const heliumApi = createApi({
             query: (AccountAddress ) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`)
         }),
         getHeliumAccountRewardsWeek: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day&bucket=day`)
+            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day`)
         }),
         getHeliumAccountRewardsMonth: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-30%20day&bucket=day`)
+            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-30%20day`)
         }),
         getHeliumAccountRewardsYear: builder.query({
             query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-52%20week&bucket=week`)
