@@ -5,7 +5,7 @@
 #///////////////////////////////
 [build]
     #base = the root folder for build context (where the package.json file is)
-    #base = ""
+    #base = "/"
 
     #publish = after build command is complete the folder to serve as the website
     publish = "src"
