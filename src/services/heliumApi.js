@@ -24,7 +24,7 @@ const createRequest = (url) => ({ url, headers: heliumHeaders })
 // https://thingproxy.freeboard.io/fetch/https://api.helium.io
 // ? 404 : 'https://api.allorigins.win/raw?url=https://api.helium.io'
 // ../netlify/functions
-const baseUrl = '/netlify/functions/hotspots?search='  ;
+const baseUrl = '/.netlify/functions/hotspots?search='  ;
 
 export const heliumApi = createApi({
     reducerPath: 'heliumApi',
