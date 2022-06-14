@@ -24,7 +24,7 @@ const createRequest = (url) => ({ url, headers: heliumHeaders })
 // https://thingproxy.freeboard.io/fetch/https://api.helium.io
 // ? 404 : 'https://api.allorigins.win/raw?url=https://api.helium.io'
 // ../netlify/functions
-const baseUrl = '/.netlify/functions/hotspots?search='  ;
+const baseUrl = '/.netlify/functions'  ;
 
 export const heliumApi = createApi({
     reducerPath: 'heliumApi',
@@ -32,31 +32,31 @@ export const heliumApi = createApi({
 
     endpoints: (builder) => ({
         getHeliumSupply: builder.query({
-            query: () => createRequest(`/v1/stats/token_supply?format=raw`),
+            query: () => createRequest(`/hotspots?search=/v1/stats/token_supply?format=raw`),
         }),
         getHeliumHotspots: builder.query({
-            query: (myAddress) => createRequest(`/v1/accounts/${myAddress}/hotspots`),
+            query: (myAddress) => createRequest(`/hotspots?search=/v1/accounts/${myAddress}/hotspots`),
         }),
         getHeliumAccountRewardsAllTime: builder.query({
-            query: (AccountAddress ) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`)
+            query: (AccountAddress ) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`)
         }),
         getHeliumAccountRewardsWeek: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day`)
         }),
         getHeliumAccountRewardsMonth: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-30%20day`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-30%20day`)
         }),
         getHeliumAccountRewardsYear: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-52%20week&bucket=week`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-52%20week&bucket=week`)
         }),
         getHeliumHotspotsRewardsAllTime: builder.query({
-            query: (HotspotAddress) => createRequest(`/v1/hotspots/${HotspotAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`),
+            query: (HotspotAddress) => createRequest(`/hotspotsMonth?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
         }),
         getHeliumAccountActivityPayment: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/activity?min_time=2020-01-27T00:00:00Z&filter_types=rewards_v2`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/activity?min_time=2020-01-27T00:00:00Z&filter_types=rewards_v2`)
         }),
         getHeliumAccountStats: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/stats`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/stats`)
         }),
 
     })
