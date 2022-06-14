@@ -136,7 +136,7 @@ const Homepage = () => {
 
 
   useEffect(() => {
-    this.state.accountObj.hotspots.forEach(Element => {
+    accountObj.hotspots.forEach(Element => {
       console.log(Element)
     });
   }, [accountObj.hotspots])
