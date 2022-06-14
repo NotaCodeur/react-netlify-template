@@ -138,9 +138,11 @@ const Homepage = () => {
 
 // here comes the for loop to get the hotspot rewards
   useEffect(() => {
-    let index = count -1;
-    let int = accountObj?.hotspots?.length +1;
-    if ( count > 0 && count < int ) {
+    setTimeout(() => {
+
+      let index = count -1;
+      let int = accountObj?.hotspots?.length +1;
+      if ( count > 0 && count < int ) {
       console.log( accountObj?.hotspots?.length );
       console.log(int);
       setHotspotAddress((accountObj?.hotspots?.[count-1]?.address))
@@ -151,6 +153,7 @@ const Homepage = () => {
       setCount(0);
       console.log(' if count -1 == hotspots.length => setCount(0)');
     }
+  }, 2000)
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
