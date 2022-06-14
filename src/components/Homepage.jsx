@@ -135,6 +135,12 @@ const Homepage = () => {
 
 
 
+  useEffect(() => {
+    this.state.accountObj.hotspots.forEach(Element => {
+      console.log(Element)
+    });
+  }, [accountObj.hotspots])
+
 // here comes the for loop to get the hotspot rewards
   useEffect(() => {
     let index = count -1;
