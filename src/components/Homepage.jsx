@@ -458,7 +458,7 @@ const Homepage = () => {
       <p>
       if (localstorage. account = empty) => setLocalStorage(stateAccountObj)
       </p> */}
-      <Row gutters={[32, 32]} >
+      <Row gutters={[32, 32]}  >
         {/* <Col xs={24} sm={8} lg={6} >
           <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}  >
             <div >
@@ -468,37 +468,34 @@ const Homepage = () => {
             </div>
           </Card>
         </Col> */}
-        <Col xs={24} sm={24} lg={24}>
-        <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', height: 250, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
-          <div >
+        <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+          <div style={{padding: 5}}>
+
+        <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} >
+          <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
+            <p>Earnings 1.53 HNT $42.16</p>
+             
             <Row>
-              <Col>
-                <p>Earnings</p>
-                <p>1.53 HNT</p>
-                <p>$42.16</p>
-              </Col>
-              <Col >
-                <Row>
-                  <BarChart  />
-                </Row>
-                <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
-              </Col>
+              <BarChart  />
             </Row>
+              <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
           </div>
         </Card>
+          </div>
         </Col>
       </Row>
       <Row gutters={[32,32]}>
         {/* <Col xs={24} sm={8} lg={6}>
         <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-          <p>Hotspots</p>
-          <p>{accountObj?.hotspots?.length}</p>
+        <p>Hotspots</p>
+        <p>{accountObj?.hotspots?.length}</p>
         </div>
         </Card>
-        </Col> */}
-        <Col xs={24} sm={24} lg={24}>
-        <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
+      </Col> */}
+        <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+      <div style={{padding: 5}}>
+        <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
           <Row>
             <BarChart2 accountObj={accountObj}  />
@@ -507,10 +504,11 @@ const Homepage = () => {
           <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
         </div>
         </Card>
+        </div>  
         </Col>
       </Row>
         <br />
-      <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '20%' }}>
+      <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '50%' }}>
         <p>Transactions</p>
         <p>sent</p>
         <p>received</p>

@@ -26,6 +26,7 @@ a:hover{
 .navbar{
     flex: 0.2;
     background-color: #27187e;
+    width: 100%;
 }
 
 .main{
@@ -34,7 +35,7 @@ a:hover{
     
 }
 .routes{
-    padding: 40px;
+    padding: 15px;
 }
 .nav-container{
     position: fixed;
@@ -77,19 +78,19 @@ a:hover{
 
 @media screen and (max-width:1300px){
     .main{
-        margin-left: 50px;
+        margin-left: 10px;
     }
 }
 
 @media screen and (max-width:1170px){
     .main{
-        margin-left: 50px;
+        margin-left: 55px;
     }
 }
 
 @media screen and (max-width:1000px){
     .main{
-        margin-left: 100px;
+        margin-left: 90px;
     }
 }
 
