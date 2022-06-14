@@ -137,14 +137,25 @@ const Homepage = () => {
 
   useEffect(() => {
     accountObj.hotspots.forEach(async Element => {
-      console.log(Element)
-      const monthEarn = await fetch(`/.netlify/functions/hotspotsMonth?search=/v1/hotspots/${Element.address}/rewards/sum`)
-      const dataaa = await monthEarn.body.json
-      console.log(monthEarn)
-      console.log(dataaa)
-      if(dataaa.length){
-      }
-    });
+        setTimeout(() => {
+          console.log('for eaching')
+          fetch(`/.netlify/functions/hotspotsMonth?search=/v1/hotspots/${Element.address}/rewards/sum`)
+          .then(res => {
+            if(!res.ok) {
+              throw Error('could not fetch some data');
+            }
+            return res.json();
+          })
+          .then(data => {
+            setAccountObj( accountObj => ({...accountObj, hotspots: [...accountObj.hotspots, accountObj.hotspots[i]: {...accountObj.hotspots[i], hotspotRewardsAllTime: data}]}))
+            console.log(accountObj)
+          })
+          .catch(err => {
+            console.log(err.message);
+          })
+            
+        }, 1000);
+      });
   }, [accountObj.hotspots])
 
 // here comes the for loop to get the hotspot rewards
