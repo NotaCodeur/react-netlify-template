@@ -38,18 +38,21 @@ export const heliumApi = createApi({
             query: (myAddress) => createRequest(`/hotspots?search=/v1/accounts/${myAddress}/hotspots`),
         }),
         getHeliumAccountRewardsAllTime: builder.query({
-            query: (AccountAddress ) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`)
+            query: (AccountAddress ) => createRequest(`/hotspotsAllTime?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
         getHeliumAccountRewardsWeek: builder.query({
             query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day`)
         }),
         getHeliumAccountRewardsMonth: builder.query({
-            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-30%20day`)
+            query: (AccountAddress) => createRequest(`/hotspotsMonth?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
         getHeliumAccountRewardsYear: builder.query({
-            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-52%20week&bucket=week`)
+            query: (AccountAddress) => createRequest(`/hotspotsYear?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
         getHeliumHotspotsRewardsAllTime: builder.query({
+            query: (HotspotAddress) => createRequest(`/hotspotsAllTime?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
+        }),
+        getHeliumHotspotsRewardsMonth: builder.query({
             query: (HotspotAddress) => createRequest(`/hotspotsMonth?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
         }),
         getHeliumAccountActivityPayment: builder.query({
@@ -70,6 +73,7 @@ export const {
     useGetHeliumAccountRewardsMonthQuery, 
     useGetHeliumAccountRewardsYearQuery, 
     useGetHeliumHotspotsRewardsAllTimeQuery, 
+    useGetHeliumHotspotsRewardsMonthQuery, 
     useGetHeliumAccountActivityPaymentQuery,
     useGetHeliumAccountStatsQuery 
 } = heliumApi;
