@@ -136,8 +136,13 @@ const Homepage = () => {
 
 
   useEffect(() => {
-    accountObj.hotspots.forEach(Element => {
+    accountObj.hotspots.forEach(async Element => {
       console.log(Element)
+      const monthEarn = await fetch(`/.netlify/functions/hotspotsMonth?search=/v1/hotspots/${Element.address}/rewards/sum`)
+      const dataaa = await monthEarn.json
+      if(dataaa.length){
+        console.log(dataaa)
+      }
     });
   }, [accountObj.hotspots])
 
