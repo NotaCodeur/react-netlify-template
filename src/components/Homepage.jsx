@@ -101,7 +101,7 @@ const Homepage = () => {
   useEffect(() => {
     if (accountRewardsMonth != null) {
       console.log(accountRewardsMonth)
-      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: [...accountRewardsMonth]} ) );
+      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: accountRewardsMonth} ) );
       console.log('accountRewards Month has changed')
     }
   }, [accountRewardsMonth]);
