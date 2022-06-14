@@ -139,8 +139,8 @@ const Homepage = () => {
     accountObj.hotspots.forEach(async Element => {
       console.log(Element)
       const monthEarn = await fetch(`/.netlify/functions/hotspotsMonth?search=/v1/hotspots/${Element.address}/rewards/sum`)
+      const dataaa = await monthEarn.body.json
       console.log(monthEarn)
-      const dataaa = await monthEarn.json
       console.log(dataaa)
       if(dataaa.length){
       }
