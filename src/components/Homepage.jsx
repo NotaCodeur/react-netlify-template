@@ -490,7 +490,7 @@ const Homepage = () => {
             <p>Earnings 1.53 HNT $42.16</p>
              
             <Row>
-              <BarChart  />
+              <BarChart accountObj={accountObj} timeperiod='30d'  />
             </Row>
               <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
           </div>

@@ -54,7 +54,7 @@
                     label: 'HNT',
                     barThickness: 15,
                     // barPercentage: 0.3,
-                    data: [5, 3, 1, 8, 7, 2, 6, 1, 2, 4, 6, 5, 7, 3, 5, 8, 6, 6, 5],
+                    data: rewardsData,
                     backgroundColor: ['#aeb8fe'],
                     borderWidth: 2,
                     borderRadius: 20,
