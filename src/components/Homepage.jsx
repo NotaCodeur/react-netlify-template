@@ -79,6 +79,10 @@ const Homepage = () => {
       setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
       setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
+      if (myHotspotData != '') {
+        setCount(1);
+        console.log('set count 1 via main button click')
+      }
     }
   }, [mainButtonIsClicked]);
 
@@ -92,49 +96,55 @@ const Homepage = () => {
 
   useEffect(() => {
     if (accountRewardsAllTime != null) {
-      console.log(accountRewardsAllTime)
+      console.log('accountRewardsAllTime:', accountRewardsAllTime)
       setAccountObj( accountObj => ( {...accountObj, rewardsAllTime: accountRewardsAllTime} ) );
-      console.log('accountRewardsAllTime: ', accountRewardsAllTime)
     }
   }, [accountRewardsAllTime]);
   
   useEffect(() => {
     if (accountRewardsMonth != null) {
-      console.log(accountRewardsMonth)
+      console.log('accountRewardsMonth: ', accountRewardsMonth)
       setAccountObj( accountObj => ( {...accountObj, rewardsMonth: accountRewardsMonth} ) );
-      console.log('accountRewards Month has changed')
     }
   }, [accountRewardsMonth]);
   
   useEffect(() => {
     if (accountRewardsWeek != null) {
-      console.log(accountRewardsWeek)
+      console.log('accountRewardsWeek:', accountRewardsWeek)
       setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
-      console.log('accountRewards Week has changed')
     }
   }, [accountRewardsWeek]);
   
   useEffect(() => {
     if (accountRewardsYear != null) {
-      console.log(accountRewardsYear)
+      console.log('accountRewardsYear:', accountRewardsYear)
       setAccountObj( accountObj => ( {...accountObj, rewardsYear: accountRewardsYear } ) );
-      console.log('accountRewards Year has changed')
     }
   }, [accountRewardsYear]);
   
   useEffect(() => {
-    
     if (accountStats != null && accountStats.data.address != 'stats') {
-      console.log('accountstats:',accountStats)
+      console.log('accountStats:', accountStats)
       setAccountObj( accountObj => ( {...accountObj, accountStats: accountStats } ) );
-      console.log('accountStats has changed')
     }
   }, [accountStats]);
 
 
 
 
+// useEffect(() => {
+//   if(myHotspots?.length){
 
+//     myHotspots?.forEach((Element, i) => {
+//       setTimeout(() => {
+//         setHotspotAddress(Element.data?.address)
+//         // await hotspotsRewards
+//         console.log('for each set hotspotAdress ', Element.data)
+        
+//       })
+//     }, 2000);
+//   }
+// }, [myHotspots])
 
 // here comes the for loop to get the hotspot rewards
   useEffect(() => {
@@ -153,7 +163,7 @@ const Homepage = () => {
       setCount(0);
       console.log(' if count -1 == hotspots.length => setCount(0)');
     }
-  }, 2000)
+  }, 1000)
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
