@@ -44,11 +44,12 @@
         if ( timeperiod == '30d'  ) {
             for (let i = 0; i <accountObj.rewardsMonth?.data?.length ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
+                timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
             }
         }
 
         const data = {
-            labels: ['', '', '', '', '', '', '', '','','','','','','',],
+            labels: timeData,
             datasets: [
                 {   
                     label: 'HNT',
