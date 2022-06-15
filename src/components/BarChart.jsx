@@ -49,10 +49,10 @@
         }
 
         const data = {
-            labels: timeData,
+            labels: [],
             datasets: [
                 {   
-                    label: 'HNT',
+                    label: timeData,
                     barThickness: 15,
                     // barPercentage: 0.3,
                     data: rewardsData,
