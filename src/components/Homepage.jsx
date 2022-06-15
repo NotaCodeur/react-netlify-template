@@ -80,6 +80,7 @@ const Homepage = () => {
       setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
       if (myHotspotData != '') {
+        setAccountObj( accountObj => ( {...accountObj, hotspots: myHotspotData} ) );
         setCount(1);
         console.log('set count 1 via main button click')
       }
