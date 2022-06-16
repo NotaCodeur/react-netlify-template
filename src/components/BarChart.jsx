@@ -41,21 +41,21 @@
         const rewardsData = [];
         const timeData = [];
 
-        if ( timeperiod == '30d'  ) {
+        if ( timeperiod == '30d' && accountObj.rewardsMonth.data ) {
             for (let i = 0; i < 30 ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
                 timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
             }
         }
 
-        if ( timeperiod == '7d'  ) {
+        if ( timeperiod == '7d' && accountObj.rewardsMonth.data ) {
             for (let i = 0; i < 7 ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
                 timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
             }
         }
 
-        if ( timeperiod == '52w'  ) {
+        if ( timeperiod == '52w' && accountObj.rewardsYear.data ) {
             for (let i = 0; i < 52 ; i ++) {
                 rewardsData.push( accountObj.rewardsYear?.data[i].total)
                 timeData.push(accountObj.rewardsYear?.data[i].timestamp)
