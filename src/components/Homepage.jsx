@@ -538,7 +538,8 @@ const Homepage = () => {
       <br />
       <br />
       <Row padding={200} gutter={[32, 32]}>
-        {accountObj?.accountRolesCount?.data?.map(
+
+        {accountObj?.accountRolesCount?.data ? accountObj?.accountRolesCount?.data?.map(
           (role) =>
           
            
@@ -547,7 +548,7 @@ const Homepage = () => {
               <Title align='center' level={4}>{role.value}</Title>
             </ Card>
           </ Col>
-        )}
+        ) : <p> theres no roles count</p>}
       </ Row>
       {/* <Title level={2} className='heading'>Global Crypto Stats</Title>
       <Row>
