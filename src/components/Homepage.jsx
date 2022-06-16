@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { Cryptocurrencies, News } from '../components';
-import { useGetHeliumHotspotsRewardsAllTimeQuery, useGetHeliumHotspotsQuery, useGetHeliumAccountRewardsAllTimeQuery, useGetHeliumAccountRewardsWeekQuery, useGetHeliumAccountRewardsMonthQuery, useGetHeliumAccountRewardsYearQuery, useGetHeliumAccountStatsQuery } from '../services/heliumApi';
+import { useGetHeliumHotspotsRewardsAllTimeQuery, useGetHeliumHotspotsQuery, useGetHeliumAccountRewardsAllTimeQuery, useGetHeliumAccountRewardsWeekQuery, useGetHeliumAccountRewardsMonthQuery, useGetHeliumAccountRewardsYearQuery, useGetHeliumAccountStatsQuery, useGetHeliumAccountRolesCountQuery } from '../services/heliumApi';
 
 import BarChart from './BarChart';
 import BarChart2 from './BarChart2';
@@ -56,6 +56,7 @@ const Homepage = () => {
   const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress);
   const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress);
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
+  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress);
 
   useEffect(() => {
     console.log(walletInputField)
@@ -129,7 +130,13 @@ const Homepage = () => {
       setAccountObj( accountObj => ( {...accountObj, accountStats: accountStats } ) );
     }
   }, [accountStats]);
-
+  
+  useEffect(() => {
+    if (accountRolesCount != null) {
+      console.log('accountRolesCount:', accountRolesCount)
+      setAccountObj( accountObj => ( {...accountObj, accountRolesCount: accountRolesCount } ) );
+    }
+  }, [accountRolesCount]);
 
 
 
@@ -523,7 +530,7 @@ const Homepage = () => {
       </Row>
         <br />
       <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '50%' }}>
-        <p>Transactions</p>
+        <p>Transactions {accountObj?.accountRolesCount}</p>
         <p>sent</p>
         <p>received</p>
       </div>

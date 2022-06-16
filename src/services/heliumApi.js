@@ -61,6 +61,9 @@ export const heliumApi = createApi({
         getHeliumAccountStats: builder.query({
             query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/stats`)
         }),
+        getHeliumAccountRolesCount: builder.query({
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/roles/count`)
+        }),
 
     })
 })
@@ -75,5 +78,6 @@ export const {
     useGetHeliumHotspotsRewardsAllTimeQuery, 
     useGetHeliumHotspotsRewardsMonthQuery, 
     useGetHeliumAccountActivityPaymentQuery,
-    useGetHeliumAccountStatsQuery 
+    useGetHeliumAccountStatsQuery, 
+    useGetHeliumAccountRolesCountQuery 
 } = heliumApi;
