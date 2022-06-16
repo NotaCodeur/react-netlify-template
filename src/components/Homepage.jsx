@@ -510,7 +510,7 @@ const Homepage = () => {
             <Row>
               <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
             </Row>
-              <Row><Button onClick={}>24h</Button><Button onClick={() => setEarningsPeriod('7d') }>7d</Button><Button onClick={() => setEarningsPeriod('30d') }>30d</Button><Button onClick={() => setEarningsPeriod('52w') }>52w</Button></Row>
+              <Row><Button >24h</Button><Button onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button onClick={() => setEarningsPeriod('30d') }>30d</Button><Button onClick={() => setEarningsPeriod('52w') }>52w</Button></Row>
           </div>
         </Card>
           </div>
