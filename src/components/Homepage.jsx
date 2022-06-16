@@ -45,7 +45,7 @@ const Homepage = () => {
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
   const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
-  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress = '' ? { skip: true } : hotspotAddress );
+  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress);
   const globalStats = data?.data?.stats;
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
