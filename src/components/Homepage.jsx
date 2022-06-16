@@ -538,7 +538,7 @@ const Homepage = () => {
       <br />
       <br />
       <Row padding={200} gutter={[32, 32]}>
-        {accountObj.accountRolesCount.map(
+        {accountObj?.accountRolesCount?.data?.map(
           (role >= 0) =>
           
            
