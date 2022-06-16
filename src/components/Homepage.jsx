@@ -540,6 +540,7 @@ const Homepage = () => {
       <Row padding={200} gutter={[32, 32]}>
 
         {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
+        accountObj.accountRolesCount.data[role] >= 0 ?
         <Col>
           <Card>
             <div>
@@ -547,6 +548,7 @@ const Homepage = () => {
             </div>
           </Card>
         </Col>
+        : null
         ) : <p> theres no roles count</p>}
       </ Row>
       {/* <Title level={2} className='heading'>Global Crypto Stats</Title>
