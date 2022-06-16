@@ -42,7 +42,7 @@
         const timeData = [];
 
         if ( timeperiod == '30d'  ) {
-            for (let i = 0; i <accountObj.rewardsMonth?.data?.length ; i ++) {
+            for (let i = 0; i < 30 ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
                 timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
             }
@@ -56,7 +56,7 @@
         }
 
         if ( timeperiod == '52w'  ) {
-            for (let i = 0; i < accountObj.rewardsYear?.data?.length ; i ++) {
+            for (let i = 0; i < 52 ; i ++) {
                 rewardsData.push( accountObj.rewardsYear?.data[i].total)
                 timeData.push(accountObj.rewardsYear?.data[i].timestamp)
             }
