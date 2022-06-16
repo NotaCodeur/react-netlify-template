@@ -23,6 +23,7 @@ const Homepage = () => {
     rewardsMonth: [],
     rewardsYear: [],
     accountStats: [],
+    accountRolesCount: {},
     heliumStats: [],
     transactions: {
       allTransaction: [{}],
