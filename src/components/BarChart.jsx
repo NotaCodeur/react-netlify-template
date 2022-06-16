@@ -74,7 +74,7 @@
                 scales: {
                     y: {
                         stacked: false,
-                        
+                        display: false,
                         grid: {display: false},
                         
                     },
