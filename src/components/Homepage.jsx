@@ -500,7 +500,7 @@ const Homepage = () => {
             </div>
           </Card>
         </Col> */}
-        <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
           <div style={{padding: 5}}>
 
         <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} >
@@ -510,13 +510,12 @@ const Homepage = () => {
             <Row>
               <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
             </Row>
-              <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button onClick={() => setEarningsPeriod('7d') }>7d</Button><Button onClick={() => setEarningsPeriod('30d') }>30d</Button><Button onClick={() => setEarningsPeriod('52w') }>52w</Button></Row>
+              <Row><Button onClick={}>24h</Button><Button onClick={() => setEarningsPeriod('7d') }>7d</Button><Button onClick={() => setEarningsPeriod('30d') }>30d</Button><Button onClick={() => setEarningsPeriod('52w') }>52w</Button></Row>
           </div>
         </Card>
           </div>
         </Col>
-      </Row>
-      <Row gutters={[32,32]}>
+      
         {/* <Col xs={24} sm={8} lg={6}>
         <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
@@ -525,7 +524,7 @@ const Homepage = () => {
         </div>
         </Card>
       </Col> */}
-        <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
       <div style={{padding: 5}}>
         <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
