@@ -45,35 +45,19 @@ const Homepage = () => {
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
   const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
-  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {
-    skip: true
-});
+  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress = '' ? { skip: true } : hotspotAddress );
   const globalStats = data?.data?.stats;
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
-  const { data: myHotspots } = useGetHeliumHotspotsQuery(aaccountAddress, {
-    skip: true
-});
+  const { data: myHotspots } = useGetHeliumHotspotsQuery(aaccountAddress);
   const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(aaccountAddress, {
-    skip: true
-});
-  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(aaccountAddress, {
-    skip: true
-});
-  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {
-    skip: true
-});
-  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {
-    skip: true
-});
-  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {
-    skip: true
-});
-  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {
-    skip: true
-});
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(aaccountAddress);
+  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(aaccountAddress);
+  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress);
+  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress);
+  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
+  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress);
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
