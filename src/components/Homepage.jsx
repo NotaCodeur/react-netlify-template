@@ -531,7 +531,7 @@ const Homepage = () => {
       </Row>
         <br />
       <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '50%' }}>
-        <p>Transactions {accountObj?.accountRolesCount}</p>
+        <p>Transactions</p>
         <p>sent</p>
         <p>received</p>
       </div>
