@@ -59,6 +59,8 @@ const Homepage = () => {
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress);
 
+  const [earningsPeriod, setEarningsPeriod] = useState('30d');
+
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
 
   useEffect(() => {
@@ -500,9 +502,9 @@ const Homepage = () => {
             <p>Earnings 1.53 HNT $42.16</p>
              
             <Row>
-              <BarChart accountObj={accountObj} timeperiod='30d'  />
+              <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
             </Row>
-              <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
+              <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button onClick={ setEarningsPeriod('7d') }>7d</Button><Button onClick={ setEarningsPeriod('30d') }>30d</Button><Button onClick={ setEarningsPeriod('52w') }>52w</Button></Row>
           </div>
         </Card>
           </div>

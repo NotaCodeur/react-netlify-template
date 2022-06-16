@@ -48,6 +48,20 @@
             }
         }
 
+        if ( timeperiod == '7d'  ) {
+            for (let i = 0; i < 7 ; i ++) {
+                rewardsData.push( accountObj.rewardsMonth?.data[i].total)
+                timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+            }
+        }
+
+        if ( timeperiod == '52w'  ) {
+            for (let i = 0; i < accountObj.rewardsYear?.data?.length ; i ++) {
+                rewardsData.push( accountObj.rewardsYear?.data[i].total)
+                timeData.push(accountObj.rewardsYear?.data[i].timestamp)
+            }
+        }
+
         const data = {
             labels: timeData,
             datasets: [
@@ -74,7 +88,7 @@
                 scales: {
                     y: {
                         stacked: false,
-                        display: false,
+                        display: false, 
                         grid: {display: false},
                         
                     },
