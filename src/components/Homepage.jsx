@@ -59,6 +59,8 @@ const Homepage = () => {
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress);
 
+  const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
+
   useEffect(() => {
     console.log(walletInputField)
   }, [walletInputField])
@@ -542,7 +544,7 @@ const Homepage = () => {
         {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
         accountObj.accountRolesCount.data[role] > 0 ?
         <Col>
-          <Card>
+          <Card style={cardStyle}>
             <div>
               <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
             </div>
