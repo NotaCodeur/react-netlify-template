@@ -537,6 +537,17 @@ const Homepage = () => {
       </div>
       <br />
       <br />
+      <Row padding={200} gutter={[32, 32]}>
+        {accountObj.accountRolesCount.map(
+          (role >= 0) =>
+          
+           
+          <Col key={role} className="gutter-row" xs={24} sm={12} lg={8} >
+          <Card style={style}>
+          <Title align='center' level={4}>{role.value}</Title>
+          </ Card >
+          < /Col>
+          
       {/* <Title level={2} className='heading'>Global Crypto Stats</Title>
       <Row>
         <Col span={12}><Statistic title='Total Cryptocurrencies' value={globalStats.total} /></Col>
