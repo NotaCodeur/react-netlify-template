@@ -539,11 +539,11 @@ const Homepage = () => {
       <br />
       <Row padding={200} gutter={[32, 32]}>
 
-        {accountObj?.accountRolesCount?.data ? accountObj.accountRolesCount.data.map((role) => 
+        {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
         <Col>
           <Card>
             <div>
-              <p>{role.value}</p>
+              <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
             </div>
           </Card>
         </Col>
