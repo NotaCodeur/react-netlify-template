@@ -41,11 +41,12 @@ const Homepage = () => {
   const [mainButtonIsClickedFinal, setMainButtonIsClickedFinal ] = useState(false);
   const [ count, setCount ] = useState(0);
   const [ countI, setCountI ] = useState(0);
+  const [skip, setSkip] = useState(true);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
   const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
-  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress);
+  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip});
   const globalStats = data?.data?.stats;
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
@@ -82,6 +83,8 @@ const Homepage = () => {
    useEffect(() => {
     if (mainButtonIsClicked === true) {
       console.log('main button is true')
+      console.log('set skip to false')
+      setSkip(false);
       setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
       setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
