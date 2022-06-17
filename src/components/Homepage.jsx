@@ -91,10 +91,11 @@ const Homepage = () => {
   }, [payTransactionsObj])
 
   useEffect(() => {
-    if (paymentCursor != '')
-    console.log(paymentCursor)
-    setSkip2(false)
-    console.log('skip2:', skip2)
+    if (paymentCursor != '') {
+      console.log(paymentCursor)
+      setSkip2(false)
+      console.log('skip2:', skip2)
+    }
   }, [paymentCursor])
 
   useEffect(() => {
