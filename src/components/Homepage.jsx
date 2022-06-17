@@ -56,6 +56,7 @@ const Homepage = () => {
   const [ paymentCursor, setPaymentCursor ] = useState('');
   const [skip, setSkip] = useState(true);
   const [skip1, setSkip1] = useState(true);
+  const [skip2, setSkip2] = useState(true);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
@@ -74,7 +75,7 @@ const Homepage = () => {
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery(accountObj.AccountAddress, paymentCursor, {skip: skip1});
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery(accountObj.AccountAddress, paymentCursor, {skip: skip2});
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -89,7 +90,11 @@ const Homepage = () => {
     }
   }, [payTransactionsObj])
 
-  useEffect(() => {console.log(paymentCursor)}, [paymentCursor])
+  useEffect(() => {
+    console.log(paymentCursor)
+    setSkip2(false)
+    console.log('skip2:', skip2)
+  }, [paymentCursor])
 
   useEffect(() => {
     console.log(paymentCursorObj)
