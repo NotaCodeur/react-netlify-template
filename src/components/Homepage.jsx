@@ -42,6 +42,7 @@ const Homepage = () => {
   const [ count, setCount ] = useState(0);
   const [ countI, setCountI ] = useState(0);
   const [skip, setSkip] = useState(true);
+  const [skip1, setSkip1] = useState(true);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
@@ -53,12 +54,12 @@ const Homepage = () => {
   const { data: myHotspots } = useGetHeliumHotspotsQuery(aaccountAddress);
   const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(aaccountAddress);
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip1});
   const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(aaccountAddress);
-  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress);
-  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress);
-  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
-  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress);
+  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip1});
+  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip1});
+  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip1});
+  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip1});
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -94,6 +95,13 @@ const Homepage = () => {
       }
     }
   }, [mainButtonIsClicked]);
+
+  useEffect(() => {
+    if(accountObj.AccountAddress != '') {
+      setSkip1(false);
+      console.log('set skip1 false')
+    }
+  }, [accountObj.AccountAddress])
 
   useEffect(() => {
     if (myHotspotData != '') {
