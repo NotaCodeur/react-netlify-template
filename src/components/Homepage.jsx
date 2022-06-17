@@ -96,7 +96,7 @@ const Homepage = () => {
     }
     if (paymentCursorObj.data.length) {
       console.log(paymentCursorObj.data);
-      ley array = accountObj.transactions.paymentTransactions;
+      let array = accountObj.transactions.paymentTransactions;
       array.push(paymentCursorObj.data)
       setAccountObj(accountObj => ( {...accountObj, transactions: {...transactions, paymentTransactions: array } } ) );
       
