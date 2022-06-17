@@ -83,8 +83,7 @@ const Homepage = () => {
    useEffect(() => {
     if (mainButtonIsClicked === true) {
       console.log('main button is true')
-      console.log('set skip to false')
-      setSkip(false);
+      
       setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
       setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
@@ -181,6 +180,11 @@ const Homepage = () => {
     }
   }, 2000)
   }, [accountObj.hotspots, count])
+
+  useEffect(() => {
+    console.log('set skip to false')
+      setSkip(false);
+  }, [hotspotAddress])
 
   useEffect(() => {
     let index = count -1;
