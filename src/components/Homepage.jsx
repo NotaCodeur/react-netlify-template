@@ -94,7 +94,7 @@ const Homepage = () => {
       console.log(paymentCursorObj.cursor);
       setPaymentCursor(paymentCursorObj.cursor);
     }
-    if (paymentCursorObj.data.length) {
+    if (paymentCursorObj?.data?.length) {
       console.log(paymentCursorObj.data);
       let array = accountObj.transactions.paymentTransactions;
       array.push(paymentCursorObj.data)
