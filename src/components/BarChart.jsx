@@ -40,11 +40,13 @@
 
         const rewardsData = [];
         const timeData = [];
+        const emptyLabels = [];
 
         if ( timeperiod == '30d' && accountObj.rewardsMonth.data ) {
             for (let i = 0; i < 30 ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
                 timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+                emptyLabels.push('')
             }
         }
 
@@ -52,6 +54,7 @@
             for (let i = 0; i < 7 ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
                 timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+                emptyLabels.push('')
             }
         }
 
@@ -59,11 +62,12 @@
             for (let i = 0; i < 52 ; i ++) {
                 rewardsData.push( accountObj.rewardsYear?.data[i].total)
                 timeData.push(accountObj.rewardsYear?.data[i].timestamp)
+                emptyLabels.push('')
             }
         }
 
         const data = {
-            labels: [''],
+            labels: emptyLabels,
             datasets: [
                 {   
                     label: timeData,
