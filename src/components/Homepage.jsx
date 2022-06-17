@@ -54,12 +54,12 @@ const Homepage = () => {
   const { data: myHotspots } = useGetHeliumHotspotsQuery(aaccountAddress);
   const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip1});
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(aaccountAddress);
-  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip1});
-  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip1});
-  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip1});
-  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip1});
+  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -97,7 +97,7 @@ const Homepage = () => {
   }, [mainButtonIsClicked]);
 
   useEffect(() => {
-    if(accountObj.AccountAddress != '') {
+    if(accountObj.AccountAddress != '' && skip1 == true) {
       setSkip1(false);
       console.log('set skip1 false')
     }
@@ -190,7 +190,7 @@ const Homepage = () => {
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
-    if(hotspotAddress != '') {
+    if(hotspotAddress != '' && skip == true) {
       console.log('set skip to false')
       setSkip(false);
     }
