@@ -83,7 +83,8 @@ const Homepage = () => {
 
   useEffect(() => {
     if (payTransactionsObj.cursor) {
-      console.log({payTransactionsObj.cursor})
+      console.log(payTransactionsObj)
+      console.log(payTransactionsObj.cursor)
       setPaymentCursor(payTransactionsObj.cursor)
     }
   }, [payTransactionsObj])
