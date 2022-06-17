@@ -94,6 +94,7 @@
                     },
                     x: {
                         beginAtZero: true,
+                        display: false, 
                         stacked: false,
                         grid: {display: false},
 
