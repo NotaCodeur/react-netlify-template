@@ -5,7 +5,18 @@ import { Link } from 'react-router-dom';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { Cryptocurrencies, News } from '../components';
-import { useGetHeliumHotspotsRewardsAllTimeQuery, useGetHeliumHotspotsQuery, useGetHeliumAccountRewardsAllTimeQuery, useGetHeliumAccountRewardsWeekQuery, useGetHeliumAccountRewardsMonthQuery, useGetHeliumAccountRewardsYearQuery, useGetHeliumAccountStatsQuery, useGetHeliumAccountRolesCountQuery } from '../services/heliumApi';
+import { 
+  useGetHeliumHotspotsRewardsAllTimeQuery, 
+  useGetHeliumHotspotsQuery, 
+  useGetHeliumAccountRewardsAllTimeQuery, 
+  useGetHeliumAccountRewardsWeekQuery, 
+  useGetHeliumAccountRewardsMonthQuery, 
+  useGetHeliumAccountRewardsYearQuery, 
+  useGetHeliumAccountStatsQuery, 
+  useGetHeliumAccountRolesCountQuery, 
+  useGetHeliumAccountRolesPayTransactionsQuery, 
+  useGetHeliumAccountRolesCursorQuery 
+} from '../services/heliumApi';
 
 import BarChart from './BarChart';
 import BarChart2 from './BarChart2';
@@ -27,7 +38,7 @@ const Homepage = () => {
     heliumStats: [],
     transactions: {
       allTransaction: [{}],
-      ownerTransaction: [{}],
+      paymentTransactions: [],
       payeeTransactions: [{}],
     },
   });
@@ -41,6 +52,8 @@ const Homepage = () => {
   const [mainButtonIsClickedFinal, setMainButtonIsClickedFinal ] = useState(false);
   const [ count, setCount ] = useState(0);
   const [ countI, setCountI ] = useState(0);
+
+  const [ paymentCursor, setPaymentCursor ] = useState('');
   const [skip, setSkip] = useState(true);
   const [skip1, setSkip1] = useState(true);
 
@@ -60,11 +73,35 @@ const Homepage = () => {
   const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, paymentCursor, {skip: skip1});
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
+
+  useEffect(() => {
+    if (payTransactionsObj.cursor) {
+      console.log({payTransactionsObj.cursor})
+      setPaymentCursor(payTransactionsObj.cursor)
+    }
+  }, [payTransactionsObj])
+
+  useEffect(() => {
+    if(paymentCursorObj.cursor) {
+      console.log(paymentCursorObj.cursor);
+      setPaymentCursor(paymentCursorObj.cursor);
+    }
+    if (paymentCursorObj.data.length) {
+      console.log(paymentCursorObj.data);
+      ley array = accountObj.transactions.paymentTransactions;
+      array.push(paymentCursorObj.data)
+      setAccountObj(accountObj => ( {...accountObj, transactions: {...transactions, paymentTransactions: array } } ) );
+      
+    }
+  }, [paymentCursorObj])
+
 
   useEffect(() => {
     console.log(walletInputField)

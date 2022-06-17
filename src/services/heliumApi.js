@@ -64,6 +64,12 @@ export const heliumApi = createApi({
         getHeliumAccountRolesCount: builder.query({
             query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/roles/count`)
         }),
+        getHeliumAccountRolesPayTransactions: builder.query({
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/roles/?filter_types=payment_v1%2Cpayment_v2`)
+        }),
+        getHeliumAccountRolesCursor: builder.query({
+            query: (AccountAddress, paymentCursor) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/roles/?cursor=${paymentCursor}`)
+        }),
 
     })
 })
@@ -79,5 +85,7 @@ export const {
     useGetHeliumHotspotsRewardsMonthQuery, 
     useGetHeliumAccountActivityPaymentQuery,
     useGetHeliumAccountStatsQuery, 
-    useGetHeliumAccountRolesCountQuery 
+    useGetHeliumAccountRolesCountQuery, 
+    useGetHeliumAccountRolesPayTransactionsQuery, 
+    useGetHeliumAccountRolesCursorQuery 
 } = heliumApi;
