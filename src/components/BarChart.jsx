@@ -70,7 +70,7 @@
             labels: emptyLabels,
             datasets: [
                 {   
-                    label: timeData,
+                    label: 'HNT:',
                     barThickness: 15,
                     // barPercentage: 0.3,
                     data: rewardsData,
