@@ -187,7 +187,7 @@ const Homepage = () => {
       setCount(0);
       console.log(' if count -1 == hotspots.length => setCount(0)');
     }
-  }, 2000)
+  }, 1000)
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
