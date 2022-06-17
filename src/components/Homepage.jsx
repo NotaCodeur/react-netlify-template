@@ -88,11 +88,12 @@ const Homepage = () => {
       setPaymentCursor(payTransactionsObj.cursor)
     }
   }, [payTransactionsObj])
+  useEffect(() => {console.log(paymentCursor)}, [paymentCursor])
 
   useEffect(() => {
     if(paymentCursorObj != null) {
       console.log(paymentCursorObj.cursor);
-      if (paymentCursorObj?.data?.length) {
+      if (paymentCursorObj?.data?.length > 0) {
         console.log(paymentCursorObj.data);
         let array = accountObj.transactions.paymentTransactions;
         array.push(paymentCursorObj.data)
