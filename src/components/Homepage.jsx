@@ -83,7 +83,7 @@ const Homepage = () => {
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
   useEffect(() => {
-    if (payTransactionsObj != null && payTransactionsObj.data.address != 'roles' ) {
+    if (payTransactionsObj != null && payTransactionsObj.data.address != 'roles' && skip2 == false ) {
 
       console.log(payTransactionsObj)
       console.log(payTransactionsObj.cursor)
