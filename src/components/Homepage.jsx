@@ -92,14 +92,14 @@ const Homepage = () => {
   useEffect(() => {
     if(paymentCursorObj != null) {
       console.log(paymentCursorObj.cursor);
+      if (paymentCursorObj?.data?.length) {
+        console.log(paymentCursorObj.data);
+        let array = accountObj.transactions.paymentTransactions;
+        array.push(paymentCursorObj.data)
+        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array } } ) );
+        
+      }
       setPaymentCursor(paymentCursorObj.cursor);
-    }
-    if (paymentCursorObj?.data?.length) {
-      console.log(paymentCursorObj.data);
-      let array = accountObj.transactions.paymentTransactions;
-      array.push(paymentCursorObj.data)
-      setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array } } ) );
-      
     }
   }, [paymentCursorObj])
 
