@@ -63,7 +63,7 @@
         }
 
         const data = {
-            labels: [],
+            labels: [''],
             datasets: [
                 {   
                     label: timeData,
@@ -97,6 +97,9 @@
                         display: false, 
                         stacked: false,
                         grid: {display: false},
+                        ticks: {
+                            display: false //this will remove only the label
+                        }
 
                     },
                 },
