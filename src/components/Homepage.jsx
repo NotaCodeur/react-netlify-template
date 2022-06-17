@@ -190,8 +190,10 @@ const Homepage = () => {
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
-    console.log('set skip to false')
+    if(hotspotAddress != '') {
+      console.log('set skip to false')
       setSkip(false);
+    }
   }, [hotspotAddress])
 
   useEffect(() => {
