@@ -82,7 +82,7 @@ const Homepage = () => {
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
   useEffect(() => {
-    if (payTransactionsObj.cursor) {
+    if (payTransactionsObj != null) {
       console.log(payTransactionsObj)
       console.log(payTransactionsObj.cursor)
       setPaymentCursor(payTransactionsObj.cursor)
@@ -90,7 +90,7 @@ const Homepage = () => {
   }, [payTransactionsObj])
 
   useEffect(() => {
-    if(paymentCursorObj.cursor) {
+    if(paymentCursorObj != null) {
       console.log(paymentCursorObj.cursor);
       setPaymentCursor(paymentCursorObj.cursor);
     }
