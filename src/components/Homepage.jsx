@@ -98,7 +98,7 @@ const Homepage = () => {
       console.log(paymentCursorObj.data);
       let array = accountObj.transactions.paymentTransactions;
       array.push(paymentCursorObj.data)
-      setAccountObj(accountObj => ( {...accountObj, transactions: {...transactions, paymentTransactions: array } } ) );
+      setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array } } ) );
       
     }
   }, [paymentCursorObj])
