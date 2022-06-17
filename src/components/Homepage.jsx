@@ -83,19 +83,20 @@ const Homepage = () => {
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
   useEffect(() => {
-    if (payTransactionsObj != null ) {
+    if (payTransactionsObj != null && payTransactionsObj.data.address != 'roles' ) {
+
       console.log(payTransactionsObj)
       console.log(payTransactionsObj.cursor)
-      setPaymentCursor(payTransactionsObj.cursor)
+      if (paymentCursor != '') {
+        setSkip2(false)
+        console.log('skip2:', skip2)
+        setPaymentCursor(payTransactionsObj.cursor)
+      }
     }
   }, [payTransactionsObj])
-
+  
   useEffect(() => {
-    if (paymentCursor != '') {
-      console.log(paymentCursor)
-      setSkip2(false)
-      console.log('skip2:', skip2)
-    }
+    console.log(paymentCursor)
   }, [paymentCursor])
 
   useEffect(() => {
