@@ -93,7 +93,7 @@ const Homepage = () => {
 
   useEffect(() => {
     console.log(paymentCursorObj)
-    if(paymentCursorObj != null) {
+    if(paymentCursorObj != payTransactionsObj) {
       console.log(paymentCursorObj.cursor);
       if (paymentCursorObj?.data?.length > 0) {
         console.log(paymentCursorObj.data);
