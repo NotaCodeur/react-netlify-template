@@ -51,11 +51,11 @@ const Homepage = () => {
   const globalStats = data?.data?.stats;
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
-  const { data: myHotspots } = useGetHeliumHotspotsQuery(aaccountAddress);
+  const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress, {skip: skip1});
   const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
   const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(aaccountAddress);
+  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
@@ -64,6 +64,7 @@ const Homepage = () => {
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
+  const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
   useEffect(() => {
     console.log(walletInputField)
@@ -520,16 +521,16 @@ const Homepage = () => {
         <Col xs={24} sm={24} lg={12} type="flex" align="middle">
           <div style={{padding: 5}}>
 
-        <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} >
-          <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
-            <p>Earnings 1.53 HNT $42.16</p>
-             
-            <Row>
-              <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
-            </Row>
-              <Row><Button>24h</Button> <Button onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
-          </div>
-        </Card>
+            <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} >
+              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
+                <p>Earnings 1.53 HNT $42.16</p>
+                
+                <Row>
+                  <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
+                </Row>
+                <Row><Button style={buttonStyle}>24h</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
+              </div>
+            </Card>
           </div>
         </Col>
       
@@ -540,26 +541,25 @@ const Homepage = () => {
         <p>{accountObj?.hotspots?.length}</p>
         </div>
         </Card>
-      </Col> */}
+        </Col> */}
         <Col xs={24} sm={24} lg={12} type="flex" align="middle">
-      <div style={{padding: 5}}>
-        <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
-        <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-          <Row>
-            <BarChart2 accountObj={accountObj}  />
-          </Row>
-          <Row><Button>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
-          <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
-        </div>
-        </Card>
-        </div>  
+          <div style={{padding: 5}}>
+            <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
+              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+                <Row>
+                  <BarChart2 accountObj={accountObj}  />
+                </Row>
+                <Row><Button style={buttonStyle}>24h</Button><Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
+                <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
+              </div>
+            </Card>
+          </div>  
         </Col>
       </Row>
-        <br />
-      <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '50%' }}>
+      <br />
+      <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '99%' }}>
         <p>Transactions</p>
-        <p>sent</p>
-        <p>received</p>
+
       </div>
       <br />
       <br />
