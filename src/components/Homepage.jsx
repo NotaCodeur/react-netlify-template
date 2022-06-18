@@ -100,7 +100,7 @@ const Homepage = () => {
   }, [paymentCursor])
 
   useEffect(() => {
-    if(paymentCursorObj !== undefined) {
+    if(paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
       console.log(paymentCursorObj)
       console.log(paymentCursorObj.cursor);
       if (paymentCursorObj?.data?.length > 0) {
