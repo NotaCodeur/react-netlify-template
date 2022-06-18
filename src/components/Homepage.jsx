@@ -75,7 +75,7 @@ const Homepage = () => {
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery(accountObj.AccountAddress, paymentCursor, {skip: skip2});
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery(accountObj.AccountAddress, paymentCursor, {skip: skip});
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
