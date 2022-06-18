@@ -75,7 +75,7 @@ const Homepage = () => {
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery(accountObj.AccountAddress, paymentCursor, {skip: skip});
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery(accountObj.AccountAddress, paymentCursor, {skip: skip2});
 
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -100,8 +100,8 @@ const Homepage = () => {
   }, [paymentCursor])
 
   useEffect(() => {
-    console.log(paymentCursorObj)
-    if(paymentCursorObj != payTransactionsObj) {
+    if(paymentCursorObj !== undefined) {
+      console.log(paymentCursorObj)
       console.log(paymentCursorObj.cursor);
       if (paymentCursorObj?.data?.length > 0) {
         console.log(paymentCursorObj.data);
