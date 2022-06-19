@@ -102,7 +102,7 @@ const Homepage = () => {
   useEffect(() => {
     if (paymentCursor !== undefined && paymentCursor !== '') {
       console.log(paymentCursor)
-      setSkip2(prev => false )
+      setSkip2(prev => prev = false )
       console.log('skip2:', skip2)
     }
   }, [paymentCursor])
