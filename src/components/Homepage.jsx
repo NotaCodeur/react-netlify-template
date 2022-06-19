@@ -109,7 +109,8 @@ const Homepage = () => {
           console.log('skip2:', skip2)
         }
       }
-    }, 1500)
+      
+    }, 2000)
   }, [paymentCursor])
 
   useEffect(() => {
