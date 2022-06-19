@@ -128,7 +128,7 @@ const Homepage = () => {
         
       }
 
-      If (paymentCursorObj.cursor !== undefined ) {
+      if (paymentCursorObj.cursor !== undefined ) {
 
         setTimeout(() => {
           setPaymentCursor(paymentCursorObj.cursor);
