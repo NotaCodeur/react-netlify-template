@@ -120,7 +120,10 @@ const Homepage = () => {
       if (paymentCursorObj?.data?.length > 0) {
         console.log(paymentCursorObj.data);
         let array = accountObj.transactions.paymentTransactions;
-        array.push(paymentCursorObj.data)
+        for (let i = 0; i < paymentCursorObj.data.length; i ++) {
+
+          array.push(paymentCursorObj.data[i])
+        }
         setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );
         
       }
