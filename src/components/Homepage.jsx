@@ -88,7 +88,7 @@ const Homepage = () => {
 
       console.log(payTransactionsObj)
       console.log(payTransactionsObj.cursor)
-      setSkip2(false)
+      setSkip2(prev => false )
       console.log('skip2:', skip2)
       setPaymentCursor(payTransactionsObj.cursor)
       // if (paymentCursor !== '') {
