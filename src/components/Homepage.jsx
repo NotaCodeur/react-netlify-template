@@ -128,7 +128,7 @@ const Homepage = () => {
         
         setTimeout(() => {
           setPaymentCursor(paymentCursorObj.cursor);
-        }, 2000)
+        }, 500)
       }
     }
   }, [paymentCursorObj])
