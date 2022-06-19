@@ -104,8 +104,10 @@ const Homepage = () => {
 
       if (paymentCursor !== undefined && paymentCursor !== '') {
         console.log(paymentCursor)
-        setSkip2(prev => prev = false )
-        console.log('skip2:', skip2)
+        if (skip2 === true) {
+          setSkip2(prev => prev = false )
+          console.log('skip2:', skip2)
+        }
       }
     }, 1500)
   }, [paymentCursor])
