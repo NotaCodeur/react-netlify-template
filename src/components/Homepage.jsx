@@ -83,21 +83,28 @@ const Homepage = () => {
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
+
+  // to get transactions we need to use Helium api /roles
+  // /roles?filert_types= gives us an object with a cursor to loop through the results
+  // ever cursor obj has another cursor obj till the last result, which has no cursor
+
+  // first result we store in obj, take the cursor in another obj, then useQuery(.... , cursor)
+  // then we take cursorResult.cursor to set the new cursor and the loop begins     
   useEffect(() => {
     if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles' ) {
 
       console.log(payTransactionsObj)
       console.log(payTransactionsObj.cursor)
-      setSkip2(prev => false )
-      console.log('skip2:', skip2)
       setPaymentCursor(payTransactionsObj.cursor)
-      // if (paymentCursor !== '') {
-      // }
     }
   }, [payTransactionsObj])
   
   useEffect(() => {
-    console.log(paymentCursor)
+    if (paymentCursor !== undefined && paymentCursor !== '') {
+      console.log(paymentCursor)
+      setSkip2(prev => false )
+      console.log('skip2:', skip2)
+    }
   }, [paymentCursor])
 
   useEffect(() => {
