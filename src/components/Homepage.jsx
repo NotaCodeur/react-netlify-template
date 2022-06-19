@@ -100,11 +100,14 @@ const Homepage = () => {
   }, [payTransactionsObj])
   
   useEffect(() => {
-    if (paymentCursor !== undefined && paymentCursor !== '') {
-      console.log(paymentCursor)
-      setSkip2(prev => prev = false )
-      console.log('skip2:', skip2)
-    }
+    setTimeout(() => {
+
+      if (paymentCursor !== undefined && paymentCursor !== '') {
+        console.log(paymentCursor)
+        setSkip2(prev => prev = false )
+        console.log('skip2:', skip2)
+      }
+    }, 1500)
   }, [paymentCursor])
 
   useEffect(() => {
