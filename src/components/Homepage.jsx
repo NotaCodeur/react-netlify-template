@@ -126,6 +126,10 @@ const Homepage = () => {
         }
         setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );
         
+      }
+
+      If (paymentCursorObj.cursor !== undefined ) {
+
         setTimeout(() => {
           setPaymentCursor(paymentCursorObj.cursor);
         }, 500)
