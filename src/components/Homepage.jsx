@@ -75,7 +75,7 @@ const Homepage = () => {
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({accountObj.AccountAddress, paymentCursor},  {skip: skip2});
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({address: accountObj.AccountAddress, cursor: paymentCursor},  {skip: skip2});
 // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
   
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
