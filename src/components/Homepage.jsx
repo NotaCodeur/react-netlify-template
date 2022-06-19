@@ -126,10 +126,10 @@ const Homepage = () => {
         }
         setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );
         
+        setTimeout(() => {
+          setPaymentCursor(paymentCursorObj.cursor);
+        }, 2000)
       }
-      setTimeout(() => {
-        setPaymentCursor(paymentCursorObj.cursor);
-      }, 2000)
     }
   }, [paymentCursorObj])
 
