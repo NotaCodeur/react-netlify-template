@@ -109,7 +109,7 @@ const Homepage = () => {
           console.log('skip2:', skip2)
         }
       }
-      
+
     }, 2000)
   }, [paymentCursor])
 
@@ -124,7 +124,9 @@ const Homepage = () => {
         setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array } } ) );
         
       }
-      setPaymentCursor(paymentCursorObj.cursor);
+      setTimeout(() => {
+        setPaymentCursor(paymentCursorObj.cursor);
+      }, 2000)
     }
   }, [paymentCursorObj])
 
