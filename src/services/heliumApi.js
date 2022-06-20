@@ -90,5 +90,6 @@ export const {
     useGetHeliumAccountStatsQuery, 
     useGetHeliumAccountRolesCountQuery, 
     useGetHeliumAccountRolesPayTransactionsQuery, 
-    useGetHeliumAccountRolesCursorQuery 
+    useGetHeliumAccountRolesCursorQuery,
+    useGetHeliumTransactionHashQuery 
 } = heliumApi;

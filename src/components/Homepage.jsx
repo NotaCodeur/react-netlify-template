@@ -15,7 +15,8 @@ import {
   useGetHeliumAccountStatsQuery, 
   useGetHeliumAccountRolesCountQuery, 
   useGetHeliumAccountRolesPayTransactionsQuery, 
-  useGetHeliumAccountRolesCursorQuery 
+  useGetHeliumAccountRolesCursorQuery,
+  useGetHeliumTransactionHashQuery 
 } from '../services/heliumApi';
 
 import BarChart from './BarChart';
@@ -77,6 +78,8 @@ const Homepage = () => {
   const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({address: accountObj.AccountAddress, cursor: paymentCursor},  {skip: skip2});
 // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
+const [ hash, setHash ] = useState('');
+const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, skip);
   
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -260,7 +263,6 @@ const Homepage = () => {
   
   useEffect(() => {
     setTimeout(() => {
-
       if (paymentCursor !== undefined && paymentCursor !== '') {
         console.log(paymentCursor)
         if (skip2 === true) {
@@ -268,7 +270,6 @@ const Homepage = () => {
           console.log('skip2:', skip2)
         }
       }
-
     }, 2000)
   }, [paymentCursor])
 
@@ -280,21 +281,38 @@ const Homepage = () => {
         console.log(paymentCursorObj.data);
         let array = accountObj.transactions.paymentTransactions;
         for (let i = 0; i < paymentCursorObj.data.length; i ++) {
-
           array.push(paymentCursorObj.data[i])
         }
-        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );
-        
+        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );  
+        setHash(paymentCursorObj.data.hash)  
       }
-
       if (paymentCursorObj.cursor !== undefined ) {
-
         setTimeout(() => {
           setPaymentCursor(paymentCursorObj.cursor);
         }, 500)
       }
     }
   }, [paymentCursorObj])
+  
+
+  // here comes a loop to get transactions for each hash in the paymentTransactions
+  // when there is a transaction -> setHash()
+  // *fetching transactionData* 
+  // setAccountObj( paymentTransactions: [ ...paymentTransactions, transactions[i]: {...transaction[i], data: transactionData.data} ])
+ 
+  useEffect(() => {
+    if (transactionsData !== undefined) {
+      console.log(transactionsData)
+      let i = accountObj.transactions.paymentTransactions.filter(transactionsData.data?.hash);
+      let array = [];
+      array = accountObj.transactions.paymentTransactions;
+      array = [...array, array[i]: {...array[i], data: transactionsData.data}]
+      setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array} } ) );
+      // setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [ ...accountObj.transactions.paymentTransactions, accountObj.transactions.paymentTransactions[i]: {...accountObj.transactions.paymentTransactions[i], data: transactionData.data} ]}}))
+  
+    }
+  }, [transactionsData])
+  
 
 
   const earnButtons = () => {
