@@ -1,17 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const heliumHeaders = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+    
+    // 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
     // 'Access-Control-Allow-Origin': '*',
     // 'Access-Control-Allow-Headers': '*',
-    'access-control-request-headers': 'content-type',
+    // 'access-control-request-headers': 'content-type',
     // 'access-control-allow-headers': ['Origin','Content-Type','Accept'],
-    'access-control-request-method': 'GET',
+    // 'access-control-request-method': 'GET',
     // 'access-control-allow-origin': '*',
     // 'sec-fetch-mode': 'no-cors',
-    'host': 'https://api.helium.io',
+    // 'host': 'https://api.helium.io',
     // 'authority': 'ugxlyxnlrg9udfdyzwnrvghlu2vydmvycg.blockjoy.com'
-    'origin': 'http://localhost:3000',
+    // 'origin': 'http://localhost:3000',
     // "Content-Type": "application/json",
     
 
@@ -20,7 +21,10 @@ const heliumHeaders = {
 
 const createRequest = (url) => ({ url, headers: heliumHeaders })
 // https://api.allorigins.win/raw?url=
-const baseUrl = 'https://api.helium.io';
+// https://thingproxy.freeboard.io/fetch/https://api.helium.io
+// ? 404 : 'https://api.allorigins.win/raw?url=https://api.helium.io'
+// ../netlify/functions
+const baseUrl = '/.netlify/functions'  ;
 
 export const heliumApi = createApi({
     reducerPath: 'heliumApi',
@@ -28,31 +32,46 @@ export const heliumApi = createApi({
 
     endpoints: (builder) => ({
         getHeliumSupply: builder.query({
-            query: () => createRequest(`/v1/stats/token_supply?format=raw`),
+            query: () => createRequest(`/hotspots?search=/v1/stats/token_supply?format=raw`),
         }),
         getHeliumHotspots: builder.query({
-            query: (myAddress) => createRequest(`/v1/accounts/${myAddress}/hotspots`),
+            query: (myAddress) => createRequest(`/hotspots?search=/v1/accounts/${myAddress}/hotspots`),
         }),
         getHeliumAccountRewardsAllTime: builder.query({
-            query: (AccountAddress ) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`)
+            query: (AccountAddress ) => createRequest(`/hotspotsAllTime?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
         getHeliumAccountRewardsWeek: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day&bucket=day`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/rewards/sum?min_time=-7%20day`)
         }),
         getHeliumAccountRewardsMonth: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-30%20day&bucket=day`)
+            query: (AccountAddress) => createRequest(`/hotspotsMonth?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
         getHeliumAccountRewardsYear: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/rewards/sum?min_time=-52%20week&bucket=week`)
+            query: (AccountAddress) => createRequest(`/hotspotsYear?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
         getHeliumHotspotsRewardsAllTime: builder.query({
-            query: (HotspotAddress) => createRequest(`/v1/hotspots/${HotspotAddress}/rewards/sum?min_time=2020-01-27T00:00:00Z`),
+            query: (HotspotAddress) => createRequest(`/hotspotsAllTime?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
+        }),
+        getHeliumHotspotsRewardsMonth: builder.query({
+            query: (HotspotAddress) => createRequest(`/hotspotsMonth?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
         }),
         getHeliumAccountActivityPayment: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/activity?min_time=2020-01-27T00:00:00Z&filter_types=rewards_v2`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/activity?min_time=2020-01-27T00:00:00Z&filter_types=rewards_v2`)
         }),
         getHeliumAccountStats: builder.query({
-            query: (AccountAddress) => createRequest(`/v1/accounts/${AccountAddress}/stats`)
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/stats`)
+        }),
+        getHeliumAccountRolesCount: builder.query({
+            query: (AccountAddress) => createRequest(`/hotspots?search=/v1/accounts/${AccountAddress}/roles/count`)
+        }),
+        getHeliumAccountRolesPayTransactions: builder.query({
+            query: (AccountAddress) => createRequest(`/hotspotsPayCursor?search=/v1/accounts/${AccountAddress}/roles?filter_types=payment_v1%2Cpayment_v2`)
+        }),
+        getHeliumAccountRolesCursor: builder.query({
+            query: ({address: AccountAddress, cursor: paymentCursor}) => createRequest(`/hotspotsPayCursor?search=/v1/accounts/${AccountAddress}/roles?cursor=${paymentCursor}`)
+        }),
+        getHeliumTransactionHash: builder.query({
+            query: (hash) => createRequest(`/hotspotsPayCursor?search=/v1/transactions/${hash}`)
         }),
 
     })
@@ -66,6 +85,11 @@ export const {
     useGetHeliumAccountRewardsMonthQuery, 
     useGetHeliumAccountRewardsYearQuery, 
     useGetHeliumHotspotsRewardsAllTimeQuery, 
+    useGetHeliumHotspotsRewardsMonthQuery, 
     useGetHeliumAccountActivityPaymentQuery,
-    useGetHeliumAccountStatsQuery 
+    useGetHeliumAccountStatsQuery, 
+    useGetHeliumAccountRolesCountQuery, 
+    useGetHeliumAccountRolesPayTransactionsQuery, 
+    useGetHeliumAccountRolesCursorQuery,
+    useGetHeliumTransactionHashQuery 
 } = heliumApi;
