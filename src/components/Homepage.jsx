@@ -636,7 +636,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                   <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
                 </Row>
                 <br />
-                <Row align="middle"><Button style={buttonStyle}>24h</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
+                <Row justify="space-around" align="middle"><Button style={buttonStyle}>24h</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
               </div>
             </Card>
           </div>
@@ -658,7 +658,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                   <BarChart2 accountObj={accountObj}  />
                 </Row>
                 <br />
-                <Row align="middle"><Button style={buttonStyle}>24h</Button><Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
+                <Row justify="space-around" align="middle"><Button style={buttonStyle}>24h</Button><Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
                 <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
               </div>
             </Card>
