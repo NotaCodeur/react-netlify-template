@@ -301,7 +301,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   useEffect(() => {
     if (accountObj.transactions.paymentTransactions.length) {
      for (let i = 0; i < accountObj.transactions.paymentTransactions.length; i ++) {
-      if (!accountObj.transactions.paymentTransactions[i].data) {
+      if (!accountObj.transactions.paymentTransactions[i].data.length) {
         console.log('!data')
         setHash(prev => prev = accountObj.transactions.paymentTransactions[i].hash)
       } 
