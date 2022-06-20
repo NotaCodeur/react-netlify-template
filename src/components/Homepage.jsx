@@ -257,7 +257,6 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
     if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles' ) {
 
       console.log(payTransactionsObj)
-      console.log(payTransactionsObj.cursor)
       setPaymentCursor(payTransactionsObj.cursor)
     }
   }, [payTransactionsObj])
@@ -265,7 +264,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   useEffect(() => {
     setTimeout(() => {
       if (paymentCursor !== undefined && paymentCursor !== '') {
-        console.log(paymentCursor)
+        console.log('paymentCursor: ', paymentCursor)
         if (skip2 === true) {
           setSkip2(prev => prev = false )
           console.log('skip2:', skip2)
@@ -276,10 +275,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
 
   useEffect(() => {
     if(paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
-      console.log(paymentCursorObj)
-      console.log(paymentCursorObj.cursor);
+      console.log('paymentCursorObj: ', paymentCursorObj)
       if (paymentCursorObj?.data?.length > 0) {
-        console.log(paymentCursorObj.data);
         let array = accountObj.transactions.paymentTransactions;
         for (let i = 0; i < paymentCursorObj.data.length; i ++) {
           array.push(paymentCursorObj.data[i])
@@ -290,7 +287,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
       if (paymentCursorObj.cursor !== undefined ) {
         setTimeout(() => {
           setPaymentCursor(paymentCursorObj.cursor);
-        }, 500)
+        }, 1000)
       }
     }
   }, [paymentCursorObj])
@@ -303,6 +300,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
  
   useEffect(() => {
     if (hash !== '' && hash !== undefined && skip3 === true) {
+      console.log('hash changed, skip3: ', skip3 )
       setSkip3(prev => prev = false)
     }
   }, [hash])
