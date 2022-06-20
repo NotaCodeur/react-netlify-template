@@ -282,7 +282,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
           array.push(paymentCursorObj.data[i])
         }
         setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );  
-        setHash(paymentCursorObj.data.hash)  
+        // setHash(paymentCursorObj.data.hash)  
       }
       if (paymentCursorObj.cursor !== undefined ) {
         setTimeout(() => {
@@ -298,6 +298,17 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   // *fetching transactionData* 
   // setAccountObj( paymentTransactions: [ ...paymentTransactions, transactions[i]: {...transaction[i], data: transactionData.data} ])
  
+  useEffect(() => {
+    if (accountObj.transactions.paymentTransactions.length) {
+     for (i = 0; i < accountObj.transactions.paymentTransactions.length; i ++) {
+      if (!accountObj.transactions.paymentTransactions[i].data) {
+        console.log('!data')
+        setHash(prev => prev = accountObj.transactions.paymentTransactions[i].hash)
+      } 
+     } 
+    }
+  }, [accountObj.transactions.paymentTransactions])
+
   useEffect(() => {
     if (hash !== '' && hash !== undefined && skip3 === true) {
       console.log('hash changed, skip3: ', skip3 )
