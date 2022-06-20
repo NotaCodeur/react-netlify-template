@@ -681,7 +681,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
             <Card style={cardStyle}>
               <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
                 <Collapse ghost>
-                  <Panel header={'transactions: ' (accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1 )}>
+                  <Panel header={`transactions:  ${(accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1)} `}>
                     {accountObj.transactions.paymentTransactions.map((transaction) => 
                       <Card>
                         <Collapse ghost>
