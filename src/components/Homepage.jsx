@@ -58,6 +58,7 @@ const Homepage = () => {
   const [skip, setSkip] = useState(true);
   const [skip1, setSkip1] = useState(true);
   const [skip2, setSkip2] = useState(true);
+  const [skip3, setSkip3] = useState(true);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
@@ -79,7 +80,7 @@ const Homepage = () => {
   const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({address: accountObj.AccountAddress, cursor: paymentCursor},  {skip: skip2});
 // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
 const [ hash, setHash ] = useState('');
-const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, skip);
+const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip: skip3});
   
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -300,6 +301,12 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, skip);
   // *fetching transactionData* 
   // setAccountObj( paymentTransactions: [ ...paymentTransactions, transactions[i]: {...transaction[i], data: transactionData.data} ])
  
+  useEffect(() => {
+    if (hash !== '' && hash !== undefined && skip3 === true) {
+      setSkip3(prev => prev = false)
+    }
+  }, [hash])
+
   useEffect(() => {
     if (transactionsData !== undefined) {
       console.log(transactionsData)
