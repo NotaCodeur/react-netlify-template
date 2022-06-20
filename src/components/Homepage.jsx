@@ -84,58 +84,6 @@ const Homepage = () => {
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
 
-  // to get transactions we need to use Helium api /roles
-  // /roles?filert_types= gives us an object with a cursor to loop through the results
-  // ever cursor obj has another cursor obj till the last result, which has no cursor
-
-  // first result we store in obj, take the cursor in another obj, then useQuery(.... , cursor)
-  // then we take cursorResult.cursor to set the new cursor and the loop begins     
-  useEffect(() => {
-    if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles' ) {
-
-      console.log(payTransactionsObj)
-      console.log(payTransactionsObj.cursor)
-      setPaymentCursor(payTransactionsObj.cursor)
-    }
-  }, [payTransactionsObj])
-  
-  useEffect(() => {
-    setTimeout(() => {
-
-      if (paymentCursor !== undefined && paymentCursor !== '') {
-        console.log(paymentCursor)
-        if (skip2 === true) {
-          setSkip2(prev => prev = false )
-          console.log('skip2:', skip2)
-        }
-      }
-
-    }, 2000)
-  }, [paymentCursor])
-
-  useEffect(() => {
-    if(paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
-      console.log(paymentCursorObj)
-      console.log(paymentCursorObj.cursor);
-      if (paymentCursorObj?.data?.length > 0) {
-        console.log(paymentCursorObj.data);
-        let array = accountObj.transactions.paymentTransactions;
-        for (let i = 0; i < paymentCursorObj.data.length; i ++) {
-
-          array.push(paymentCursorObj.data[i])
-        }
-        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );
-        
-      }
-
-      if (paymentCursorObj.cursor !== undefined ) {
-
-        setTimeout(() => {
-          setPaymentCursor(paymentCursorObj.cursor);
-        }, 500)
-      }
-    }
-  }, [paymentCursorObj])
 
 
   useEffect(() => {
@@ -295,6 +243,58 @@ const Homepage = () => {
   }, [hotspotsRewards])
 
 
+  // to get transactions we need to use Helium api /roles
+  // /roles?filert_types= gives us an object with a cursor to loop through the results
+  // ever cursor obj has another cursor obj till the last result, which has no cursor
+
+  // first result we store in obj, take the cursor in another obj, then useQuery(.... , cursor)
+  // then we take cursorResult.cursor to set the new cursor and the loop begins     
+  useEffect(() => {
+    if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles' ) {
+
+      console.log(payTransactionsObj)
+      console.log(payTransactionsObj.cursor)
+      setPaymentCursor(payTransactionsObj.cursor)
+    }
+  }, [payTransactionsObj])
+  
+  useEffect(() => {
+    setTimeout(() => {
+
+      if (paymentCursor !== undefined && paymentCursor !== '') {
+        console.log(paymentCursor)
+        if (skip2 === true) {
+          setSkip2(prev => prev = false )
+          console.log('skip2:', skip2)
+        }
+      }
+
+    }, 2000)
+  }, [paymentCursor])
+
+  useEffect(() => {
+    if(paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
+      console.log(paymentCursorObj)
+      console.log(paymentCursorObj.cursor);
+      if (paymentCursorObj?.data?.length > 0) {
+        console.log(paymentCursorObj.data);
+        let array = accountObj.transactions.paymentTransactions;
+        for (let i = 0; i < paymentCursorObj.data.length; i ++) {
+
+          array.push(paymentCursorObj.data[i])
+        }
+        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );
+        
+      }
+
+      if (paymentCursorObj.cursor !== undefined ) {
+
+        setTimeout(() => {
+          setPaymentCursor(paymentCursorObj.cursor);
+        }, 500)
+      }
+    }
+  }, [paymentCursorObj])
 
 
   const earnButtons = () => {

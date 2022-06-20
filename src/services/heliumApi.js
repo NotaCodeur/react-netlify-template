@@ -70,6 +70,9 @@ export const heliumApi = createApi({
         getHeliumAccountRolesCursor: builder.query({
             query: ({address: AccountAddress, cursor: paymentCursor}) => createRequest(`/hotspotsPayCursor?search=/v1/accounts/${AccountAddress}/roles?cursor=${paymentCursor}`)
         }),
+        getHeliumTransactionHash: builder.query({
+            query: (hash) => createRequest(`/hotspotsPayCursor?search=/v1/transactions/${hash}`)
+        }),
 
     })
 })
