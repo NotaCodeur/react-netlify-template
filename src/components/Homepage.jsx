@@ -677,7 +677,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                       <Card>
                         <Collapse ghost>
                           <Panel header={transaction.data?.payments[0]?.amount} extra={
-                              new panelExtra = (transaction) => {
+                              (transaction) => {
                                 if (transaction?.data?.payments[0]?.payee !== accountObj.AccountAddress) {
                                   <p>{`to address: ${transaction?.data?.payments[0].payee}`}</p>
                                 } 
