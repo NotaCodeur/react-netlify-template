@@ -318,8 +318,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
 
   useEffect(() => {
     if (transactionsData !== undefined) {
-      console.log(transactionsData)
-      let i = accountObj.transactions.paymentTransactions.indexOf({data: {hash: transactionsData.data?.hash}});
+      console.log('transactionsData: ', transactionsData)
+      let i = accountObj.transactions.paymentTransactions.indexOf({hash: transactionsData.data?.hash});
       // let i = accountObj.transactions.paymentTransactions.filter({data: {hash: transactionsData.data?.hash}} => );
       let array = [...accountObj.transactions.paymentTransactions];
       array[i] = {...array[i], data: transactionsData.data};
