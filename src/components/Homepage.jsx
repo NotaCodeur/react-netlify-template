@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component, useMemo, useCallback } from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic, Input, Space, Button, Card } from 'antd';
+import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
@@ -25,6 +25,7 @@ import BarChart2 from './BarChart2';
 
 
 const { Title } = Typography;
+const { Panel } = Collapse;
 
 const Homepage = () => {
   const [accountObj, setAccountObj] = useState({
@@ -559,6 +560,16 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   }
 
 
+  const panelExtra = (transaction) => {
+    if (transaction?.data?.payments[0]?.payee !== accountObj.AccountAddress) {
+      <p>to address: {transaction?.data?.payments[0].payee}</p>
+    } 
+    if (transaction?.data?.payments[0]?.payee === accountObj.AccountAddress) {
+      <p>from address: {transaction?.data?.payer}</p>
+    } 
+  }
+
+
   const getAccountAddressFromLS = () => {
     const data = localStorage.getItem('Account');
     if (data) {
@@ -628,7 +639,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
         <Col xs={24} sm={24} lg={12} type="flex" align="middle">
           <div style={{padding: 5}}>
 
-            <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} >
+            <Card style={cardStyle} >
               <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
                 <p>Earnings 1.53 HNT $42.16</p>
                 
@@ -652,7 +663,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
         </Col> */}
         <Col xs={24} sm={24} lg={12} type="flex" align="middle">
           <div style={{padding: 5}}>
-            <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
+            <Card style={cardStyle}>
               <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
                 <Row>
                   <BarChart2 accountObj={accountObj}  />
@@ -660,6 +671,28 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                 <br />
                 <Row justify="space-around" align="middle"> <Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
                 <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
+              </div>
+            </Card>
+          </div>  
+        </Col>
+        
+        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+          <div style={{padding: 5}}>
+            <Card style={cardStyle}>
+              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+                <Collapse ghost>
+                  <Panel header={'transactions: ' (accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1 )}>
+                    {accountObj.transactions.paymentTransactions.map((transaction) => 
+                      <Card>
+                        <Collapse ghost>
+                          <Panel header={transaction.data?.payments[0]?.amount} extra={panelExtra(transaction)}>
+                            <p>here's some text or content</p>
+                          </Panel>
+                        </Collapse>
+                      </Card>
+                    )}
+                  </Panel>
+                </Collapse>
               </div>
             </Card>
           </div>  
