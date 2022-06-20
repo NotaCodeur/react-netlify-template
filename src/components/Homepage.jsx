@@ -304,9 +304,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, skip);
     if (transactionsData !== undefined) {
       console.log(transactionsData)
       let i = accountObj.transactions.paymentTransactions.filter(transactionsData.data?.hash);
-      let array = [];
-      array = accountObj.transactions.paymentTransactions;
-      array = [...array, array[i]: {...array[i], data: transactionsData.data}]
+      let array = [...accountObj.transactions.paymentTransactions];
+      array[i] = {...array[i], data: transactionsData.data};
       setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array} } ) );
       // setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [ ...accountObj.transactions.paymentTransactions, accountObj.transactions.paymentTransactions[i]: {...accountObj.transactions.paymentTransactions[i], data: transactionData.data} ]}}))
   
