@@ -676,16 +676,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                     {accountObj.transactions.paymentTransactions.map((transaction) => 
                       <Card>
                         <Collapse ghost>
-                          <Panel header={transaction.data?.payments[0]?.amount} extra={
-                              (transaction) => {
-                                if (transaction?.data?.payments[0]?.payee !== accountObj.AccountAddress) {
-                                  <p>{`to address: ${transaction?.data?.payments[0].payee}`}</p>
-                                } 
-                                if (transaction?.data?.payments[0]?.payee === accountObj.AccountAddress) {
-                                  <p>{`from address: ${transaction?.data?.payer}`}</p>
-                                } 
-                              }
-                            }>
+                          <Panel header={transaction.data?.payments[0]?.amount} extra={transaction.data.payments[0].payee }>
                             <p>here's some text or content</p>
                           </Panel>
                         </Collapse>
