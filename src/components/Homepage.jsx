@@ -560,15 +560,6 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   }
 
 
-  const panelExtra = (transaction) => {
-    if (transaction?.data?.payments[0]?.payee !== accountObj.AccountAddress) {
-      <p>to address: {transaction?.data?.payments[0].payee}</p>
-    } 
-    if (transaction?.data?.payments[0]?.payee === accountObj.AccountAddress) {
-      <p>from address: {transaction?.data?.payer}</p>
-    } 
-  }
-
 
   const getAccountAddressFromLS = () => {
     const data = localStorage.getItem('Account');
@@ -685,7 +676,16 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                     {accountObj.transactions.paymentTransactions.map((transaction) => 
                       <Card>
                         <Collapse ghost>
-                          <Panel header={transaction.data?.payments[0]?.amount} extra={panelExtra(transaction)}>
+                          <Panel header={transaction.data?.payments[0]?.amount} extra={
+                              panelExtra = (transaction) => {
+                                if (transaction?.data?.payments[0]?.payee !== accountObj.AccountAddress) {
+                                  <p>{`to address: ${transaction?.data?.payments[0].payee}`}</p>
+                                } 
+                                if (transaction?.data?.payments[0]?.payee === accountObj.AccountAddress) {
+                                  <p>{`from address: ${transaction?.data?.payer}`}</p>
+                                } 
+                              }
+                            }>
                             <p>here's some text or content</p>
                           </Panel>
                         </Collapse>
