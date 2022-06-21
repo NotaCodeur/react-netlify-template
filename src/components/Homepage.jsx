@@ -88,7 +88,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
 
-  const contentStyle: React.CSSProperties = {
+  const contentStyle = {
     height: '160px',
     color: '#fff',
     lineHeight: '160px',
@@ -702,6 +702,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                   <h3 style={contentStyle}>4</h3>
                 </div>
               </Carousel>
+              
             </Col>
           </Row>
 
