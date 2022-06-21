@@ -687,7 +687,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                 </Card>
               </div>  
             </Col>
-            <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+            {/* <Col xs={24} sm={24} lg={12} type="flex" align="middle">
               <div style={{padding: 5}}>
 
               <Carousel slidesToShow={3}>
@@ -706,7 +706,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
               </Carousel>
               </div>
               
-            </Col>
+            </Col> */}
           </Row>
 
 
