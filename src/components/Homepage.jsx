@@ -708,18 +708,19 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                   <Collapse ghost>
                     <Panel header={`transactions:  ${(accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1)} `} extra='filter'>
                       {accountObj.transactions.paymentTransactions.map((transaction) => 
-                        <Card bodyStyle={{padding: 0}} style={{ background: '#ffffff', borderRadius: 20, marginTop: 5, margin: 0, padding: 0, width: '100%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
+                        <Card bodyStyle={{padding: 0}} style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 0, width: '100%'}}>
                           <Collapse ghost>
-                            <Panel header={'HNT' + transaction.data?.payments[0]?.amount / 100000000} extra={'to: '+ truncate(transaction?.data?.payments[0]?.payee, 10)}>
+                            <Panel header={transaction.data?.payments[0]?.amount / 100000000 + ' HNT'} extra={'to: '+ truncate(transaction?.data?.payments[0]?.payee, 20)}>
                               <Row justify="space-between">
                               <p>fee : {transaction.data?.fee / 100000000} HNT</p>
                               <p>time : {transaction.data?.time}</p>
-                              <p>payer : {truncate(transaction?.data?.payer, 10)}</p>
+                              <p>payer : {truncate(transaction?.data?.payer, 20)}</p>
 
                               </Row>
                             </Panel>
                           </Collapse>
                         </Card>
+                        <br />
                       )}
                     </Panel>
                   </Collapse>
