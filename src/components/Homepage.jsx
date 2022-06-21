@@ -720,7 +720,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                             </Panel>
                           </Collapse>
                         </Card>
-                        <br />
+                        <br> <br />
                       )}
                     </Panel>
                   </Collapse>
