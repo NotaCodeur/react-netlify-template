@@ -578,143 +578,153 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
         <Input style={{ width: 'calc(50% - 00px)', borderRadius: '20px', borderColor: '#ffffff', margin: '8px', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} defaultValue='Enter your Helium wallet' onChange={(e) => setWalletInputField(e.target.value)} ></Input>
         <Button type='primary' style={{ borderRadius: '20px', borderColor: '#ff8600', margin: '8px', color: '#f1f2f6', background: '#ff8600', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} onClick={(e) => SubmitWallet(walletInputField)} >Submit</Button>
       </Input.Group>
-      <Title level={2} > Your helium stats </Title>
-      <Row>
-        <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
-        <Col span={12}><Statistic title='Total HNT Balance' value={22} /></Col>
-        <Col span={12}><Statistic title='Total Hotspots' value={accountObj?.hotspots?.length} /></Col>
-        <Col span={12}><Statistic title='Total Paid Out' value={214.5} /></Col>
-        <Col span={12}><Statistic title='Percentage Paid Out' value={96} /></Col>
-      </Row>
-      {/* <p>
-      submit ->
-      </p>
-      <p>
-        stateAccountObj.accountAddress = AccountAddress
-      </p>
-      <p>
-        data = getHotspotsApi(AccountAddress)<br />
-        stateAccountObj.hotspots = data<br />
-      for (i = 0; i  hotspotsRewards.length; i ++ ) =><br />
-        stateAccountObj.hotspots[i] push ( hostAddress: '', hostShare: '', allTimeRewards: 0,  )
-      </p>
-      <p>
-        data2 = getAccountRewards(alltime, 7d, 30d, 52w)<br />
-        stateAccountObj.rewards = data2
-      </p> */}
-      {/* <p>
-        timeFrameList = [alltime, 7d, 30d, 52w]<br />
-        data3 = getHotspotRewards(hotspotAddress, timeframe)<br />
-      for (i) => hotspotAddress = accountObj.hotspots[i].hotspotAddress <br />
-        for (i2 = 0; i2 smallerthan 3; i2 ++) => timeframe = timeFrameList[i2] <br />
-        stateAccountObj.hotspot[i].rewards[i2] = data3<br />
-        (allTime, 7d, 30d, 52w)
-      </p>
-      <p>
-        getAccountTransactions()
 
-      </p>
-      <p>
-      if (localstorage. account = empty) => setLocalStorage(stateAccountObj)
-      </p> */}
-      <Row gutters={[32, 32]}  >
-        {/* <Col xs={24} sm={8} lg={6} >
-          <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}  >
-            <div >
-              <p>Total HNT Earned</p>
-              <p>{accountObj.rewardsAllTime?.data?.total}</p>
-              <p>${accountObj.rewardsAllTime?.data?.total * 25}</p>
+      <Row gutters={[32, 32]}>
+        <Col xs={24} sm={24} lg={16}>
+
+
+
+          <Title level={2} > Your helium stats </Title>
+          <Row>
+            <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
+            <Col span={12}><Statistic title='Total HNT Balance' value={22} /></Col>
+            <Col span={12}><Statistic title='Total Hotspots' value={accountObj?.hotspots?.length} /></Col>
+            <Col span={12}><Statistic title='Total Paid Out' value={214.5} /></Col>
+            <Col span={12}><Statistic title='Percentage Paid Out' value={96} /></Col>
+          </Row>
+          {/* <p>
+          submit ->
+          </p>
+          <p>
+            stateAccountObj.accountAddress = AccountAddress
+          </p>
+          <p>
+            data = getHotspotsApi(AccountAddress)<br />
+            stateAccountObj.hotspots = data<br />
+          for (i = 0; i  hotspotsRewards.length; i ++ ) =><br />
+            stateAccountObj.hotspots[i] push ( hostAddress: '', hostShare: '', allTimeRewards: 0,  )
+          </p>
+          <p>
+            data2 = getAccountRewards(alltime, 7d, 30d, 52w)<br />
+            stateAccountObj.rewards = data2
+          </p> */}
+          {/* <p>
+            timeFrameList = [alltime, 7d, 30d, 52w]<br />
+            data3 = getHotspotRewards(hotspotAddress, timeframe)<br />
+          for (i) => hotspotAddress = accountObj.hotspots[i].hotspotAddress <br />
+            for (i2 = 0; i2 smallerthan 3; i2 ++) => timeframe = timeFrameList[i2] <br />
+            stateAccountObj.hotspot[i].rewards[i2] = data3<br />
+            (allTime, 7d, 30d, 52w)
+          </p>
+          <p>
+            getAccountTransactions()
+
+          </p>
+          <p>
+          if (localstorage. account = empty) => setLocalStorage(stateAccountObj)
+          </p> */}
+          <Row gutters={[32, 32]}  >
+            {/* <Col xs={24} sm={8} lg={6} >
+              <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}  >
+                <div >
+                  <p>Total HNT Earned</p>
+                  <p>{accountObj.rewardsAllTime?.data?.total}</p>
+                  <p>${accountObj.rewardsAllTime?.data?.total * 25}</p>
+                </div>
+              </Card>
+            </Col> */}
+            <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+              <div style={{padding: 5}}>
+
+                <Card style={cardStyle} >
+                  <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
+                    <p>Earnings 1.53 HNT $42.16</p>
+                    
+                    <Row>
+                      <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
+                    </Row>
+                    <br />
+                    <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
+                  </div>
+                </Card>
+              </div>
+            </Col>
+          
+            {/* <Col xs={24} sm={8} lg={6}>
+            <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
+            <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+            <p>Hotspots</p>
+            <p>{accountObj?.hotspots?.length}</p>
             </div>
-          </Card>
-        </Col> */}
-        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
-          <div style={{padding: 5}}>
+            </Card>
+            </Col> */}
+            <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+              <div style={{padding: 5}}>
+                <Card style={cardStyle}>
+                  <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+                    <Row>
+                      <BarChart2 accountObj={accountObj}  />
+                    </Row>
+                    <br />
+                    <Row justify="space-around" align="middle"> <Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
+                    <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
+                  </div>
+                </Card>
+              </div>  
+            </Col>
+            
+          </Row>
 
-            <Card style={cardStyle} >
-              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
-                <p>Earnings 1.53 HNT $42.16</p>
-                
-                <Row>
-                  <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
-                </Row>
-                <br />
-                <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
-              </div>
-            </Card>
-          </div>
+          <Row padding={200} gutter={[32, 32]}>
+            {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
+            accountObj.accountRolesCount.data[role] > 0 ?
+            <Col>
+              <Card style={cardStyle}>
+                <div>
+                  <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
+                </div>
+              </Card>
+            </Col>
+            : null
+            ) : <p> theres no roles count</p>}
+          </ Row>
+
+
+          
         </Col>
-      
-        {/* <Col xs={24} sm={8} lg={6}>
-        <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
-        <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-        <p>Hotspots</p>
-        <p>{accountObj?.hotspots?.length}</p>
-        </div>
-        </Card>
-        </Col> */}
-        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
-          <div style={{padding: 5}}>
-            <Card style={cardStyle}>
-              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-                <Row>
-                  <BarChart2 accountObj={accountObj}  />
-                </Row>
-                <br />
-                <Row justify="space-around" align="middle"> <Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
-                <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
-              </div>
-            </Card>
-          </div>  
-        </Col>
+        <Col xs={24} sm={24} lg={8}>
         
-        <Col xs={24} sm={24} lg={24} type="flex" align="middle">
-          <div style={{padding: 5}}>
-            <Card style={cardStyle}>
-              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-                <Collapse ghost>
-                  <Panel header={`transactions:  ${(accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1)} `} extra='filter'>
-                    {accountObj.transactions.paymentTransactions.map((transaction) => 
-                      <Card>
-                        <Collapse ghost>
-                          <Panel header={transaction.data?.payments[0]?.amount} extra={transaction?.data?.payments[0]?.payee}>
-                            <Row justify="space-between">
-                            <p>fee : {transaction.data?.fee}</p>
-                            <p>time : {transaction.data?.time}</p>
-                            <p>payer : {transaction.data?.payer}</p>
+          <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+            <div style={{padding: 0}}>
+              <Card style={cardStyle}>
+                <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '100%' }}>
+                  <Collapse ghost>
+                    <Panel header={`transactions:  ${(accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1)} `} extra='filter'>
+                      {accountObj.transactions.paymentTransactions.map((transaction) => 
+                        <Card style={cardStyle}>
+                          <Collapse ghost>
+                            <Panel header={transaction.data?.payments[0]?.amount} extra={transaction?.data?.payments[0]?.payee}>
+                              <Row justify="space-between">
+                              <p>fee : {transaction.data?.fee}</p>
+                              <p>time : {transaction.data?.time}</p>
+                              <p>payer : {transaction.data?.payer}</p>
 
-                            </Row>
-                          </Panel>
-                        </Collapse>
-                      </Card>
-                    )}
-                  </Panel>
-                </Collapse>
-              </div>
-            </Card>
-          </div>  
+                              </Row>
+                            </Panel>
+                          </Collapse>
+                        </Card>
+                      )}
+                    </Panel>
+                  </Collapse>
+                </div>
+              </Card>
+            </div>  
+          </Col>
+        
         </Col>
       </Row>
-      <br />
-      <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '99%' }}>
-        <p>Transactions</p>
 
-      </div>
-      <br />
-      <br />
-      <Row padding={200} gutter={[32, 32]}>
 
-        {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
-        accountObj.accountRolesCount.data[role] > 0 ?
-        <Col>
-          <Card style={cardStyle}>
-            <div>
-              <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
-            </div>
-          </Card>
-        </Col>
-        : null
-        ) : <p> theres no roles count</p>}
-      </ Row>
       {/* <Title level={2} className='heading'>Global Crypto Stats</Title>
       <Row>
         <Col span={12}><Statistic title='Total Cryptocurrencies' value={globalStats.total} /></Col>
