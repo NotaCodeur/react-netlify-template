@@ -40,21 +40,40 @@
 
         const rewardsData = [];
         const timeData = [];
+        const emptyLabels = [];
 
-        if ( timeperiod == '30d'  ) {
-            for (let i = 0; i <accountObj.rewardsMonth?.data?.length ; i ++) {
+        if ( timeperiod == '30d' && accountObj.rewardsMonth.data ) {
+            for (let i = 0; i < 30 ; i ++) {
                 rewardsData.push( accountObj.rewardsMonth?.data[i].total)
+                timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+                emptyLabels.push('')
+            }
+        }
+
+        if ( timeperiod == '7d' && accountObj.rewardsMonth.data ) {
+            for (let i = 0; i < 7 ; i ++) {
+                rewardsData.push( accountObj.rewardsMonth?.data[i].total)
+                timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+                emptyLabels.push('')
+            }
+        }
+
+        if ( timeperiod == '52w' && accountObj.rewardsYear.data ) {
+            for (let i = 0; i < 52 ; i ++) {
+                rewardsData.push( accountObj.rewardsYear?.data[i].total)
+                timeData.push(accountObj.rewardsYear?.data[i].timestamp)
+                emptyLabels.push('')
             }
         }
 
         const data = {
-            labels: ['', '', '', '', '', '', '', '','','','','','','',],
+            labels: emptyLabels,
             datasets: [
                 {   
-                    label: 'HNT',
+                    label: 'HNT:',
                     barThickness: 15,
                     // barPercentage: 0.3,
-                    data: [5, 3, 1, 8, 7, 2, 6, 1, 2, 4, 6, 5, 7, 3, 5, 8, 6, 6, 5],
+                    data: rewardsData,
                     backgroundColor: ['#aeb8fe'],
                     borderWidth: 2,
                     borderRadius: 20,
@@ -73,14 +92,18 @@
                 scales: {
                     y: {
                         stacked: false,
-                        
+                        display: false, 
                         grid: {display: false},
                         
                     },
                     x: {
                         beginAtZero: true,
+                        display: false, 
                         stacked: false,
                         grid: {display: false},
+                        ticks: {
+                            display: false //this will remove only the label
+                        }
 
                     },
                 },

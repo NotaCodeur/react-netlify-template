@@ -1,11 +1,23 @@
 import React, { useState, useEffect, Component, useMemo, useCallback } from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic, Input, Space, Button, Card } from 'antd';
+import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { Cryptocurrencies, News } from '../components';
-import { useGetHeliumHotspotsRewardsAllTimeQuery, useGetHeliumHotspotsQuery, useGetHeliumAccountRewardsAllTimeQuery, useGetHeliumAccountRewardsWeekQuery, useGetHeliumAccountRewardsMonthQuery, useGetHeliumAccountRewardsYearQuery, useGetHeliumAccountStatsQuery } from '../services/heliumApi';
+import { 
+  useGetHeliumHotspotsRewardsAllTimeQuery, 
+  useGetHeliumHotspotsQuery, 
+  useGetHeliumAccountRewardsAllTimeQuery, 
+  useGetHeliumAccountRewardsWeekQuery, 
+  useGetHeliumAccountRewardsMonthQuery, 
+  useGetHeliumAccountRewardsYearQuery, 
+  useGetHeliumAccountStatsQuery, 
+  useGetHeliumAccountRolesCountQuery, 
+  useGetHeliumAccountRolesPayTransactionsQuery, 
+  useGetHeliumAccountRolesCursorQuery,
+  useGetHeliumTransactionHashQuery 
+} from '../services/heliumApi';
 
 import BarChart from './BarChart';
 import BarChart2 from './BarChart2';
@@ -13,6 +25,7 @@ import BarChart2 from './BarChart2';
 
 
 const { Title } = Typography;
+const { Panel } = Collapse;
 
 const Homepage = () => {
   const [accountObj, setAccountObj] = useState({
@@ -23,10 +36,11 @@ const Homepage = () => {
     rewardsMonth: [],
     rewardsYear: [],
     accountStats: [],
+    accountRolesCount: {},
     heliumStats: [],
     transactions: {
       allTransaction: [{}],
-      ownerTransaction: [{}],
+      paymentTransactions: [],
       payeeTransactions: [{}],
     },
   });
@@ -41,20 +55,41 @@ const Homepage = () => {
   const [ count, setCount ] = useState(0);
   const [ countI, setCountI ] = useState(0);
 
+  const [ paymentCursor, setPaymentCursor ] = useState('');
+  const [skip, setSkip] = useState(true);
+  const [skip1, setSkip1] = useState(true);
+  const [skip2, setSkip2] = useState(true);
+  const [skip3, setSkip3] = useState(true);
+
   const [hotspotAddress, setHotspotAddress] = useState('');
+  const [aaccountAddress, setAaccountAddress] = useState('');
   const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
-  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress);
+  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip});
   const globalStats = data?.data?.stats;
   // Helium stats functionality
   const [walletInputField, setWalletInputField] = useState('');
-  const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress);
+  const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress, {skip: skip1});
   const [myHotspotData, setMyHotspotData] = useState([[]]);
   const [hotspots, setHotspots] = useState([[]]);
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress);
-  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress);
-  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress);
-  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress);
-  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress);
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({address: accountObj.AccountAddress, cursor: paymentCursor},  {skip: skip2});
+// zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
+const [ hash, setHash ] = useState('');
+const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip: skip3});
+  
+  const [earningsPeriod, setEarningsPeriod] = useState('30d');
+
+  const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
+  const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
+
+
+
 
   useEffect(() => {
     console.log(walletInputField)
@@ -75,10 +110,24 @@ const Homepage = () => {
    useEffect(() => {
     if (mainButtonIsClicked === true) {
       console.log('main button is true')
+      
       setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
+      setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
+      if (myHotspotData != '') {
+        setAccountObj( accountObj => ( {...accountObj, hotspots: myHotspotData} ) );
+        setCount(1);
+        console.log('set count 1 via main button click')
+      }
     }
   }, [mainButtonIsClicked]);
+
+  useEffect(() => {
+    if(accountObj.AccountAddress != '' && skip1 == true) {
+      setSkip1(false);
+      console.log('set skip1 false')
+    }
+  }, [accountObj.AccountAddress])
 
   useEffect(() => {
     if (myHotspotData != '') {
@@ -90,54 +139,69 @@ const Homepage = () => {
 
   useEffect(() => {
     if (accountRewardsAllTime != null) {
-      console.log(accountRewardsAllTime)
+      console.log('accountRewardsAllTime:', accountRewardsAllTime)
       setAccountObj( accountObj => ( {...accountObj, rewardsAllTime: accountRewardsAllTime} ) );
-      console.log('accountRewardsAllTime: ', accountRewardsAllTime)
     }
   }, [accountRewardsAllTime]);
   
   useEffect(() => {
     if (accountRewardsMonth != null) {
-      console.log(accountRewardsMonth)
-      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: [...accountRewardsMonth]} ) );
-      console.log('accountRewards Month has changed')
+      console.log('accountRewardsMonth: ', accountRewardsMonth)
+      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: accountRewardsMonth} ) );
     }
   }, [accountRewardsMonth]);
   
   useEffect(() => {
     if (accountRewardsWeek != null) {
-      console.log(accountRewardsWeek)
-      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: [...accountRewardsWeek] } ) );
-      console.log('accountRewards Week has changed')
+      console.log('accountRewardsWeek:', accountRewardsWeek)
+      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
     }
   }, [accountRewardsWeek]);
   
   useEffect(() => {
     if (accountRewardsYear != null) {
-      console.log(accountRewardsYear)
+      console.log('accountRewardsYear:', accountRewardsYear)
       setAccountObj( accountObj => ( {...accountObj, rewardsYear: accountRewardsYear } ) );
-      console.log('accountRewards Year has changed')
     }
   }, [accountRewardsYear]);
   
   useEffect(() => {
-    
     if (accountStats != null && accountStats.data.address != 'stats') {
-      console.log('accountstats:',accountStats)
+      console.log('accountStats:', accountStats)
       setAccountObj( accountObj => ( {...accountObj, accountStats: accountStats } ) );
-      console.log('accountStats has changed')
     }
   }, [accountStats]);
+  
+  useEffect(() => {
+    if (accountRolesCount != null) {
+      console.log('accountRolesCount:', accountRolesCount)
+      setAccountObj( accountObj => ( {...accountObj, accountRolesCount: accountRolesCount } ) );
+    }
+  }, [accountRolesCount]);
 
 
 
+// useEffect(() => {
+//   if(myHotspots?.length){
 
+//     myHotspots?.forEach((Element, i) => {
+//       setTimeout(() => {
+//         setHotspotAddress(Element.data?.address)
+//         // await hotspotsRewards
+//         console.log('for each set hotspotAdress ', Element.data)
+        
+//       })
+//     }, 2000);
+//   }
+// }, [myHotspots])
 
 // here comes the for loop to get the hotspot rewards
   useEffect(() => {
-    let index = count -1;
-    let int = accountObj?.hotspots?.length +1;
-    if ( count > 0 && count < int ) {
+    setTimeout(() => {
+
+      let index = count -1;
+      let int = accountObj?.hotspots?.length +1;
+      if ( count > 0 && count < int ) {
       console.log( accountObj?.hotspots?.length );
       console.log(int);
       setHotspotAddress((accountObj?.hotspots?.[count-1]?.address))
@@ -148,7 +212,15 @@ const Homepage = () => {
       setCount(0);
       console.log(' if count -1 == hotspots.length => setCount(0)');
     }
+  }, 1500)
   }, [accountObj.hotspots, count])
+
+  useEffect(() => {
+    if(hotspotAddress != '' && skip == true) {
+      console.log('set skip to false')
+      setSkip(false);
+    }
+  }, [hotspotAddress])
 
   useEffect(() => {
     let index = count -1;
@@ -175,6 +247,95 @@ const Homepage = () => {
     }
   }, [hotspotsRewards])
 
+
+  // to get transactions we need to use Helium api /roles
+  // /roles?filert_types= gives us an object with a cursor to loop through the results
+  // ever cursor obj has another cursor obj till the last result, which has no cursor
+
+  // first result we store in obj, take the cursor in another obj, then useQuery(.... , cursor)
+  // then we take cursorResult.cursor to set the new cursor and the loop begins     
+  useEffect(() => {
+    if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles' ) {
+
+      console.log(payTransactionsObj)
+      setPaymentCursor(payTransactionsObj.cursor)
+    }
+  }, [payTransactionsObj])
+  
+  useEffect(() => {
+    setTimeout(() => {
+      if (paymentCursor !== undefined && paymentCursor !== '') {
+        console.log('paymentCursor: ', paymentCursor)
+        if (skip2 === true) {
+          setSkip2(prev => prev = false )
+          console.log('skip2:', skip2)
+        }
+      }
+    }, 2000)
+  }, [paymentCursor])
+
+  useEffect(() => {
+    if(paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
+      console.log('paymentCursorObj: ', paymentCursorObj)
+      if (paymentCursorObj?.data?.length > 0) {
+        let array = accountObj.transactions.paymentTransactions;
+        for (let i = 0; i < paymentCursorObj.data.length; i ++) {
+          array.push(paymentCursorObj.data[i])
+        }
+        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );  
+        // setHash(paymentCursorObj.data.hash)  
+      }
+      if (paymentCursorObj.cursor !== undefined ) {
+        setTimeout(() => {
+          setPaymentCursor(paymentCursorObj.cursor);
+        }, 1000)
+      }
+    }
+  }, [paymentCursorObj])
+  
+
+  // here comes a loop to get transactions for each hash in the paymentTransactions
+  // when there is a transaction -> setHash()
+  // *fetching transactionData* 
+  // setAccountObj( paymentTransactions: [ ...paymentTransactions, transactions[i]: {...transaction[i], data: transactionData.data} ])
+ 
+  useEffect(() => {
+    if (accountObj.transactions.paymentTransactions.length) {
+     for (let i = 0; i < accountObj.transactions.paymentTransactions.length; i ++) {
+      if (accountObj.transactions.paymentTransactions[i].data === undefined) {
+        console.log('no trans data for payment yet -> setHash() to get trans data')
+        setHash(prev => prev = accountObj.transactions.paymentTransactions[i].hash)
+      } 
+     } 
+    }
+  }, [accountObj.transactions.paymentTransactions])
+
+  useEffect(() => {
+    if (hash !== '' && hash !== undefined && skip3 === true) {
+      console.log('hash changed, skip3: ', skip3 )
+      setSkip3(prev => prev = false)
+    }
+  }, [hash])
+
+  useEffect(() => {
+    if (transactionsData !== undefined) {
+      console.log('transactionsData: ', transactionsData)
+      let i = accountObj.transactions.paymentTransactions.findIndex( obj => obj.hash === transactionsData.data?.hash);
+      console.log(i);
+      // let i = accountObj.transactions.paymentTransactions.filter({data: {hash: transactionsData.data?.hash}} => );
+      let array = [...accountObj.transactions.paymentTransactions];
+      array[i] = {...array[i], data: transactionsData.data};
+      setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array} } ) );
+      // setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [ ...accountObj.transactions.paymentTransactions, accountObj.transactions.paymentTransactions[i]: {...accountObj.transactions.paymentTransactions[i], data: transactionData.data} ]}}))
+  
+    }
+  }, [transactionsData])
+  
+
+
+  const earnButtons = () => {
+
+  }
 
   // useEffect(() => {
   //   let data = {}
@@ -399,6 +560,7 @@ const Homepage = () => {
   }
 
 
+
   const getAccountAddressFromLS = () => {
     const data = localStorage.getItem('Account');
     if (data) {
@@ -412,11 +574,18 @@ const Homepage = () => {
 
   return (
     <>
-      <Title level={2} > Your helium stats </Title>
       <Input.Group compact>
         <Input style={{ width: 'calc(50% - 00px)', borderRadius: '20px', borderColor: '#ffffff', margin: '8px', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} defaultValue='Enter your Helium wallet' onChange={(e) => setWalletInputField(e.target.value)} ></Input>
         <Button type='primary' style={{ borderRadius: '20px', borderColor: '#ff8600', margin: '8px', color: '#f1f2f6', background: '#ff8600', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} onClick={(e) => SubmitWallet(walletInputField)} >Submit</Button>
       </Input.Group>
+      <Title level={2} > Your helium stats </Title>
+      <Row>
+        <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
+        <Col span={12}><Statistic title='Total HNT Balance' value={22} /></Col>
+        <Col span={12}><Statistic title='Total Hotspots' value={accountObj?.hotspots?.length} /></Col>
+        <Col span={12}><Statistic title='Total Paid Out' value={214.5} /></Col>
+        <Col span={12}><Statistic title='Percentage Paid Out' value={96} /></Col>
+      </Row>
       {/* <p>
       submit ->
       </p>
@@ -448,8 +617,8 @@ const Homepage = () => {
       <p>
       if (localstorage. account = empty) => setLocalStorage(stateAccountObj)
       </p> */}
-      <Row gutters={[32, 32]} >
-        <Col xs={24} sm={8} lg={6} >
+      <Row gutters={[32, 32]}  >
+        {/* <Col xs={24} sm={8} lg={6} >
           <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}  >
             <div >
               <p>Total HNT Earned</p>
@@ -457,72 +626,113 @@ const Homepage = () => {
               <p>${accountObj.rewardsAllTime?.data?.total * 25}</p>
             </div>
           </Card>
-        </Col>
-        <Col xs={24} sm={16} lg={18}>
-        <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', height: 250, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
-          <div >
-            <Row>
-              <Col>
-                <p>Earnings</p>
-                <p>1.53 HNT</p>
-                <p>$42.16</p>
-              </Col>
-              <Col >
+        </Col> */}
+        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+          <div style={{padding: 5}}>
+
+            <Card style={cardStyle} >
+              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
+                <p>Earnings 1.53 HNT $42.16</p>
+                
                 <Row>
-                  <BarChart  />
+                  <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
                 </Row>
-                <Row><Button onClick={(e) => console.log(hotspotsRewards)}>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
-              </Col>
-            </Row>
+                <br />
+                <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
+              </div>
+            </Card>
           </div>
-        </Card>
         </Col>
-      </Row>
-      <Row gutters={[32,32]}>
-        <Col xs={24} sm={8} lg={6}>
+      
+        {/* <Col xs={24} sm={8} lg={6}>
         <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
         <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-          <p>Hotspots</p>
-          <p>{accountObj?.hotspots?.length}</p>
+        <p>Hotspots</p>
+        <p>{accountObj?.hotspots?.length}</p>
         </div>
         </Card>
+        </Col> */}
+        <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+          <div style={{padding: 5}}>
+            <Card style={cardStyle}>
+              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+                <Row>
+                  <BarChart2 accountObj={accountObj}  />
+                </Row>
+                <br />
+                <Row justify="space-around" align="middle"> <Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
+                <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
+              </div>
+            </Card>
+          </div>  
         </Col>
-        <Col xs={24} sm={16} lg={18}>
-        <Card style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
-        <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-          <Row>
-            <BarChart2 accountObj={accountObj}  />
-          </Row>
-          <Row><Button>24h</Button><Button>7d</Button><Button>30d</Button><Button>52w</Button></Row>
-          <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
-        </div>
-        </Card>
+        
+        <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+          <div style={{padding: 5}}>
+            <Card style={cardStyle}>
+              <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+                <Collapse ghost>
+                  <Panel header={`transactions:  ${(accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1)} `} extra='filter'>
+                    {accountObj.transactions.paymentTransactions.map((transaction) => 
+                      <Card>
+                        <Collapse ghost>
+                          <Panel header={transaction.data?.payments[0]?.amount} extra={transaction?.data?.payments[0]?.payee}>
+                            <Row>
+                            <p>fee: {transaction.data?.fee}</p>
+                            <p>fee: {transaction.data?.time}</p>
+                            <p>fee: {transaction.data?.payer}</p>
+
+                            </Row>
+                          </Panel>
+                        </Collapse>
+                      </Card>
+                    )}
+                  </Panel>
+                </Collapse>
+              </div>
+            </Card>
+          </div>  
         </Col>
       </Row>
-
-      <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '20%' }}>
+      <br />
+      <div style={{ background: '#ffffff', borderRadius: 20, margin: 0, padding: 50, width: '99%' }}>
         <p>Transactions</p>
-        <p>sent</p>
-        <p>received</p>
+
       </div>
-      <Title level={2} className='heading'>Global Crypto Stats</Title>
+      <br />
+      <br />
+      <Row padding={200} gutter={[32, 32]}>
+
+        {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
+        accountObj.accountRolesCount.data[role] > 0 ?
+        <Col>
+          <Card style={cardStyle}>
+            <div>
+              <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
+            </div>
+          </Card>
+        </Col>
+        : null
+        ) : <p> theres no roles count</p>}
+      </ Row>
+      {/* <Title level={2} className='heading'>Global Crypto Stats</Title>
       <Row>
         <Col span={12}><Statistic title='Total Cryptocurrencies' value={globalStats.total} /></Col>
         <Col span={12}><Statistic title='Total Exchanges' value={millify(globalStats.totalExchanges)} /></Col>
         <Col span={12}><Statistic title='Total Marketcap' value={millify(globalStats.totalMarketCap)} /></Col>
         <Col span={12}><Statistic title='Total 24h Volume' value={millify(globalStats.total24hVolume)} /></Col>
         <Col span={12}><Statistic title='Total Markets' value={millify(globalStats.totalMarkets)} /></Col>
-      </Row>
-      <div className='home-heading-container'>
+      </Row> */}
+      {/* <div className='home-heading-container'>
         <Title level={2} className='home-title'>Top 10 Cryptocurrencies in the World</Title>
         <Title level={3} className='show-more'><Link to='/cryptocurrencies'>Show More</Link></Title>
-      </div>
-      <Cryptocurrencies simplified />
-      <div className='home-heading-container'>
+      </div> */}
+      {/* <Cryptocurrencies simplified /> */}
+      {/* <div className='home-heading-container'>
         <Title level={2} className='home-title'>Latest Crypto News</Title>
         <Title level={3} className='show-more'><Link to='/news'>Show More</Link></Title>
-      </div>
-      <News simplified />
+      </div> */}
+      {/* <News simplified /> */}
     </>
   )
 }
