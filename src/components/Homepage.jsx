@@ -710,11 +710,11 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                       {accountObj.transactions.paymentTransactions.map((transaction) => 
                         <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 0, margin: 0, padding: 0, width: '100%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
                           <Collapse ghost>
-                            <Panel header={transaction.data?.payments[0]?.amount / 100000000} extra={truncate(transaction?.data?.payments[0]?.payee, 6)}>
+                            <Panel header={'HNT' + transaction.data?.payments[0]?.amount / 100000000} extra={'to: '+{truncate(transaction?.data?.payments[0]?.payee, 10)}}>
                               <Row justify="space-between">
-                              <p>fee : {transaction.data?.fee / 100000000}</p>
+                              <p>fee : {transaction.data?.fee / 100000000} HNT</p>
                               <p>time : {transaction.data?.time}</p>
-                              <p>payer : {truncate(transaction?.data?.payer, 6)}</p>
+                              <p>payer : {truncate(transaction?.data?.payer, 10)}</p>
 
                               </Row>
                             </Panel>
