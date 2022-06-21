@@ -688,6 +688,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
               </div>  
             </Col>
             <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+              <div style={{padding: 5}}>
+
               <Carousel slidesToShow={3}>
                 <div>
                   <h3 style={contentStyle}>1</h3>
@@ -702,6 +704,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                   <h3 style={contentStyle}>4</h3>
                 </div>
               </Carousel>
+              </div>
               
             </Col>
           </Row>
