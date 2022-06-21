@@ -703,7 +703,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
         
           
             <div style={{padding: 0}}>
-              <Card style={cardStyle}>
+              <Card bodyStyle={{padding: 0}} style={cardStyle}>
                 
                   <Collapse ghost>
                     <Panel header={`transactions:  ${(accountObj.accountRolesCount?.data?.payment_v2 + accountObj.accountRolesCount?.data?.payment_v1)} `} extra='filter'>
