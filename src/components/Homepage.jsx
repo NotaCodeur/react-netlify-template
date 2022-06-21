@@ -561,8 +561,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
 
 
   function truncate(string, length){
-    if (string.length > 2 * length)
-        return string.substring(0,length/2)+'...'+string.substring((string.length - (length/2)), string.length);
+    if (string?.length > 2 * length)
+        return string.substring(0,length/2)+'...'+string.substring((string?.length - (length/2)), string?.length);
     else
         return string;
   };
