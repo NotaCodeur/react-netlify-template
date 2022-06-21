@@ -560,6 +560,13 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   }
 
 
+  function truncate(string, length){
+    if (string.length > 2 * length)
+        return string.substring(0,length/2)+'...'+string.substring((string.length - (length/2)), string.length);
+    else
+        return string;
+  };
+
 
   const getAccountAddressFromLS = () => {
     const data = localStorage.getItem('Account');
@@ -703,7 +710,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                       {accountObj.transactions.paymentTransactions.map((transaction) => 
                         <Card style={{ background: '#ffffff', borderRadius: 20, marginBottom: 0, margin: 0, padding: 0, width: '100%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
                           <Collapse ghost>
-                            <Panel header={transaction.data?.payments[0]?.amount} extra={transaction?.data?.payments[0]?.payee}>
+                            <Panel header={transaction.data?.payments[0]?.amount} extra={truncate(transaction?.data?.payments[0]?.payee, 4)}>
                               <Row justify="space-between">
                               <p>fee : {transaction.data?.fee}</p>
                               <p>time : {transaction.data?.time}</p>
