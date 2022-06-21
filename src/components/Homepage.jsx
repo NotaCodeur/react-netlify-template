@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component, useMemo, useCallback } from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse } from 'antd';
+import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse, Carousel  } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
@@ -87,6 +87,14 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
 
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
   const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
+
+  const contentStyle: React.CSSProperties = {
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+  };
 
 
 
@@ -679,8 +687,24 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                 </Card>
               </div>  
             </Col>
-            
+            <Col xs={24} sm={24} lg={24} type="flex" align="middle">
+              <Carousel slidesToShow={3}>
+                <div>
+                  <h3 style={contentStyle}>1</h3>
+                </div>
+                <div>
+                  <h3 style={contentStyle}>2</h3>
+                </div>
+                <div>
+                  <h3 style={contentStyle}>3</h3>
+                </div>
+                <div>
+                  <h3 style={contentStyle}>4</h3>
+                </div>
+              </Carousel>
+            </Col>
           </Row>
+
 
           <Row padding={200} gutter={[32, 32]}>
             {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
