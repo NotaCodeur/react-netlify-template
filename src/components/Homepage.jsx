@@ -677,7 +677,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                       <Card>
                         <Collapse ghost>
                           <Panel header={transaction.data?.payments[0]?.amount} extra={transaction?.data?.payments[0]?.payee}>
-                            <Row>
+                            <Row justify="space-between">
                             <p>fee : {transaction.data?.fee}</p>
                             <p>time : {transaction.data?.time}</p>
                             <p>payer : {transaction.data?.payer}</p>
