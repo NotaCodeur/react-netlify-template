@@ -27,7 +27,7 @@ const Helium = () => {
   const { data } = useGetHeliumSupplyQuery();
   const { data: myHotspots, refetch } = useGetHeliumHotspotsQuery(myAdress);
   const { data: rewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress);
-  const style = { background: '#ffffff', borderRadius: "40px", padding: '8px 0', overflow: "hidden", elevation: '10',  boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }; 
+  const style = { background: '#ffffff', borderRadius: "40px", padding: '8px', overflow: "hidden", elevation: '10',  boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }; 
   const [hotspots, setHotspots] = useState([]); 
 
   useEffect(() => {
