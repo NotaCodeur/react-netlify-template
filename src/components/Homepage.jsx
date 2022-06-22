@@ -21,6 +21,8 @@ import {
 
 import BarChart from './BarChart';
 import BarChart2 from './BarChart2';
+import DoughnutChart from './DoughnutChart';
+import HorizontalBarChart from './HorizontalBarChart'; 
 
 
 
@@ -713,7 +715,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
           {accountObj.hotspots.map(
           (hotspot) =>
           <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={8} >
-          <Card style={style}>
+          <Card style={cardStyle}>
           <Title align='center' level={4}>{hotspot.name}</Title>
           <BarChart  />
           <Row justify='space-around' align='center' span={24}> 
@@ -740,9 +742,9 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
                 
                   <div align={'center'} > 
                     <Input.Group   >
-                      <Input style={{ width: 'calc(100% - 90px)', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  }} defaultValue={hotspot.hostAddress} onChange={(e ) => setHostAddressButton( e.target.value ) } />
+                      <Input style={{ width: 'calc(100% - 90px)', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  }} defaultValue={hotspot.hostAddress}  />
                       <div style={{width: 20}} />
-                      <Button  style={{background: '#ff8600', borderColor: '#ff8600', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} type="primary" onClick={( ) => changeHostAddress(hotspot, hostAddressButton) }>Update</Button>
+                      <Button  style={{background: '#ff8600', borderColor: '#ff8600', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} type="primary" >Update</Button>
                     </Input.Group> 
                   </div> 
                 </Col>
