@@ -711,7 +711,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
             </Col> */}
           </Row>
 
-
+          <Row padding={200} gutter={[32, 32]}>
+              
           {accountObj.hotspots.map(
           (hotspot) =>
           <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={8} >
@@ -778,7 +779,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
         </Card>
       </Col>
       )}
-
+      </Row>
 
           <Row padding={200} gutter={[32, 32]}>
             {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
