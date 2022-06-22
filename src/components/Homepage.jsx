@@ -710,6 +710,74 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
           </Row>
 
 
+          {accountObj.hotspots.map(
+          (hotspot) =>
+          <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={8} >
+          <Card style={style}>
+          <Title align='center' level={4}>{hotspot.name}</Title>
+          <BarChart  />
+          <Row justify='space-around' align='center' span={24}> 
+            <div />
+            <Button style={{borderRadius: 20, borderColor: '#758bfd'}} span={8}>week</Button> 
+            <Button style={{borderRadius: 20, borderColor: '#758bfd'}} span={8}>month</Button> 
+            <Button style={{borderRadius: 20, borderColor: '#758bfd'}} span={8}>year</Button> 
+            <div />
+          </Row>
+          <br />
+
+          <Row  >
+            <Col align='center' span={16}> <div >Total Earnings:</div> </Col> 
+            <Col align='center' span={8}> <div>400 HNT</div> </Col>
+          </Row>
+          <br />
+          <Row > 
+            <Col  span={18} >
+              <Row  >
+                
+                <Col style={{padding: 5}} span={2}> <div>Host:</div> </Col> 
+                <Col span={1} > </Col>
+                <Col style={{padding: 5}} span={21}> 
+                
+                  <div align={'center'} > 
+                    <Input.Group   >
+                      <Input style={{ width: 'calc(100% - 90px)', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  }} defaultValue={hotspot.hostAddress} onChange={(e ) => setHostAddressButton( e.target.value ) } />
+                      <div style={{width: 20}} />
+                      <Button  style={{background: '#ff8600', borderColor: '#ff8600', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} type="primary" onClick={( ) => changeHostAddress(hotspot, hostAddressButton) }>Update</Button>
+                    </Input.Group> 
+                  </div> 
+                </Col>
+              </Row>
+            </Col>
+            <Col span={6}>
+              <Row >
+                <Col> <div style={{paddingTop: '15px' }} >Share:</div> </Col>
+                {/* <Col> <div align='center'> <img style={{maxWidth: '50px', maxHeight:'50px'}} src= 'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News'/></div> </Col> */}
+                <DoughnutChart hostShare={hotspot.hostShare} />
+              </Row>
+            </Col>
+          </Row>
+         
+
+          <Row  >
+            <Col align='center' span={16}> <div >Paid out:</div> </Col> 
+            <Col align='center' span={8}> <div>58 HNT </div> </Col>
+          </Row>
+
+          <Row  >
+            <Col align='center' span={24}><div style={{height: 50}}><HorizontalBarChart hostShare={75} /> </div> </Col> 
+            
+          </Row>
+
+          <Row  >
+            <Col align='center' span={16}> <div >Still to pay out:</div> </Col> 
+            <Col align='center' span={8}> <div>12 HNT</div> </Col>
+          </Row>
+          
+        </Card>
+      </Col>
+      )}
+
+
           <Row padding={200} gutter={[32, 32]}>
             {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
             accountObj.accountRolesCount.data[role] > 0 ?
