@@ -272,29 +272,46 @@ const Homepage = () => {
   // }, [hotspotsRewardsAllTime])
  
   useEffect(() => {
-    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsAllTime !== accountObj.hotspots[count -1].rewardsAllTime) {
-      setSkip6(false);
+    if( hotspotsRewardsAllTime !== undefined && hotspotsRewardsAllTime !== accountObj.hotspots[count -1].rewardsAllTime) {
+      setTimeout(() => {
+        setSkip6(false);
+        
+      }, 500);
     }
   }, [hotspotsRewardsAllTime])
   useEffect(() => {
-    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsHour !== accountObj.hotspots[count -1].rewardsHour) {
-      setSkip7(false);
+    if(hotspotsRewardsHour !== undefined && hotspotsRewardsHour !== accountObj.hotspots[count -1].rewardsHour) {
+      setTimeout(() => {
+        setSkip7(false);
+        
+      }, 500);
     }
   }, [hotspotsRewardsHour])
   useEffect(() => {
-    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsDay !== accountObj.hotspots[count -1].rewardsDay) {
-      setSkip8(false);
+    if(hotspotsRewardsDay !== undefined && hotspotsRewardsDay !== accountObj.hotspots[count -1].rewardsDay) {
+      setTimeout(() => {
+        setSkip8(false);
+        
+      }, 500);
     }
   }, [hotspotsRewardsDay])
   useEffect(() => {
-    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsWeek !== accountObj.hotspots[count -1].rewardsWeek) {
-      setSkip8(false);
+    if(hotspotsRewardsWeek !== undefined && hotspotsRewardsWeek !== accountObj.hotspots[count -1].rewardsWeek) {
+      setTimeout(() => {
+        setSkip5(true);
+        setSkip6(true);
+        setSkip7(true);
+        setSkip8(true);
+        
+      }, 500);
     }
   }, [hotspotsRewardsWeek])
 
   useEffect(() => {
-    let hotspotArray = accountObj?.hotspots;
-    if(count-1 >=0 && count < hotspotArray?.length) {
+    if(count-1 >=0 && count < accountObj?.hotspots?.length) {
+      let hotspotArray = [...accountObj?.hotspots];
+      let index = count -1;
+      console.log('count: ', count)
 
       if ( hotspotArray[count -1]?.rewardsAllTime !== hotspotsRewardsAllTime 
         && hotspotArray[count -1]?.rewardsHour !== hotspotsRewardsHour 
@@ -302,9 +319,11 @@ const Homepage = () => {
         && hotspotArray[count -1]?.rewardsWeek !== hotspotsRewardsWeek ) 
         {
 
-          let hotspot = {...hotspotArray[count -1], rewardsAllTime: hotspotsRewardsAllTime, rewardsHour: hotspotsRewardsHour, rewardsDay: hotspotsRewardsDay, rewardsWeek: hotspotsRewardsWeek }
-          hotspotArray[count -1] = hotspot;  
-          setAccountObj(accountObj => ({...accountObj, hotspots: hotspotArray}));
+          let hotspot = {...hotspotArray?.[count -1], rewardsAllTime: hotspotsRewardsAllTime, rewardsHour: hotspotsRewardsHour, rewardsDay: hotspotsRewardsDay, rewardsWeek: hotspotsRewardsWeek }
+          console.log('hotspotArray', hotspotArray);
+          let hotspotArray2 =  hotspotArray;  
+          hotspotArray2[index] =  hotspot;  
+          setAccountObj(accountObj => ({...accountObj, hotspots: hotspotArray2}));
           setCount(count => count + 1); 
         
           
