@@ -65,6 +65,10 @@ const Homepage = () => {
   const [skip2, setSkip2] = useState(true);
   const [skip3, setSkip3] = useState(true);
   const [skip4, setSkip4] = useState(true);
+  const [skip5, setSkip5] = useState(true);
+  const [skip6, setSkip6] = useState(true);
+  const [skip7, setSkip7] = useState(true);
+  const [skip8, setSkip8] = useState(true);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
@@ -87,10 +91,10 @@ const Homepage = () => {
   const [ hash, setHash ] = useState('');
   const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip: skip3});
     
-  const { data: hotspotsRewardsAllTime } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip});
-  const { data: hotspotsRewardsHour } = useGetHeliumHotspotsRewardsHourQuery(hotspotAddress, {skip});
-  const { data: hotspotsRewardsDay } = useGetHeliumHotspotsRewardsDayQuery(hotspotAddress, {skip});
-  const { data: hotspotsRewardsWeek } = useGetHeliumHotspotsRewardsWeekQuery(hotspotAddress, {skip});
+  const { data: hotspotsRewardsAllTime } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip: skip5});
+  const { data: hotspotsRewardsHour } = useGetHeliumHotspotsRewardsHourQuery(hotspotAddress, {skip: skip6});
+  const { data: hotspotsRewardsDay } = useGetHeliumHotspotsRewardsDayQuery(hotspotAddress, {skip: skip7});
+  const { data: hotspotsRewardsWeek } = useGetHeliumHotspotsRewardsWeekQuery(hotspotAddress, {skip: skip8});
 // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
@@ -233,9 +237,12 @@ const Homepage = () => {
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
-    if(hotspotAddress != '' && skip == true) {
+    if(hotspotAddress != '' && skip5 == true) {
       console.log('set skip to false')
-      setSkip(false);
+      setTimeout(() => {
+        setSkip5(false);
+        
+      }, 1000);
     }
   }, [hotspotAddress])
 
@@ -264,11 +271,30 @@ const Homepage = () => {
   //   }
   // }, [hotspotsRewardsAllTime])
  
-
+  useEffect(() => {
+    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsAllTime !== accountObj.hotspots[count -1].rewardsAllTime) {
+      setSkip6(false);
+    }
+  }, [hotspotsRewardsAllTime])
+  useEffect(() => {
+    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsHour !== accountObj.hotspots[count -1].rewardsHour) {
+      setSkip7(false);
+    }
+  }, [hotspotsRewardsHour])
+  useEffect(() => {
+    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsDay !== accountObj.hotspots[count -1].rewardsDay) {
+      setSkip8(false);
+    }
+  }, [hotspotsRewardsDay])
+  useEffect(() => {
+    if(count-1 > 0 && count < accountObj?.hotspots && hotspotsRewardsWeek !== accountObj.hotspots[count -1].rewardsWeek) {
+      setSkip8(false);
+    }
+  }, [hotspotsRewardsWeek])
 
   useEffect(() => {
     let hotspotArray = accountObj?.hotspots;
-    if(count >0 && count < hotspotArray?.length) {
+    if(count-1 >=0 && count < hotspotArray?.length) {
 
       if ( hotspotArray[count -1]?.rewardsAllTime !== hotspotsRewardsAllTime 
         && hotspotArray[count -1]?.rewardsHour !== hotspotsRewardsHour 
