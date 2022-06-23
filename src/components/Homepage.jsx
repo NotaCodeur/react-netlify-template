@@ -6,17 +6,23 @@ import { Link } from 'react-router-dom';
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { Cryptocurrencies, News } from '../components';
 import { 
-  useGetHeliumHotspotsRewardsAllTimeQuery, 
   useGetHeliumHotspotsQuery, 
-  useGetHeliumAccountRewardsAllTimeQuery, 
-  useGetHeliumAccountRewardsWeekQuery, 
-  useGetHeliumAccountRewardsMonthQuery, 
-  useGetHeliumAccountRewardsYearQuery, 
   useGetHeliumAccountStatsQuery, 
+  useGetHeliumAccountRewardsAllTimeQuery, 
+  useGetHeliumAccountRewardsDayQuery, 
+  useGetHeliumAccountRewardsWeekQuery, 
+  useGetHeliumAccountRewardsMonthQuery,
+
   useGetHeliumAccountRolesCountQuery, 
   useGetHeliumAccountRolesPayTransactionsQuery, 
   useGetHeliumAccountRolesCursorQuery,
-  useGetHeliumTransactionHashQuery 
+  useGetHeliumTransactionHashQuery, 
+
+  useGetHeliumHotspotsRewardsAllTimeQuery, 
+  useGetHeliumHotspotsRewardsHourQuery, 
+  useGetHeliumHotspotsRewardsDayQuery, 
+  useGetHeliumHotspotsRewardsWeekQuery, 
+  useGetHeliumHotspotsRewardsMonthQuery, 
 } from '../services/heliumApi';
 
 import BarChart from './BarChart';
@@ -24,19 +30,18 @@ import BarChart2 from './BarChart2';
 import DoughnutChart from './DoughnutChart';
 import HorizontalBarChart from './HorizontalBarChart'; 
 
-
-
 const { Title } = Typography;
 const { Panel } = Collapse;
 
+// account data model
 const Homepage = () => {
   const [accountObj, setAccountObj] = useState({
     AccountAddress: '',
     hotspots: [],
     rewardsAllTime: 0,
+    rewardsDay: [],
     rewardsWeek: [],
     rewardsMonth: [],
-    rewardsYear: [],
     accountStats: [],
     accountRolesCount: {},
     heliumStats: [],
@@ -62,29 +67,32 @@ const Homepage = () => {
   const [skip1, setSkip1] = useState(true);
   const [skip2, setSkip2] = useState(true);
   const [skip3, setSkip3] = useState(true);
+  const [skip4, setSkip4] = useState(true);
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
   const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
-  const { data: hotspotsRewards } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip});
   const globalStats = data?.data?.stats;
+  
   // Helium stats functionality
-  const [walletInputField, setWalletInputField] = useState('');
+  const [ walletInputField, setWalletInputField ] = useState('');
+  const [ myHotspotData, setMyHotspotData ] = useState([[]]);
+  const [ hotspots, setHotspots ] = useState([[]]);
   const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress, {skip: skip1});
-  const [myHotspotData, setMyHotspotData] = useState([[]]);
-  const [hotspots, setHotspots] = useState([[]]);
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountRewardsYear } = useGetHeliumAccountRewardsYearQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip: skip1});
+  const { data: accountRewardsDay } = useGetHeliumAccountRewardsDayQuery(accountObj.AccountAddress, {skip: skip4});
+  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress, {skip: skip4});
+  const { data: accountRewardsMonth } = useGetHeliumAccountRewardsMonthQuery(accountObj.AccountAddress, {skip: skip4});
+  
   const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
   const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({address: accountObj.AccountAddress, cursor: paymentCursor},  {skip: skip2});
+  const [ hash, setHash ] = useState('');
+  const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip: skip3});
+    
+  const { data: hotspotsRewardsAllTime } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip});
 // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
-const [ hash, setHash ] = useState('');
-const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip: skip3});
-  
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
@@ -148,34 +156,6 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
   }, [myHotspotData]);
 
   useEffect(() => {
-    if (accountRewardsAllTime != null) {
-      console.log('accountRewardsAllTime:', accountRewardsAllTime)
-      setAccountObj( accountObj => ( {...accountObj, rewardsAllTime: accountRewardsAllTime} ) );
-    }
-  }, [accountRewardsAllTime]);
-  
-  useEffect(() => {
-    if (accountRewardsMonth != null) {
-      console.log('accountRewardsMonth: ', accountRewardsMonth)
-      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: accountRewardsMonth} ) );
-    }
-  }, [accountRewardsMonth]);
-  
-  useEffect(() => {
-    if (accountRewardsWeek != null) {
-      console.log('accountRewardsWeek:', accountRewardsWeek)
-      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
-    }
-  }, [accountRewardsWeek]);
-  
-  useEffect(() => {
-    if (accountRewardsYear != null) {
-      console.log('accountRewardsYear:', accountRewardsYear)
-      setAccountObj( accountObj => ( {...accountObj, rewardsYear: accountRewardsYear } ) );
-    }
-  }, [accountRewardsYear]);
-  
-  useEffect(() => {
     if (accountStats != null && accountStats.data.address != 'stats') {
       console.log('accountStats:', accountStats)
       setAccountObj( accountObj => ( {...accountObj, accountStats: accountStats } ) );
@@ -188,6 +168,39 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
       setAccountObj( accountObj => ( {...accountObj, accountRolesCount: accountRolesCount } ) );
     }
   }, [accountRolesCount]);
+  
+  useEffect(() => {
+    if (accountRewardsAllTime != null) {
+      console.log('accountRewardsAllTime:', accountRewardsAllTime)
+      setAccountObj( accountObj => ( {...accountObj, rewardsAllTime: accountRewardsAllTime} ) );
+      if ( skip4 === true) { 
+        setSkip4( prev => prev == false)
+        console.log('setting skip 4 === false')
+      }
+    }
+  }, [accountRewardsAllTime]);
+  
+  useEffect(() => {
+    if (accountRewardsDay != null) {
+      console.log('accountRewardsDay:', accountRewardsDay)
+      setAccountObj( accountObj => ( {...accountObj, rewardsDay: accountRewardsDay } ) );
+    }
+  }, [accountRewardsDay]);
+  
+  useEffect(() => {
+    if (accountRewardsWeek != null) {
+      console.log('accountRewardsWeek:', accountRewardsWeek)
+      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
+    }
+  }, [accountRewardsWeek]);
+  
+  useEffect(() => {
+    if (accountRewardsMonth != null) {
+      console.log('accountRewardsMonth: ', accountRewardsMonth)
+      setAccountObj( accountObj => ( {...accountObj, rewardsMonth: accountRewardsMonth} ) );
+    }
+  }, [accountRewardsMonth]);
+  
 
 
 
@@ -242,8 +255,8 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
     
     if (index >= 0 && count < int) {
 
-      console.log('hotRew: ', hotspotsRewards)
-      obj = {...obj, rewardsAllTime: hotspotsRewards};
+      console.log('hotRewAllTime: ', hotspotsRewardsAllTime)
+      obj = {...obj, rewardsAllTime: hotspotsRewardsAllTime};
       console.log('obj: ', obj)
       
       if ( array2?.[index].hotspotRewardsAllTime != hotspotAddress  ) {
@@ -255,7 +268,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
       setCount(count => count + 1);
       
     }
-  }, [hotspotsRewards])
+  }, [hotspotsRewardsAllTime])
 
 
   // to get transactions we need to use Helium api /roles
