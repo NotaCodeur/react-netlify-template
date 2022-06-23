@@ -42,26 +42,26 @@
         const timeData = [];
         const emptyLabels = [];
 
-        if ( timeperiod == '30d' && accountObj.rewardsMonth.data ) {
+        if ( timeperiod == '30d' && accountObj?.rewardsWeek?.data ) {
             for (let i = 0; i < 30 ; i ++) {
-                rewardsData.push( accountObj.rewardsMonth?.data[i].total)
-                timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+                rewardsData.push( accountObj.rewardsWeek?.data[i].total)
+                timeData.push(accountObj.rewardsWeek?.data[i].timestamp)
                 emptyLabels.push('')
             }
         }
 
-        if ( timeperiod == '7d' && accountObj.rewardsMonth.data ) {
+        if ( timeperiod == '7d' && accountObj?.rewardsDay?.data ) {
             for (let i = 0; i < 7 ; i ++) {
-                rewardsData.push( accountObj.rewardsMonth?.data[i].total)
-                timeData.push(accountObj.rewardsMonth?.data[i].timestamp)
+                rewardsData.push( accountObj.rewardsDay?.data[i].total)
+                timeData.push(accountObj.rewardsDay?.data[i].timestamp)
                 emptyLabels.push('')
             }
         }
 
-        if ( timeperiod == '52w' && accountObj.rewardsYear.data ) {
+        if ( timeperiod == '52w' && accountObj?.rewardsWeek?.data ) {
             for (let i = 0; i < 52 ; i ++) {
-                rewardsData.push( accountObj.rewardsYear?.data[i].total)
-                timeData.push(accountObj.rewardsYear?.data[i].timestamp)
+                rewardsData.push( accountObj.rewardsWeek?.data[i].total)
+                timeData.push(accountObj.rewardsWeek?.data[i].timestamp)
                 emptyLabels.push('')
             }
         }

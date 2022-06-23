@@ -55,10 +55,6 @@ export const heliumApi = createApi({
         getHeliumAccountRewardsWeek: builder.query({
             query: (AccountAddress) => createRequest(`/hotspotsWeek?search=/v1/accounts/${AccountAddress}/rewards/sum`)
         }),
-        //bucket month
-        getHeliumAccountRewardsMonth: builder.query({
-            query: (AccountAddress) => createRequest(`/hotspotsMonth?search=/v1/accounts/${AccountAddress}/rewards/sum`)
-        }),
 
         // roles / transaction data
         getHeliumAccountRolesCount: builder.query({
@@ -90,10 +86,6 @@ export const heliumApi = createApi({
         getHeliumHotspotsRewardsWeek: builder.query({
             query: (HotspotAddress) => createRequest(`/hotspotsWeek?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
         }),
-        // bucket month
-        getHeliumHotspotsRewardsMonth: builder.query({
-            query: (HotspotAddress) => createRequest(`/hotspotsMonth?search=/v1/hotspots/${HotspotAddress}/rewards/sum`),
-        }),
     })
 })
 
@@ -105,7 +97,6 @@ export const {
     useGetHeliumAccountRewardsAllTimeQuery, 
     useGetHeliumAccountRewardsDayQuery, 
     useGetHeliumAccountRewardsWeekQuery, 
-    useGetHeliumAccountRewardsMonthQuery, 
 
     useGetHeliumAccountRolesCountQuery, 
     useGetHeliumAccountRolesPayTransactionsQuery, 
@@ -116,5 +107,4 @@ export const {
     useGetHeliumHotspotsRewardsHourQuery, 
     useGetHeliumHotspotsRewardsDayQuery, 
     useGetHeliumHotspotsRewardsWeekQuery, 
-    useGetHeliumHotspotsRewardsMonthQuery, 
 } = heliumApi;
