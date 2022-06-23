@@ -604,7 +604,7 @@ const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip:
           <Title level={2} > Your helium stats </Title>
           <Row>
             <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
-            <Col span={12}><Statistic title='Total HNT Balance' value={accountObj?.accountStats?.data?.last_day[0]?.balance} /></Col>
+            <Col span={12}><Statistic title='Total HNT Balance' value={(accountObj?.accountStats?.data?.last_day[0]?.balance / 100000000)} /></Col>
             <Col span={12}><Statistic title='Total Hotspots' value={accountObj?.hotspots?.length} /></Col>
             <Col span={12}><Statistic title='Total Paid Out' value={214.5} /></Col>
             <Col span={12}><Statistic title='Percentage Paid Out' value={96} /></Col>
