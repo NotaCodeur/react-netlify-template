@@ -297,39 +297,42 @@ const Homepage = () => {
   }, [hotspotsRewardsDay])
   useEffect(() => {
     if(hotspotsRewardsWeek !== undefined && hotspotsRewardsWeek !== accountObj.hotspots[count -1].rewardsWeek) {
-      setTimeout(() => {
+      
         setSkip5(true);
         setSkip6(true);
         setSkip7(true);
         setSkip8(true);
         
-      }, 500);
+      
     }
   }, [hotspotsRewardsWeek])
 
   useEffect(() => {
-    if(count-1 >=0 && count < accountObj?.hotspots?.length) {
-      let hotspotArray = [...accountObj?.hotspots];
+    if (skip5 === true && skip6 === true && skip7 === true && skip8 === true) {
       let index = count -1;
-      console.log('count: ', count)
+      if(index >=0 && count <= accountObj?.hotspots?.length) {
+        let hotspotArray = [...accountObj?.hotspots];
+        console.log('count: ', count)
 
-      if ( hotspotArray[count -1]?.rewardsAllTime !== hotspotsRewardsAllTime 
-        && hotspotArray[count -1]?.rewardsHour !== hotspotsRewardsHour 
-        && hotspotArray[count -1]?.rewardsDay !==  hotspotsRewardsDay 
-        && hotspotArray[count -1]?.rewardsWeek !== hotspotsRewardsWeek ) 
-        {
+        if ( hotspotArray[count -1]?.rewardsAllTime !== hotspotsRewardsAllTime 
+          && hotspotArray[count -1]?.rewardsHour !== hotspotsRewardsHour 
+          && hotspotArray[count -1]?.rewardsDay !==  hotspotsRewardsDay 
+          && hotspotArray[count -1]?.rewardsWeek !== hotspotsRewardsWeek ) 
+          {
 
-          let hotspot = {...hotspotArray?.[count -1], rewardsAllTime: hotspotsRewardsAllTime, rewardsHour: hotspotsRewardsHour, rewardsDay: hotspotsRewardsDay, rewardsWeek: hotspotsRewardsWeek }
-          console.log('hotspotArray', hotspotArray);
-          let hotspotArray2 =  hotspotArray;  
-          hotspotArray2[index] =  hotspot;  
-          setAccountObj(accountObj => ({...accountObj, hotspots: hotspotArray2}));
-          setCount(count => count + 1); 
-        
+            let hotspot = {...hotspotArray?.[count -1], rewardsAllTime: hotspotsRewardsAllTime, rewardsHour: hotspotsRewardsHour, rewardsDay: hotspotsRewardsDay, rewardsWeek: hotspotsRewardsWeek }
+            console.log('hotspotArray', hotspotArray);
+            let hotspotArray2 =  hotspotArray;  
+            hotspotArray2[index] =  hotspot;  
+            setAccountObj(accountObj => ({...accountObj, hotspots: hotspotArray2}));
+            setCount(count => count + 1); 
+            console.log('skip5: ', skip5, '| skip6: ', skip6, '| skip7: ', skip7, '| skip8: ', skip8);
           
-        }
+            
+          }
+      }
     }
-  }, [hotspotsRewardsAllTime, hotspotsRewardsHour, hotspotsRewardsDay, hotspotsRewardsWeek])
+  }, [hotspotsRewardsAllTime, hotspotsRewardsHour, hotspotsRewardsDay, hotspotsRewardsWeek, skip5, skip6, skip7, skip8])
 
 
   // to get transactions we need to use Helium api /roles
