@@ -1,32 +1,34 @@
 import React, { useState, useEffect, Component, useMemo, useCallback } from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse, Carousel  } from 'antd';
+import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse, Carousel, List, Slider } from 'antd';
+import VirtualList from 'rc-virtual-list';
 import { Link } from 'react-router-dom';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { Cryptocurrencies, News } from '../components';
-import { 
-  useGetHeliumHotspotsQuery, 
-  useGetHeliumAccountStatsQuery, 
-  useGetHeliumAccountRewardsAllTimeQuery, 
-  useGetHeliumAccountRewardsDayQuery, 
-  useGetHeliumAccountRewardsWeekQuery, 
+import {
+  useGetHeliumHotspotsQuery,
+  useGetHeliumAccountStatsQuery,
+  useGetHeliumAccountRewardsAllTimeQuery,
+  useGetHeliumAccountRewardsDayQuery,
+  useGetHeliumAccountRewardsWeekQuery,
 
-  useGetHeliumAccountRolesCountQuery, 
-  useGetHeliumAccountRolesPayTransactionsQuery, 
+  useGetHeliumAccountRolesCountQuery,
+  useGetHeliumAccountRolesPayTransactionsQuery,
   useGetHeliumAccountRolesCursorQuery,
-  useGetHeliumTransactionHashQuery, 
+  useGetHeliumTransactionHashQuery,
 
-  useGetHeliumHotspotsRewardsAllTimeQuery, 
-  useGetHeliumHotspotsRewardsHourQuery, 
-  useGetHeliumHotspotsRewardsDayQuery, 
-  useGetHeliumHotspotsRewardsWeekQuery, 
+  useGetHeliumHotspotsRewardsAllTimeQuery,
+  useGetHeliumHotspotsRewardsHourQuery,
+  useGetHeliumHotspotsRewardsDayQuery,
+  useGetHeliumHotspotsRewardsWeekQuery,
 } from '../services/heliumApi';
 
 import BarChart from './BarChart';
 import BarChart2 from './BarChart2';
 import DoughnutChart from './DoughnutChart';
-import HorizontalBarChart from './HorizontalBarChart'; 
+import HorizontalBarChart from './HorizontalBarChart';
+import EarningsChart from './EarningsChart';
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -49,17 +51,17 @@ const Homepage = () => {
     },
   });
 
-  
-  const { data, isFetching } = useGetCryptosQuery(10);
-  const [mainButtonIsClicked, setMainButtonIsClicked ] = useState(false);
-  const [mainButtonIsClickedI, setMainButtonIsClickedI ] = useState(false);
-  const [mainButtonIsClickedII, setMainButtonIsClickedII ] = useState(false);
-  const [mainButtonIsClickedIII, setMainButtonIsClickedIII ] = useState(false);
-  const [mainButtonIsClickedFinal, setMainButtonIsClickedFinal ] = useState(false);
-  const [ count, setCount ] = useState(0);
-  const [ countI, setCountI ] = useState(0);
 
-  const [ paymentCursor, setPaymentCursor ] = useState('');
+  const { data, isFetching } = useGetCryptosQuery(10);
+  const [mainButtonIsClicked, setMainButtonIsClicked] = useState(false);
+  const [mainButtonIsClickedI, setMainButtonIsClickedI] = useState(false);
+  const [mainButtonIsClickedII, setMainButtonIsClickedII] = useState(false);
+  const [mainButtonIsClickedIII, setMainButtonIsClickedIII] = useState(false);
+  const [mainButtonIsClickedFinal, setMainButtonIsClickedFinal] = useState(false);
+  const [count, setCount] = useState(0);
+  const [countI, setCountI] = useState(0);
+
+  const [paymentCursor, setPaymentCursor] = useState('');
   const [skip, setSkip] = useState(true);
   const [skip1, setSkip1] = useState(true);
   const [skip2, setSkip2] = useState(true);
@@ -72,34 +74,34 @@ const Homepage = () => {
 
   const [hotspotAddress, setHotspotAddress] = useState('');
   const [aaccountAddress, setAaccountAddress] = useState('');
-  const [ hotspotRewardArray, setHotspotAwardArray ] = useState([]);
+  const [hotspotRewardArray, setHotspotAwardArray] = useState([]);
   const globalStats = data?.data?.stats;
-  
+
   // Helium stats functionality
-  const [ walletInputField, setWalletInputField ] = useState('');
-  const [ myHotspotData, setMyHotspotData ] = useState([[]]);
-  const [ hotspots, setHotspots ] = useState([[]]);
-  const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: accountRewardsDay } = useGetHeliumAccountRewardsDayQuery(accountObj.AccountAddress, {skip: skip4});
-  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress, {skip: skip4});
-  
-  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, {skip: skip1});
-  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({address: accountObj.AccountAddress, cursor: paymentCursor},  {skip: skip2});
-  const [ hash, setHash ] = useState('');
-  const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, {skip: skip3});
-    
-  const { data: hotspotsRewardsAllTime } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, {skip: skip5});
-  const { data: hotspotsRewardsHour } = useGetHeliumHotspotsRewardsHourQuery(hotspotAddress, {skip: skip6});
-  const { data: hotspotsRewardsDay } = useGetHeliumHotspotsRewardsDayQuery(hotspotAddress, {skip: skip7});
-  const { data: hotspotsRewardsWeek } = useGetHeliumHotspotsRewardsWeekQuery(hotspotAddress, {skip: skip8});
-// zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
+  const [walletInputField, setWalletInputField] = useState('');
+  const [myHotspotData, setMyHotspotData] = useState([[]]);
+  const [hotspots, setHotspots] = useState([[]]);
+  const { data: myHotspots } = useGetHeliumHotspotsQuery(accountObj.AccountAddress, { skip: skip1 });
+  const { data: accountStats } = useGetHeliumAccountStatsQuery(accountObj.AccountAddress, { skip: skip1 });
+  const { data: accountRewardsAllTime } = useGetHeliumAccountRewardsAllTimeQuery(accountObj.AccountAddress, { skip: skip1 });
+  const { data: accountRewardsDay } = useGetHeliumAccountRewardsDayQuery(accountObj.AccountAddress, { skip: skip4 });
+  const { data: accountRewardsWeek } = useGetHeliumAccountRewardsWeekQuery(accountObj.AccountAddress, { skip: skip4 });
+
+  const { data: accountRolesCount } = useGetHeliumAccountRolesCountQuery(accountObj.AccountAddress, { skip: skip1 });
+  const { data: payTransactionsObj } = useGetHeliumAccountRolesPayTransactionsQuery(accountObj.AccountAddress, { skip: skip1 });
+  const { data: paymentCursorObj } = useGetHeliumAccountRolesCursorQuery({ address: accountObj.AccountAddress, cursor: paymentCursor }, { skip: skip2 });
+  const [hash, setHash] = useState('');
+  const { data: transactionsData } = useGetHeliumTransactionHashQuery(hash, { skip: skip3 });
+
+  const { data: hotspotsRewardsAllTime } = useGetHeliumHotspotsRewardsAllTimeQuery(hotspotAddress, { skip: skip5 });
+  const { data: hotspotsRewardsHour } = useGetHeliumHotspotsRewardsHourQuery(hotspotAddress, { skip: skip6 });
+  const { data: hotspotsRewardsDay } = useGetHeliumHotspotsRewardsDayQuery(hotspotAddress, { skip: skip7 });
+  const { data: hotspotsRewardsWeek } = useGetHeliumHotspotsRewardsWeekQuery(hotspotAddress, { skip: skip8 });
+  // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
   const [earningsPeriod, setEarningsPeriod] = useState('30d');
 
-  const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}
-  const buttonStyle = {borderRadius: 20, borderColor: '#758bfd'}
+  const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }
+  const buttonStyle = { borderRadius: 20, borderColor: '#758bfd' }
 
   const contentStyle = {
     height: '320px',
@@ -117,26 +119,26 @@ const Homepage = () => {
   }, [walletInputField])
 
   useEffect(() => {
-    console.log('accObj: ',accountObj)
+    console.log('accObj: ', accountObj)
   }, [accountObj])
 
   useEffect(() => {
     let filterMyHotspots = myHotspots?.data;
     if (filterMyHotspots != null && filterMyHotspots.address != 'hotspots') {
       console.log('filterMyHotspots: ', filterMyHotspots)
-    setMyHotspotData(filterMyHotspots);
+      setMyHotspotData(filterMyHotspots);
     }
   }, [myHotspots]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (mainButtonIsClicked === true) {
       console.log('main button is true')
-      
-      setAccountObj(accountObj => ( {...accountObj, AccountAddress: walletInputField } ) );
+
+      setAccountObj(accountObj => ({ ...accountObj, AccountAddress: walletInputField }));
       setAaccountAddress(walletInputField);
       setMainButtonIsClicked(false);
       if (myHotspotData != '') {
-        setAccountObj( accountObj => ( {...accountObj, hotspots: myHotspotData} ) );
+        setAccountObj(accountObj => ({ ...accountObj, hotspots: myHotspotData }));
         setCount(1);
         console.log('set count 1 via main button click')
       }
@@ -144,7 +146,7 @@ const Homepage = () => {
   }, [mainButtonIsClicked]);
 
   useEffect(() => {
-    if(accountObj.AccountAddress != '' && skip1 == true) {
+    if (accountObj.AccountAddress != '' && skip1 == true) {
       setSkip1(false);
       console.log('set skip1 false')
     }
@@ -152,7 +154,7 @@ const Homepage = () => {
 
   useEffect(() => {
     if (myHotspotData != '') {
-      setAccountObj( accountObj => ( {...accountObj, hotspots: myHotspotData} ) );
+      setAccountObj(accountObj => ({ ...accountObj, hotspots: myHotspotData }));
       setCount(1);
       console.log('myHotspotData:', myHotspotData)
     }
@@ -161,87 +163,87 @@ const Homepage = () => {
   useEffect(() => {
     if (accountStats != null && accountStats.data.address != 'stats') {
       console.log('accountStats:', accountStats)
-      setAccountObj( accountObj => ( {...accountObj, accountStats: accountStats } ) );
+      setAccountObj(accountObj => ({ ...accountObj, accountStats: accountStats }));
     }
   }, [accountStats]);
-  
+
   useEffect(() => {
     if (accountRolesCount != null) {
       console.log('accountRolesCount:', accountRolesCount)
-      setAccountObj( accountObj => ( {...accountObj, accountRolesCount: accountRolesCount } ) );
+      setAccountObj(accountObj => ({ ...accountObj, accountRolesCount: accountRolesCount }));
     }
   }, [accountRolesCount]);
-  
+
   useEffect(() => {
     if (accountRewardsAllTime != null) {
       console.log('accountRewardsAllTime:', accountRewardsAllTime)
-      setAccountObj( accountObj => ( {...accountObj, rewardsAllTime: accountRewardsAllTime} ) );
-      if ( skip4 === true) { 
-        setSkip4( prev => prev == false)
+      setAccountObj(accountObj => ({ ...accountObj, rewardsAllTime: accountRewardsAllTime }));
+      if (skip4 === true) {
+        setSkip4(prev => prev == false)
         console.log('setting skip 4 === false')
       }
     }
   }, [accountRewardsAllTime]);
-  
+
   useEffect(() => {
     if (accountRewardsDay != null) {
       console.log('accountRewardsDay:', accountRewardsDay)
-      setAccountObj( accountObj => ( {...accountObj, rewardsDay: accountRewardsDay } ) );
+      setAccountObj(accountObj => ({ ...accountObj, rewardsDay: accountRewardsDay }));
     }
   }, [accountRewardsDay]);
-  
+
   useEffect(() => {
     if (accountRewardsWeek != null) {
       console.log('accountRewardsWeek:', accountRewardsWeek)
-      setAccountObj( accountObj => ( {...accountObj, rewardsWeek: accountRewardsWeek } ) );
+      setAccountObj(accountObj => ({ ...accountObj, rewardsWeek: accountRewardsWeek }));
     }
   }, [accountRewardsWeek]);
-  
-
-  
 
 
 
-// useEffect(() => {
-//   if(myHotspots?.length){
 
-//     myHotspots?.forEach((Element, i) => {
-//       setTimeout(() => {
-//         setHotspotAddress(Element.data?.address)
-//         // await hotspotsRewards
-//         console.log('for each set hotspotAdress ', Element.data)
-        
-//       })
-//     }, 2000);
-//   }
-// }, [myHotspots])
 
-// here comes the for loop to get the hotspot rewards
+
+  // useEffect(() => {
+  //   if(myHotspots?.length){
+
+  //     myHotspots?.forEach((Element, i) => {
+  //       setTimeout(() => {
+  //         setHotspotAddress(Element.data?.address)
+  //         // await hotspotsRewards
+  //         console.log('for each set hotspotAdress ', Element.data)
+
+  //       })
+  //     }, 2000);
+  //   }
+  // }, [myHotspots])
+
+  // here comes the for loop to get the hotspot rewards
   useEffect(() => {
     setTimeout(() => {
 
-      let index = count -1;
-      let int = accountObj?.hotspots?.length +1;
-      if ( count > 0 && count < int ) {
-      console.log( accountObj?.hotspots?.length );
-      console.log(int);
-      setHotspotAddress((accountObj?.hotspots?.[count-1]?.address))
-      console.log('setting hotspot Address')
-      console.log('index:',index)
-    }
-    if (count >= int) {
-      setCount(0);
-      console.log(' if count -1 == hotspots.length => setCount(0)');
-    }
-  }, 1500)
+      let index = count - 1;
+      let int = accountObj?.hotspots?.length + 1;
+      if (count > 0 && count < int) {
+        console.log(accountObj?.hotspots?.length);
+        console.log(int);
+        setHotspotAddress((accountObj?.hotspots?.[count - 1]?.address))
+        console.log('setting hotspot Address')
+        console.log('index:', index)
+      }
+      if (count >= int) {
+        setCount(0);
+        console.log(' if count -1 == hotspots.length => setCount(0)');
+      }
+    }, 1500)
   }, [accountObj.hotspots, count])
 
   useEffect(() => {
-    if(hotspotAddress != '' && skip5 == true) {
+    if (hotspotAddress != '' && skip5 == true) {
       console.log('set skip to false')
       setTimeout(() => {
         setSkip5(false);
-        
+
       }, 1000);
     }
   }, [hotspotAddress])
@@ -253,83 +255,82 @@ const Homepage = () => {
   //   let array = accountObj;
   //   let array2 = []; 
   //   array2 = [...array?.hotspots];
-    
+
   //   if (index >= 0 && count < int) {
 
   //     console.log('hotRewAllTime: ', hotspotsRewardsAllTime)
   //     obj = {...obj, rewardsAllTime: hotspotsRewardsAllTime};
   //     console.log('obj: ', obj)
-      
+
   //     if ( array2?.[index].hotspotRewardsAllTime != hotspotAddress  ) {
   //       array2[index] = obj
   //     };
   //     console.log(array2[index])
-      
+
   //     setAccountObj( accountObj => ({...accountObj, hotspots: array2 }))
   //     setCount(count => count + 1);
-      
+
   //   }
   // }, [hotspotsRewardsAllTime])
- 
+
   useEffect(() => {
-    if( hotspotsRewardsAllTime !== undefined && hotspotsRewardsAllTime !== accountObj.hotspots[count -1].rewardsAllTime) {
+    if (hotspotsRewardsAllTime !== undefined && hotspotsRewardsAllTime !== accountObj.hotspots[count - 1].rewardsAllTime) {
       setTimeout(() => {
         setSkip6(false);
-        
+
       }, 500);
     }
   }, [hotspotsRewardsAllTime])
   useEffect(() => {
-    if(hotspotsRewardsHour !== undefined && hotspotsRewardsHour !== accountObj.hotspots[count -1].rewardsHour) {
+    if (hotspotsRewardsHour !== undefined && hotspotsRewardsHour !== accountObj.hotspots[count - 1].rewardsHour) {
       setTimeout(() => {
         setSkip7(false);
-        
+
       }, 500);
     }
   }, [hotspotsRewardsHour])
   useEffect(() => {
-    if(hotspotsRewardsDay !== undefined && hotspotsRewardsDay !== accountObj.hotspots[count -1].rewardsDay) {
+    if (hotspotsRewardsDay !== undefined && hotspotsRewardsDay !== accountObj.hotspots[count - 1].rewardsDay) {
       setTimeout(() => {
         setSkip8(false);
-        
+
       }, 500);
     }
   }, [hotspotsRewardsDay])
   useEffect(() => {
-    if(hotspotsRewardsWeek !== undefined && hotspotsRewardsWeek !== accountObj.hotspots[count -1].rewardsWeek) {
-      
-        setSkip5(true);
-        setSkip6(true);
-        setSkip7(true);
-        setSkip8(true);
-        
-      
+    if (hotspotsRewardsWeek !== undefined && hotspotsRewardsWeek !== accountObj.hotspots[count - 1].rewardsWeek) {
+
+      setSkip5(true);
+      setSkip6(true);
+      setSkip7(true);
+      setSkip8(true);
+
+
     }
   }, [hotspotsRewardsWeek])
 
   useEffect(() => {
     if (skip5 === true && skip6 === true && skip7 === true && skip8 === true) {
-      let index = count -1;
-      if(index >=0 && count <= accountObj?.hotspots?.length) {
+      let index = count - 1;
+      if (index >= 0 && count <= accountObj?.hotspots?.length) {
         let hotspotArray = [...accountObj?.hotspots];
         console.log('count: ', count)
 
-        if ( hotspotArray[count -1]?.rewardsAllTime !== hotspotsRewardsAllTime 
-          && hotspotArray[count -1]?.rewardsHour !== hotspotsRewardsHour 
-          && hotspotArray[count -1]?.rewardsDay !==  hotspotsRewardsDay 
-          && hotspotArray[count -1]?.rewardsWeek !== hotspotsRewardsWeek ) 
-          {
+        if (hotspotArray[count - 1]?.rewardsAllTime !== hotspotsRewardsAllTime
+          && hotspotArray[count - 1]?.rewardsHour !== hotspotsRewardsHour
+          && hotspotArray[count - 1]?.rewardsDay !== hotspotsRewardsDay
+          && hotspotArray[count - 1]?.rewardsWeek !== hotspotsRewardsWeek) {
 
-            let hotspot = {...hotspotArray?.[count -1], rewardsAllTime: hotspotsRewardsAllTime, rewardsHour: hotspotsRewardsHour, rewardsDay: hotspotsRewardsDay, rewardsWeek: hotspotsRewardsWeek }
-            console.log('hotspotArray', hotspotArray);
-            let hotspotArray2 =  hotspotArray;  
-            hotspotArray2[index] =  hotspot;  
-            setAccountObj(accountObj => ({...accountObj, hotspots: hotspotArray2}));
-            setCount(count => count + 1); 
-            console.log('skip5: ', skip5, '| skip6: ', skip6, '| skip7: ', skip7, '| skip8: ', skip8);
-          
-            
-          }
+          let hotspot = { ...hotspotArray?.[count - 1], rewardsAllTime: hotspotsRewardsAllTime, rewardsHour: hotspotsRewardsHour, rewardsDay: hotspotsRewardsDay, rewardsWeek: hotspotsRewardsWeek }
+          console.log('hotspotArray', hotspotArray);
+          let hotspotArray2 = hotspotArray;
+          hotspotArray2[index] = hotspot;
+          setAccountObj(accountObj => ({ ...accountObj, hotspots: hotspotArray2 }));
+          setCount(count => count + 1);
+          console.log('skip5: ', skip5, '| skip6: ', skip6, '| skip7: ', skip7, '| skip8: ', skip8);
+
+
+        }
       }
     }
   }, [hotspotsRewardsAllTime, hotspotsRewardsHour, hotspotsRewardsDay, hotspotsRewardsWeek, skip5, skip6, skip7, skip8])
@@ -342,64 +343,59 @@ const Homepage = () => {
   // first result we store in obj, take the cursor in another obj, then useQuery(.... , cursor)
   // then we take cursorResult.cursor to set the new cursor and the loop begins     
   useEffect(() => {
-    if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles' ) {
+    if (payTransactionsObj !== undefined && payTransactionsObj.data.address !== 'roles') {
 
-      console.log(payTransactionsObj)
       setPaymentCursor(payTransactionsObj.cursor)
     }
   }, [payTransactionsObj])
-  
+
   useEffect(() => {
     setTimeout(() => {
       if (paymentCursor !== undefined && paymentCursor !== '') {
-        console.log('paymentCursor: ', paymentCursor)
         if (skip2 === true) {
-          setSkip2(prev => prev = false )
-          console.log('skip2:', skip2)
+          setSkip2(prev => prev = false)
         }
       }
     }, 2000)
   }, [paymentCursor])
 
   useEffect(() => {
-    if(paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
+    if (paymentCursorObj !== undefined && paymentCursorObj.data.address !== 'roles') {
       console.log('paymentCursorObj: ', paymentCursorObj)
       if (paymentCursorObj?.data?.length > 0) {
         let array = accountObj.transactions.paymentTransactions;
-        for (let i = 0; i < paymentCursorObj.data.length; i ++) {
+        for (let i = 0; i < paymentCursorObj.data.length; i++) {
           array.push(paymentCursorObj.data[i])
         }
-        setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [...array] } } ) );  
+        setAccountObj(accountObj => ({ ...accountObj, transactions: { ...accountObj.transactions, paymentTransactions: [...array] } }));
         // setHash(paymentCursorObj.data.hash)  
       }
-      if (paymentCursorObj.cursor !== undefined ) {
+      if (paymentCursorObj.cursor !== undefined) {
         setTimeout(() => {
           setPaymentCursor(paymentCursorObj.cursor);
         }, 1000)
       }
     }
   }, [paymentCursorObj])
-  
+
 
   // here comes a loop to get transactions for each hash in the paymentTransactions
   // when there is a transaction -> setHash()
   // *fetching transactionData* 
   // setAccountObj( paymentTransactions: [ ...paymentTransactions, transactions[i]: {...transaction[i], data: transactionData.data} ])
- 
+
   useEffect(() => {
     if (accountObj.transactions.paymentTransactions.length) {
-     for (let i = 0; i < accountObj.transactions.paymentTransactions.length; i ++) {
-      if (accountObj.transactions.paymentTransactions[i].data === undefined) {
-        console.log('no trans data for payment yet -> setHash() to get trans data')
-        setHash(prev => prev = accountObj.transactions.paymentTransactions[i].hash)
-      } 
-     } 
+      for (let i = 0; i < accountObj.transactions.paymentTransactions.length; i++) {
+        if (accountObj.transactions.paymentTransactions[i].data === undefined) {
+          setHash(prev => prev = accountObj.transactions.paymentTransactions[i].hash)
+        }
+      }
     }
   }, [accountObj.transactions.paymentTransactions])
 
   useEffect(() => {
     if (hash !== '' && hash !== undefined && skip3 === true) {
-      console.log('hash changed, skip3: ', skip3 )
       setSkip3(prev => prev = false)
     }
   }, [hash])
@@ -407,17 +403,17 @@ const Homepage = () => {
   useEffect(() => {
     if (transactionsData !== undefined) {
       console.log('transactionsData: ', transactionsData)
-      let i = accountObj.transactions.paymentTransactions.findIndex( obj => obj.hash === transactionsData.data?.hash);
+      let i = accountObj.transactions.paymentTransactions.findIndex(obj => obj.hash === transactionsData.data?.hash);
       console.log(i);
       // let i = accountObj.transactions.paymentTransactions.filter({data: {hash: transactionsData.data?.hash}} => );
       let array = [...accountObj.transactions.paymentTransactions];
-      array[i] = {...array[i], data: transactionsData.data};
-      setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: array} } ) );
+      array[i] = { ...array[i], data: transactionsData.data };
+      setAccountObj(accountObj => ({ ...accountObj, transactions: { ...accountObj.transactions, paymentTransactions: array } }));
       // setAccountObj(accountObj => ( {...accountObj, transactions: {...accountObj.transactions, paymentTransactions: [ ...accountObj.transactions.paymentTransactions, accountObj.transactions.paymentTransactions[i]: {...accountObj.transactions.paymentTransactions[i], data: transactionData.data} ]}}))
-  
+
     }
   }, [transactionsData])
-  
+
 
 
   const earnButtons = () => {
@@ -470,14 +466,14 @@ const Homepage = () => {
   // useEffect(() => {
   //   if (mainButtonIsClickedIII == true) {
 
-      
+
   //     for (let i = 0; i < accountObj.hotspots.length; i++) {
   //       let obj = accountObj.hotspots[i];
   //       let index = i;
   //       obj = { ...obj, hostAddress: '', hostShare: 0, rewardsAllTime: [], rewardsYear: [], rewardsMonth: [], rewardsWeek: [] };
   //       addHotspotObjToHotspots(obj, index);
   //     }
-      
+
   //     // now comes the part for fetching the reward data for the AccountAddress
   //     addRewardsToAccount();
   //     // setCount(1)
@@ -502,7 +498,7 @@ const Homepage = () => {
   //     console.log(hotspotAddress);
   //     setCountI((prevCountI) => prevCountI  +1 );
   //     // if (index < obj?.hotspots?.length && index >= 0 ) { setCountI((prevCountI) => prevCountI  +1 ) }
-      
+
   //     setMainButtonIsClickedFinal(true);  
   //     if (index == obj?.hotspots?.length ) { 
   //       console.log('count = hotspot.length, set count back to 0')
@@ -510,18 +506,18 @@ const Homepage = () => {
   //     }
   //   }
   // }, [count])
-  
+
   // useEffect(() => {
   //   let index = countI -1;
   //   let obj = accountObj;
   //   if (countI > 0) {
   //     console.log('here comes add rewards to hotspot in useState');
-      
+
   //     console.log(hotspotsRewards);
   //     addRewardsToHotspot( countI - 1 );
 
   //     setCount((prevCount) => prevCount  +1 );
-      
+
   //     if (index == obj?.hotspots?.length) { 
   //       console.log('count I = hotspot.length go to final action acc to LS')
   //       setCountI(0); 
@@ -552,7 +548,7 @@ const Homepage = () => {
   //   array = {...array, AccountAddress: walletInputField};
   //   setAccountObj(array)
   //   console.log('wallet address set')
-    
+
   // }
 
   // async function addHotspotsToHotspots() {
@@ -626,7 +622,7 @@ const Homepage = () => {
     //   obj = { ...obj, hostAddress: '', hostShare: 0, rewardsAllTime: [], rewardsYear: [], rewardsMonth: [], rewardsWeek: [] };
     //   setTimeout(addHotspotObjToHotspots(obj, index), 500);
     // }
-    
+
     // // now comes the part for fetching the reward data for the AccountAddress
     // addRewardsToAccount();
     // // setCount(1)
@@ -640,18 +636,18 @@ const Homepage = () => {
     //   let index = i;
     //   console.log(index)
     //   setTimeout(setHotspotAddressFunction(index), i*30000)
-      
+
     // }
-    
-    
+
+
   }
 
 
-  function truncate(string, length){
+  function truncate(string, length) {
     if (string?.length > 2 * length)
-        return string.substring(0,length/2)+'...'+string.substring((string?.length - (length/2)), string?.length);
+      return string.substring(0, length / 2) + '...' + string.substring((string?.length - (length / 2)), string?.length);
     else
-        return string;
+      return string;
   };
 
 
@@ -674,11 +670,11 @@ const Homepage = () => {
       </Input.Group>
 
       <Row gutters={[32, 32]}>
-        <Col xs={24} sm={24} lg={16}>
+        <Col xs={24} sm={24} lg={18}>
 
 
 
-          <Title level={2} > Your helium stats </Title>
+          <Title level={4} > Your helium stats </Title>
           <Row>
             <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
             <Col span={12}><Statistic title='Total HNT Balance' value={(accountObj?.accountStats?.data?.last_day[0]?.balance / 100000000)} /></Col>
@@ -728,22 +724,22 @@ const Homepage = () => {
               </Card>
             </Col> */}
             <Col xs={24} sm={24} lg={12} type="flex" align="middle">
-              <div style={{padding: 5}}>
+              <div style={{ padding: 5 }}>
 
                 <Card style={cardStyle} >
                   <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
                     <p>Earnings 1.53 HNT $42.16</p>
-                    
+
                     <Row>
-                      <BarChart accountObj={accountObj} timeperiod={earningsPeriod}  />
+                      <BarChart accountObj={accountObj} timeperiod={earningsPeriod} />
                     </Row>
                     <br />
-                    <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d') }>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d') }>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w') }>52w</Button> </Row>
+                    <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d')}>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d')}>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w')}>52w</Button> </Row>
                   </div>
                 </Card>
               </div>
             </Col>
-          
+
             {/* <Col xs={24} sm={8} lg={6}>
             <Card  style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 20, width: '95%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} >
             <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
@@ -753,158 +749,203 @@ const Homepage = () => {
             </Card>
             </Col> */}
             <Col xs={24} sm={24} lg={12} type="flex" align="middle">
-              <div style={{padding: 5}}>
+              <div style={{ padding: 5 }}>
                 <Card style={cardStyle}>
                   <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
+                    <Title level={5}>Earnings</Title>
                     <Row>
-                      <BarChart2 accountObj={accountObj}  />
+                      <EarningsChart accountObj={accountObj} bucket='day' barsMin={0} barsMax={30} hotspots={[1,2,4]}  />
                     </Row>
                     <br />
                     <Row justify="space-around" align="middle"> <Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
-                    <p>how much each hotspot has earned in the last 24H, 7d, 30, 52w</p>
                   </div>
                 </Card>
-              </div>  
-            </Col>
-            {/* <Col xs={24} sm={24} lg={12} type="flex" align="middle">
-              <div style={{padding: 5}}>
-
-              <Carousel slidesToShow={3}>
-                <div>
-                  <h3 style={contentStyle}>1</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>2</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>3</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>4</h3>
-                </div>
-              </Carousel>
               </div>
-              
-            </Col> */}
-          </Row>
-
-          <Row padding={200} gutter={[32, 32]}>
-              
-          {accountObj.hotspots.map(
-          (hotspot) =>
-          <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={8} >
-          <Card style={cardStyle}>
-          <Title align='center' level={4}>{hotspot.name}</Title>
-          <BarChart  />
-          <Row justify='space-around' align='center' span={24}> 
-            <div />
-            <Button style={{borderRadius: 20, borderColor: '#758bfd'}} span={8}>week</Button> 
-            <Button style={{borderRadius: 20, borderColor: '#758bfd'}} span={8}>month</Button> 
-            <Button style={{borderRadius: 20, borderColor: '#758bfd'}} span={8}>year</Button> 
-            <div />
-          </Row>
-          <br />
-
-          <Row  >
-            <Col align='center' span={16}> <div >Total Earnings:</div> </Col> 
-            <Col align='center' span={8}> <div>400 HNT</div> </Col>
-          </Row>
-          <br />
-          <Row > 
-            <Col  span={18} >
-              <Row  >
-                
-                <Col style={{padding: 5}} span={2}> <div>Host:</div> </Col> 
-                <Col span={1} > </Col>
-                <Col style={{padding: 5}} span={21}> 
-                
-                  <div align={'center'} > 
-                    <Input.Group   >
-                      <Input style={{ width: 'calc(100% - 90px)', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  }} defaultValue={hotspot.hostAddress}  />
-                      <div style={{width: 20}} />
-                      <Button  style={{background: '#ff8600', borderColor: '#ff8600', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} type="primary" >Update</Button>
-                    </Input.Group> 
-                  </div> 
-                </Col>
-              </Row>
             </Col>
-            <Col span={6}>
-              <Row >
-                <Col> <div style={{paddingTop: '15px' }} >Share:</div> </Col>
-                {/* <Col> <div align='center'> <img style={{maxWidth: '50px', maxHeight:'50px'}} src= 'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News'/></div> </Col> */}
-                <DoughnutChart hostShare={hotspot.hostShare} />
-              </Row>
-            </Col>
-          </Row>
-         
 
-          <Row  >
-            <Col align='center' span={16}> <div >Paid out:</div> </Col> 
-            <Col align='center' span={8}> <div>58 HNT </div> </Col>
-          </Row>
 
-          <Row  >
-            <Col align='center' span={24}><div style={{height: 50}}><HorizontalBarChart hostShare={75} /> </div> </Col> 
-            
-          </Row>
 
-          <Row  >
-            <Col align='center' span={16}> <div >Still to pay out:</div> </Col> 
-            <Col align='center' span={8}> <div>12 HNT</div> </Col>
-          </Row>
-          
-        </Card>
-      </Col>
-      )}
-      </Row>
 
-          <Row padding={200} gutter={[32, 32]}>
-            {accountObj?.accountRolesCount?.data ? Object.keys( accountObj.accountRolesCount.data).map((role) => 
-            accountObj.accountRolesCount.data[role] > 0 ?
-            <Col>
-              <Card style={cardStyle}>
-                <div>
-                  <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
+            {/* <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+                <div style={{padding: 5}}>
+
+                <Carousel slidesToShow={3}>
+                  <div>
+                    <h3 style={contentStyle}>1</h3>
+                  </div>
+                  <div>
+                    <h3 style={contentStyle}>2</h3>
+                  </div>
+                  <div>
+                    <h3 style={contentStyle}>3</h3>
+                  </div>
+                  <div>
+                    <h3 style={contentStyle}>4</h3>
+                  </div>
+                </Carousel>
                 </div>
-              </Card>
-            </Col>
-            : null
+                
+              </Col> */}
+
+
+
+          </Row>
+
+          
+
+
+
+        </Col>
+        <Col xs={24} sm={24} lg={6} flex>
+
+
+          <div style={{ padding: 0 }}>
+            <Card bodyStyle={{ padding: 0 }} style={cardStyle}>
+
+              <Collapse contentStyle={{ padding: 0 }} ghost>
+                <Panel header={`transactions:  ${(accountObj?.transactions?.paymentTransactions?.length)} `} extra='filter'>
+                  <List>
+                    <VirtualList
+                      data={accountObj.transactions.paymentTransactions}
+                      height={470}
+                      itemHeight={47}
+                      itemKey='hash'
+                    >
+                      {(item) => (
+                        <List.Item key={hash}>
+
+                          <div>
+                            <Collapse contentStyle={{ padding: 0 }} ghost>
+                              <Panel header={item.data?.payments[0]?.amount / 100000000 + ' HNT'} extra={'to: ' + truncate(item?.data?.payments[0]?.payee, 20)}>
+                                <Row justify="space-between">
+                                  <p>fee : {item.data?.fee / 100000000} HNT</p>
+                                  <p>time : {item.data?.time}</p>
+                                  <p>payer : {truncate(item?.data?.payer, 20)}</p>
+
+                                </Row>
+                              </Panel>
+                            </Collapse>
+                          </div>
+                        </List.Item>
+                      )}
+                    </VirtualList>
+
+                  </List>
+
+{/* 
+                  {accountObj.transactions.paymentTransactions.map((transaction) =>
+
+                    <Card bodyStyle={{ padding: 0 }} style={{ background: '#ffffff', borderRadius: 20, marginBottom: 5, padding: 0, width: '100%' }}>
+                      <Collapse contentStyle={{ padding: 0 }} ghost>
+                        <Panel header={transaction.data?.payments[0]?.amount / 100000000 + ' HNT'} extra={'to: ' + truncate(transaction?.data?.payments[0]?.payee, 20)}>
+                          <Row justify="space-between">
+                            <p>fee : {transaction.data?.fee / 100000000} HNT</p>
+                            <p>time : {transaction.data?.time}</p>
+                            <p>payer : {truncate(transaction?.data?.payer, 20)}</p>
+
+                          </Row>
+                        </Panel>
+                      </Collapse>
+                    </Card>
+
+                  )} */}
+                </Panel>
+              </Collapse>
+            </Card>
+          </div>
+
+        </Col>
+        <Col span={24}><Title level={4}>Hotspots</Title></Col>
+        <Col span={24}>
+          <Row gutters={[32, 32]} >
+
+
+
+
+
+            {accountObj.hotspots.map((hotspot) =>
+              <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={6} >
+                <Card style={cardStyle}>
+                  <Title align='center' level={4}>{hotspot.name}</Title>
+                  <BarChart  />
+                  <Row justify='space-around' align='center' span={24}>
+                    <div />
+                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>week</Button>
+                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>month</Button>
+                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>year</Button>
+                    <div />
+                  </Row>
+                  <br />
+
+                  <Row  >
+                    <Col align='center' span={16}> <div >Total Earnings:</div> </Col>
+                    <Col align='center' span={8}> <div>{hotspot.rewardsAllTime?.data?.total} HNT</div> </Col>
+                  </Row>
+                  <br />
+                  <Row >
+                    <Col span={18} >
+                      <Row  >
+
+                        <Col style={{ padding: 5 }} span={2}> <div>Host:</div> </Col>
+                        <Col span={1} > </Col>
+                        <Col style={{ padding: 5 }} span={21}>
+
+                          <div align={'center'} >
+                            <Input.Group   >
+                              <Input style={{ width: 'calc(100% - 90px)', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} defaultValue={hotspot.hostAddress} />
+                              <div style={{ width: 20 }} />
+                              <Button style={{ background: '#ff8600', borderColor: '#ff8600', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} type="primary" >Update</Button>
+                            </Input.Group>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col span={6}>
+                      <Row >
+                        <Col> <div style={{ paddingTop: '15px' }} >Share:</div> </Col>
+                        {/* <Col> <div align='center'> <img style={{maxWidth: '50px', maxHeight:'50px'}} src= 'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News'/></div> </Col> */}
+                        <DoughnutChart hostShare={hotspot.hostShare} />
+                      </Row>
+                    </Col>
+                  </Row>
+
+
+                  <Row  >
+                    <Col align='center' span={16}> <div >Paid out:</div> </Col>
+                    <Col align='center' span={8}> <div>58 HNT </div> </Col>
+                  </Row>
+
+                  <Row  >
+                    <Col align='center' span={24}><div style={{ height: 50 }}><HorizontalBarChart hostShare={75} /> </div> </Col>
+
+                  </Row>
+
+                  <Row  >
+                    <Col align='center' span={16}> <div >Still to pay out:</div> </Col>
+                    <Col align='center' span={8}> <div>12 HNT</div> </Col>
+                  </Row>
+
+                </Card>
+              </Col>
+            )}
+
+          </Row>
+          <Row padding={200} gutter={[32, 32]}>
+            {accountObj?.accountRolesCount?.data ? Object.keys(accountObj.accountRolesCount.data).map((role) =>
+              accountObj.accountRolesCount.data[role] > 0 ?
+                <Col key={role}>
+                  <Card style={cardStyle}>
+                    <div>
+                      <p>{role}: {accountObj.accountRolesCount.data[role]} </p>
+                    </div>
+                  </Card>
+                </Col>
+                : null
             ) : <p> theres no roles count</p>}
           </ Row>
 
-
-          
         </Col>
-        <Col xs={24} sm={24} lg={8}>
-        
-          
-            <div style={{padding: 0}}>
-              <Card bodyStyle={{padding: 0}} style={cardStyle}>
-                
-                  <Collapse contentStyle={{padding:0}} ghost>
-                    <Panel header={`transactions:  ${(accountObj?.transactions?.paymentTransactions?.length)} `} extra='filter'>
-                      {accountObj.transactions.paymentTransactions.map((transaction) => 
-                      
-                        <Card bodyStyle={{padding: 0}} style={{ background: '#ffffff', borderRadius: 20, marginBottom: 5, padding: 0, width: '100%'}}>
-                          <Collapse contentStyle={{padding:0}} ghost>
-                            <Panel header={transaction.data?.payments[0]?.amount / 100000000 + ' HNT'} extra={'to: '+ truncate(transaction?.data?.payments[0]?.payee, 20)}>
-                              <Row justify="space-between">
-                              <p>fee : {transaction.data?.fee / 100000000} HNT</p>
-                              <p>time : {transaction.data?.time}</p>
-                              <p>payer : {truncate(transaction?.data?.payer, 20)}</p>
 
-                              </Row>
-                            </Panel>
-                          </Collapse>
-                        </Card>
-                        
-                      )}
-                    </Panel>
-                  </Collapse>
-              </Card>
-            </div>  
-        
-        </Col>
       </Row>
 
 
