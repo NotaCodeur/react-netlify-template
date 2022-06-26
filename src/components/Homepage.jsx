@@ -104,20 +104,21 @@ const Homepage = () => {
 
   const [earningsBucket, setEarningsBucket] = useState('week');
 
+
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }
   const buttonStyle = { borderRadius: 20, borderColor: '#758bfd' }
 
   const [pickedSpots, setPickedSpots] = useState();
-  
+
   const onChangePickSpot = (value) => {
     let array = []
-    for (let i = 0; i < value.length; i ++) {
+    for (let i = 0; i < value.length; i++) {
       array.push(value[i]?.[0])
     }
     console.log(array);
     setPickedSpots(array)
   };
- 
+
 
   const contentStyle = {
     height: '320px',
@@ -420,7 +421,7 @@ const Homepage = () => {
     if (transactionsData !== undefined) {
       console.log('transactionsData: ', transactionsData)
       let i = accountObj.transactions.paymentTransactions.findIndex(obj => obj.hash === transactionsData.data?.hash);
-      console.log(i);
+      console.log(i); 
       // let i = accountObj.transactions.paymentTransactions.filter({data: {hash: transactionsData.data?.hash}} => );
       let array = [...accountObj.transactions.paymentTransactions];
       array[i] = { ...array[i], data: transactionsData.data };
@@ -666,6 +667,38 @@ const Homepage = () => {
       return string;
   };
 
+  function hotspotEarningsBucket(index, bucket) {
+    let hotspot = { ...accountObj.hotspots[index], bucket: bucket }
+    let hotspots = accountObj.hotspots;
+    if (hotspots[index].name) {
+      hotspots[index] = hotspot;
+      setAccountObj(accountObj => ({ ...accountObj, hotspots: hotspots }));
+    }
+  }
+  const [hostAddressString, setHostAddressString] = useState('set host address');
+
+  function changeHostAddress(index, hostAddress) {
+    let hotspot = { ...accountObj.hotspots[index], hostAddress: hostAddress }
+    let hotspots = [...accountObj.hotspots];
+    if (hotspots[index].name) {
+      hotspots[index] = hotspot;
+      setAccountObj(accountObj => ({ ...accountObj, hotspots: hotspots }));
+    }
+  }
+
+  function calculateTotalPaidOut(hotspotAddress) {
+    let amounts = [];
+    for (let i = 0; i < accountObj?.transactions?.paymentTransactions?.length; i ++) {
+      if ( accountObj.transactions.paymentTransactions[i]?.data?.payments[0]?.payee === hotspotAddress) {
+        amounts.push(accountObj?.transactions?.paymentTransactions[i]?.data?.payments[0]?.amount / 100000000);
+      }
+    }
+    let sum = amounts.reduce((total, number) => {
+      return total + number
+    }, 0)
+
+    return sum;
+  } 
 
   const getAccountAddressFromLS = () => {
     const data = localStorage.getItem('Account');
@@ -780,7 +813,7 @@ const Homepage = () => {
                         style={{
                           width: '50%',
                         }}
-                        options={accountObj?.hotspots?.map((hotspot, index) => { return ({label:hotspot.name, value: index})}  )   }
+                        options={accountObj?.hotspots?.map((hotspot, index) => { return ({ label: hotspot.name, value: index }) })}
                         onChange={onChangePickSpot}
                         multiple
                         maxTagCount="responsive"
@@ -892,23 +925,24 @@ const Homepage = () => {
 
 
             {accountObj.hotspots.map((hotspot, index) =>
+
               <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={6} >
                 <Card size='small' title={hotspot.name} style={cardStyle}>
-                  <EarningsChart accountObj={accountObj} bucket='week' barsMin={0} barsMax={30} hotspots={[index]} />
+                  <EarningsChart accountObj={accountObj} bucket={!hotspot.bucket ? 'week' : hotspot.bucket} barsMin={0} barsMax={30} hotspots={[index]} />
                   <Row justify='space-around' align='center' span={24}>
                     <div />
-                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>week</Button>
-                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>month</Button>
-                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>year</Button>
+                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8} onClick={() => hotspotEarningsBucket(index, 'hour')} >Hour</Button>
+                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8} onClick={() => hotspotEarningsBucket(index, 'day')}>Day</Button>
+                    <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8} onClick={() => hotspotEarningsBucket(index, 'week')}>Week</Button>
                     <div />
+                  </Row>
+                  <Row  >
+                    <Col align='center' span={16}> <div >Total Earnings:</div> </Col>
+                    <Col align='center' span={8}> <div>{Math.round(hotspot.rewardsAllTime?.data?.total * 100) / 100} HNT</div> </Col>
                   </Row>
                   <br />
 
-                  <Row  >
-                    <Col align='center' span={16}> <div >Total Earnings:</div> </Col>
-                    <Col align='center' span={8}> <div>{hotspot.rewardsAllTime?.data?.total} HNT</div> </Col>
-                  </Row>
-                  <br />
+
                   <Row >
                     <Col span={18} >
                       <Row  >
@@ -918,11 +952,13 @@ const Homepage = () => {
                         <Col style={{ padding: 5 }} span={21}>
 
                           <div align={'center'} >
-                            <Input.Group   >
-                              <Input style={{ width: 'calc(100% - 90px)', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} defaultValue={hotspot.hostAddress} />
-                              <div style={{ width: 20 }} />
-                              <Button style={{ background: '#ff8600', borderColor: '#ff8600', borderRadius: 20, boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }} type="primary" >Update</Button>
-                            </Input.Group>
+                            <Paragraph
+                              editable={{
+                                onChange: e => changeHostAddress(index, e)
+                              }}
+                            >
+                              {hotspot.hostAddress}
+                            </Paragraph>
                           </div>
                         </Col>
                       </Row>
@@ -939,7 +975,7 @@ const Homepage = () => {
 
                   <Row  >
                     <Col align='center' span={16}> <div >Paid out:</div> </Col>
-                    <Col align='center' span={8}> <div>58 HNT </div> </Col>
+                    <Col align='center' span={8}> <div>{calculateTotalPaidOut(hotspot.hostAddress)} HNT </div> </Col>
                   </Row>
 
                   <Row  >
