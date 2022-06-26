@@ -43,17 +43,18 @@ const { Title } = Typography;
 
 const EarningsChart = ({ accountObj, bucket, barsMin, barsMax, hotspots }) => {
 
-    const dataSets = [];
+    let dataSets = [];
 
-    const rewardsData = [];
-    const timeData = [];
-    const emptyLabels = [];
+    let rewardsData = [];
+    let timeData = [];
+    let emptyLabels = [];
 
     if (accountObj?.hotspots?.length) {
         for (let i = 0; i < accountObj?.hotspots?.length; i++) {
-            if (hotspots.indexOf(i) > -1) {
+            if (hotspots?.indexOf(i) > -1) {
                 if (bucket == 'hour' && accountObj?.hotspots[i].rewardsHour?.data) {
-                    for (let j = 0; j < 10; j++) {
+                    timeData = []
+                    for (let j = barsMax -1; j >= barsMin  ; j --) {
                         rewardsData.push(accountObj?.hotspots[i].rewardsHour?.data?.[j].total)
                         timeData.push(accountObj?.hotspots[i].rewardsHour?.data?.[j].timestamp.substring(5,16))
                     }
@@ -69,9 +70,10 @@ const EarningsChart = ({ accountObj, bucket, barsMin, barsMax, hotspots }) => {
                         });
                 }
                 if (bucket == 'day' && accountObj?.hotspots[i].rewardsDay?.data) {
-                    for (let j = 0; j < 10; j++) {
-                        rewardsData.push(accountObj?.hotspots[i].rewardsDay?.data?.[j].total)
-                        timeData.push(accountObj?.hotspots[i].rewardsDay?.data?.[j].timestamp.substring(2,10))
+                    timeData = []
+                    for (let k = barsMax -1; k >= barsMin  ; k --) {
+                        rewardsData.push(accountObj?.hotspots[i].rewardsDay?.data?.[k].total)
+                        timeData.push(accountObj?.hotspots[i].rewardsDay?.data?.[k].timestamp.substring(2,10))
                     }
                     dataSets.push(
                         {
@@ -84,20 +86,31 @@ const EarningsChart = ({ accountObj, bucket, barsMin, barsMax, hotspots }) => {
                             borderSkipped: false,
                         });
                 }
-                
+                if (bucket == 'week' && accountObj?.hotspots[i]?.rewardsWeek?.data) {
+                    timeData = []
+                    for (let l = barsMax -1; l >= barsMin  ; l --) {
+                        rewardsData.push(accountObj?.hotspots[i].rewardsWeek?.data?.[l].total)
+                        timeData.push(accountObj?.hotspots[i].rewardsWeek?.data?.[l].timestamp.substring(0,10))
+                    }
+                    dataSets.push(
+                        {
+                            label: accountObj?.hotspots[i].name,
+                            barThickness: 15,
+                            data: rewardsData,
+                            backgroundColor: ['#aeb8fe'],
+                            borderWidth: 2,
+                            borderRadius: 20,
+                            borderSkipped: false,
+                        });
+                }
+
             }
         }
     }
 
 
 
-    if (bucket == 'week' && accountObj.rewardsYear.data) {
-        for (let i = 0; i < 52; i++) {
-            rewardsData.push(accountObj.rewardsYear?.data[i].total)
-            timeData.push(accountObj.rewardsYear?.data[i].timestamp)
-            emptyLabels.push('')
-        }
-    }
+   
 
     const data = {
         labels: timeData,

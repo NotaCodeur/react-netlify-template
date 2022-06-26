@@ -1,6 +1,6 @@
 
     import React from 'react';
-    import { Lin, Doughnut, Pie, Bar } from 'react-chartjs-2';
+    import { Line, Doughnut, Pie, Bar } from 'react-chartjs-2';
 
 
     import { Col, Row, Typography } from 'antd';
@@ -36,38 +36,38 @@
 
     const { Title } = Typography;
 
-    const BalanceChart = ({ accountObj, bucket, barsMin, barsMax }) => {
+    const BalanceChart = ({ accountObj, timeframe }) => {
 
         const rewardsData = [];
         const timeData = [];
         const emptyLabels = [];
 
-        if ( bucket == 'hour' && accountObj?.accountStats?.data ) {
-            for (let i = 0; i < accountObj?.accountStats?.data?.last_day?.length ; i ++) {
-                rewardsData.push( accountObj.accountStats?.data[i].balance)
-                timeData.push(accountObj.accountStats?.data[i].timestamp)
-                emptyLabels.push('')
+        if ( timeframe == 'day' && accountObj?.accountStats?.data ) {
+            for (let i = accountObj?.accountStats?.data?.last_day?.length -1; i >= 0  ; i --) {
+                rewardsData.push( accountObj.accountStats?.data?.last_day[i]?.balance / 100000000)
+                timeData.push(accountObj.accountStats?.data?.last_day[i].timestamp.substring(5,16))
+                // emptyLabels.push('')
             }
         }
 
-        if ( timeperiod == 'day' && accountObj?.rewardsDay?.data ) {
-            for (let i = 0; i < 7 ; i ++) {
-                rewardsData.push( accountObj.rewardsDay?.data[i].total)
-                timeData.push(accountObj.rewardsDay?.data[i].timestamp)
-                emptyLabels.push('')
+        if ( timeframe == 'week' && accountObj?.accountStats?.data ) {
+            for (let i = accountObj?.accountStats?.data?.last_week?.length -1; i >= 0  ; i --) {
+                rewardsData.push( accountObj.accountStats?.data?.last_week[i].balance / 100000000)
+                timeData.push(accountObj.accountStats?.data?.last_week[i].timestamp.substring(5,16))
+                // emptyLabels.push('')
             }
         }
 
-        if ( timeperiod == '52w' && accountObj?.rewardsWeek?.data ) {
-            for (let i = 0; i < 52 ; i ++) {
-                rewardsData.push( accountObj.rewardsWeek?.data[i].total)
-                timeData.push(accountObj.rewardsWeek?.data[i].timestamp)
-                emptyLabels.push('')
+        if ( timeframe == 'month' && accountObj?.accountStats?.data ) {
+            for (let i = accountObj?.accountStats?.data?.last_month?.length -1; i >= 0  ; i --) {
+                rewardsData.push( accountObj.accountStats?.data?.last_month[i].balance / 100000000)
+                timeData.push(accountObj.accountStats?.data?.last_month[i].timestamp.substring(0,10))
+                // emptyLabels.push('')
             }
         }
 
         const data = {
-            labels: emptyLabels,
+            labels: timeData,
             datasets: [
                 {   
                     label: 'HNT:',
@@ -141,7 +141,7 @@
             <>
                 <div style={{ width: '100%', height: '100%' }}>
 
-                    <Bar data={data} options={options} />
+                    <Line data={data} options={options} />
                 </div>
 
 

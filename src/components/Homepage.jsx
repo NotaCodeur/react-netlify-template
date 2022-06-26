@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component, useMemo, useCallback } from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse, Carousel, List, Slider } from 'antd';
+import { Typography, Row, Col, Statistic, Input, Space, Button, Card, Collapse, Carousel, List, Slider, Radio, Cascader } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { Link } from 'react-router-dom';
 
@@ -29,7 +29,9 @@ import BarChart2 from './BarChart2';
 import DoughnutChart from './DoughnutChart';
 import HorizontalBarChart from './HorizontalBarChart';
 import EarningsChart from './EarningsChart';
+import BalanceChart from './BalanceChart';
 
+const { Paragraph } = Typography;
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -98,10 +100,24 @@ const Homepage = () => {
   const { data: hotspotsRewardsDay } = useGetHeliumHotspotsRewardsDayQuery(hotspotAddress, { skip: skip7 });
   const { data: hotspotsRewardsWeek } = useGetHeliumHotspotsRewardsWeekQuery(hotspotAddress, { skip: skip8 });
   // zou de twee variables ook in een obj / array kunne zetten. dan passen we maar een ding en werkt de skip wel.
-  const [earningsPeriod, setEarningsPeriod] = useState('30d');
+  const [earningsPeriod, setEarningsPeriod] = useState('month');
+
+  const [earningsBucket, setEarningsBucket] = useState('week');
 
   const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }
   const buttonStyle = { borderRadius: 20, borderColor: '#758bfd' }
+
+  const [pickedSpots, setPickedSpots] = useState();
+  
+  const onChangePickSpot = (value) => {
+    let array = []
+    for (let i = 0; i < value.length; i ++) {
+      array.push(value[i]?.[0])
+    }
+    console.log(array);
+    setPickedSpots(array)
+  };
+ 
 
   const contentStyle = {
     height: '320px',
@@ -282,7 +298,7 @@ const Homepage = () => {
     }
   }, [hotspotsRewardsAllTime])
   useEffect(() => {
-    if (hotspotsRewardsHour !== undefined && hotspotsRewardsHour !== accountObj.hotspots[count - 1].rewardsHour) {
+    if (hotspotsRewardsHour !== undefined && hotspotsRewardsHour !== accountObj?.hotspots[count - 1]?.rewardsHour) {
       setTimeout(() => {
         setSkip7(false);
 
@@ -674,14 +690,14 @@ const Homepage = () => {
 
 
 
-          <Title level={4} > Your helium stats </Title>
+          {/* <Title level={4} > Your helium stats </Title>
           <Row>
             <Col span={12}><Statistic title='Total HNT Earned' value={accountObj?.rewardsAllTime?.data?.total} /></Col>
             <Col span={12}><Statistic title='Total HNT Balance' value={(accountObj?.accountStats?.data?.last_day[0]?.balance / 100000000)} /></Col>
             <Col span={12}><Statistic title='Total Hotspots' value={accountObj?.hotspots?.length} /></Col>
             <Col span={12}><Statistic title='Total Paid Out' value={214.5} /></Col>
             <Col span={12}><Statistic title='Percentage Paid Out' value={96} /></Col>
-          </Row>
+          </Row> */}
           {/* <p>
           submit ->
           </p>
@@ -723,18 +739,17 @@ const Homepage = () => {
                 </div>
               </Card>
             </Col> */}
-            <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+            <Col xs={24} sm={24} lg={24} type="flex" align="middle">
               <div style={{ padding: 5 }}>
 
-                <Card style={cardStyle} >
+                <Card size='small' title='Balance' extra={Math.round(accountObj?.accountStats?.data?.last_day[0]?.balance / 1000000) / 100 + ' HNT'} style={cardStyle} >
                   <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 10, width: '99%' }}>
-                    <p>Earnings 1.53 HNT $42.16</p>
 
                     <Row>
-                      <BarChart accountObj={accountObj} timeperiod={earningsPeriod} />
+                      <BalanceChart accountObj={accountObj} timeframe={earningsPeriod} />
                     </Row>
-                    <br />
-                    <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('7d')}>7d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('30d')}>30d</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('52w')}>52w</Button> </Row>
+                    <Row justify="space-around" align="middle"> <Button style={buttonStyle} onClick={() => setEarningsPeriod('day')}>day</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('week')}>week</Button> <Button style={buttonStyle} onClick={() => setEarningsPeriod('month')}>month</Button> </Row>
+
                   </div>
                 </Card>
               </div>
@@ -748,16 +763,29 @@ const Homepage = () => {
             </div>
             </Card>
             </Col> */}
-            <Col xs={24} sm={24} lg={12} type="flex" align="middle">
+            <Col xs={24} sm={24} lg={24} type="flex" align="middle">
               <div style={{ padding: 5 }}>
-                <Card style={cardStyle}>
+                <Card size='small' title='Earnings' extra={'Total: ' + Math.round(accountObj?.rewardsAllTime?.data?.total * 100) / 100} style={cardStyle}>
                   <div style={{ background: '#ffffff', borderRadius: 20, margin: 5, padding: 0, width: '95%' }}>
-                    <Title level={5}>Earnings</Title>
                     <Row>
-                      <EarningsChart accountObj={accountObj} bucket='day' barsMin={0} barsMax={30} hotspots={[1,2,4]}  />
+                      <EarningsChart accountObj={accountObj} bucket={earningsBucket} barsMin={0} barsMax={30} hotspots={pickedSpots} />
                     </Row>
-                    <br />
-                    <Row justify="space-around" align="middle"> <Button style={buttonStyle}>7d</Button><Button style={buttonStyle}>30d</Button><Button style={buttonStyle}>52w</Button></Row>
+                    <Row justify="space-around" align="middle">
+                      <Radio.Group value={earningsBucket} onChange={e => setEarningsBucket(e.target.value)}>
+                        <Radio.Button value="hour">Hour</Radio.Button>
+                        <Radio.Button value="day">Day</Radio.Button>
+                        <Radio.Button value="week">Week</Radio.Button>
+                      </Radio.Group>
+                      <Cascader
+                        style={{
+                          width: '50%',
+                        }}
+                        options={accountObj?.hotspots?.map((hotspot, index) => { return ({label:hotspot.name, value: index})}  )   }
+                        onChange={onChangePickSpot}
+                        multiple
+                        maxTagCount="responsive"
+                      />
+                    </Row>
                   </div>
                 </Card>
               </div>
@@ -791,7 +819,7 @@ const Homepage = () => {
 
           </Row>
 
-          
+
 
 
 
@@ -800,7 +828,7 @@ const Homepage = () => {
 
 
           <div style={{ padding: 0 }}>
-            <Card bodyStyle={{ padding: 0 }} style={cardStyle}>
+            <Card size='small' bodyStyle={{ padding: 0 }} style={cardStyle}>
 
               <Collapse contentStyle={{ padding: 0 }} ghost>
                 <Panel header={`transactions:  ${(accountObj?.transactions?.paymentTransactions?.length)} `} extra='filter'>
@@ -816,7 +844,7 @@ const Homepage = () => {
 
                           <div>
                             <Collapse contentStyle={{ padding: 0 }} ghost>
-                              <Panel header={item.data?.payments[0]?.amount / 100000000 + ' HNT'} extra={'to: ' + truncate(item?.data?.payments[0]?.payee, 20)}>
+                              <Panel header={item.data?.payments[0]?.amount / 100000000 + ' HNT'} extra={<Paragraph copyable={{ text: item?.data?.payments[0]?.payee }}>to: {truncate(item?.data?.payments[0]?.payee, 20)}</Paragraph>}>
                                 <Row justify="space-between">
                                   <p>fee : {item.data?.fee / 100000000} HNT</p>
                                   <p>time : {item.data?.time}</p>
@@ -832,7 +860,7 @@ const Homepage = () => {
 
                   </List>
 
-{/* 
+                  {/* 
                   {accountObj.transactions.paymentTransactions.map((transaction) =>
 
                     <Card bodyStyle={{ padding: 0 }} style={{ background: '#ffffff', borderRadius: 20, marginBottom: 5, padding: 0, width: '100%' }}>
@@ -863,11 +891,10 @@ const Homepage = () => {
 
 
 
-            {accountObj.hotspots.map((hotspot) =>
+            {accountObj.hotspots.map((hotspot, index) =>
               <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={6} >
-                <Card style={cardStyle}>
-                  <Title align='center' level={4}>{hotspot.name}</Title>
-                  <BarChart  />
+                <Card size='small' title={hotspot.name} style={cardStyle}>
+                  <EarningsChart accountObj={accountObj} bucket='week' barsMin={0} barsMax={30} hotspots={[index]} />
                   <Row justify='space-around' align='center' span={24}>
                     <div />
                     <Button style={{ borderRadius: 20, borderColor: '#758bfd' }} span={8}>week</Button>
