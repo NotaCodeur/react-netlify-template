@@ -975,7 +975,7 @@ const Homepage = () => {
 
                   <Row  >
                     <Col align='center' span={16}> <div >Paid out:</div> </Col>
-                    <Col align='center' span={8}> <div>{calculateTotalPaidOut(hotspot.hostAddress)} HNT </div> </Col>
+                    <Col align='center' span={8}> <div>{Math.round( calculateTotalPaidOut(hotspot.hostAddress) * 100 ) / 100} HNT </div> </Col>
                   </Row>
 
                   <Row  >
