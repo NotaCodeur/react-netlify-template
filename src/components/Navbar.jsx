@@ -28,8 +28,6 @@ const Navbar = () => {
         }
     }, [screenSize]);
 
-
-
     return (
         <div className='nav-container'>
             <div className='logo-container'>
