@@ -105,7 +105,7 @@ const Homepage = () => {
   const [earningsBucket, setEarningsBucket] = useState('week');
 
 
-  const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 0, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }
+  const cardStyle = { background: '#ffffff', borderRadius: 20, marginBottom: 15, margin: 5, padding: 5, width: '99%', boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }
   const buttonStyle = { borderRadius: 20, borderColor: '#758bfd' }
 
   const [pickedSpots, setPickedSpots] = useState();
@@ -926,7 +926,7 @@ const Homepage = () => {
 
             {accountObj.hotspots.map((hotspot, index) =>
 
-              <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={6} >
+              <Col key={hotspot.address} className="gutter-row" xs={24} sm={12} lg={8} >
                 <Card size='small' title={hotspot.name} style={cardStyle}>
                   <EarningsChart accountObj={accountObj} bucket={!hotspot.bucket ? 'week' : hotspot.bucket} barsMin={0} barsMax={30} hotspots={[index]} />
                   <Row justify='space-around' align='center' span={24}>
